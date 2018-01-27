@@ -70,15 +70,14 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // {
-      //   test: /\.less$/,
-      //   use: [
-      //     'style-loader',
-      //     'css-loader',
-      //     'sass-loader',
-      //     'less-loader',
-      //   ]
-      // },
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader',
+        ]
+      },
       // {
       //   test: /\.less$/,
       //   include: join(__dirname, 'node_modules/antd'),
@@ -214,7 +213,6 @@ export default merge.smart(baseConfig, {
       }
     ]
   },
-
   plugins: [
     new webpack.DllReferencePlugin({
       context: process.cwd(),

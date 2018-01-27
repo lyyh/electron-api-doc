@@ -37,6 +37,14 @@ export default {
       path.join(__dirname, 'app'),
       'node_modules',
     ],
+    alias: {
+      reducers: path.join(__dirname, "app/reducers"),
+      public: path.join(__dirname, "app/public"),
+      components: path.join(__dirname, "app/components"),
+      actions: path.join(__dirname, "app/actions"),
+      containers: path.join(__dirname, "app/containers"),
+      mixins : path.join(__dirname, "app/mixins")
+    }
   },
 
   plugins: [
