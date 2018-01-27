@@ -6,12 +6,16 @@
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon, Button,Row, Col } from 'antd';
+import MembersManager from './MembersManager/MembersManager'
+import DocumentsManager from './DocumentsManager/DocumentsManager'
 import UserIcon from 'components/UserIcon/UserIcon'
+import './Manager.less'
 
 const { Header, Content, Footer, Sider } = Layout;
 export default class ManagerContainer extends Component{
   state = {
     collapsed: false,
+    activedMenu: 'members'
   };
   toggle = () => {
     this.setState({
@@ -28,25 +32,31 @@ export default class ManagerContainer extends Component{
     }
     history.push(newHistory)
   }
+  handleMenuClick = ({key}) =>{
+    this.setState({
+      activedMenu: key
+    })
+  }
   render() {
     const {location,histroy} = this.props
     const {uName,uId} = location.state.user
+    const {activedMenu} = this.state
     return (
-      <Layout>
+      <Layout className='manager-wrapper'>
         <Sider
           trigger={null}
           collapsible
           collapsed={this.state.collapsed}
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
+          <Menu theme="dark" mode="inline" onClick={this.handleMenuClick} defaultSelectedKeys={['1']}>
+            <Menu.Item key="members" >
               <Icon type="user" />
-              <span>nav 1</span>
+              <span>成员管理</span>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="apiDocuments">
               <Icon type="video-camera" />
-              <span>nav 2</span>
+              <span>API 文档管理</span>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="upload" />
@@ -71,21 +81,25 @@ export default class ManagerContainer extends Component{
               onClick={this.toggle}
             />
           </Header>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-            <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
-              ...
-              <br />
-              Really
-              <br />...<br />...<br />...<br />
-              long
-              <br />...<br />...<br />...<br />...<br />...<br />...
-              <br />...<br />...<br />...<br />...<br />...<br />...
-              <br />...<br />...<br />...<br />...<br />...<br />...
-              <br />...<br />...<br />...<br />...<br />...<br />...
-              <br />...<br />...<br />...<br />...<br />...<br />...
-              <br />...<br />...<br />...<br />...<br />...<br />...
-              <br />...<br />...<br />...<br />...<br />...<br />
-              content
+          <Content style={{ margin: '24px 16px 0', overflow: 'initial' ,display:'flex'}}>
+            <div style={{ padding: 24, background: '#fff',flex:'auto'}}>
+              {/*...*/}
+              {/*<br />*/}
+              {/*Really*/}
+              {/*<br />...<br />...<br />...<br />*/}
+              {/*long*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
+              {/*<br />...<br />...<br />...<br />...<br />...<br />*/}
+              {/*content*/}
+              {
+                activedMenu==='members'?<MembersManager/>:
+                  activedMenu==='apiDocuments'?<DocumentsManager/>:null
+              }
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
