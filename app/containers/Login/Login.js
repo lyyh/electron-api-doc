@@ -14,7 +14,7 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        const location = {
+        const newHistory = {
           pathname: '/userGroup',
           state: {
             user: {
@@ -23,7 +23,7 @@ class LoginForm extends Component {
             }
           }
         }
-        this.props.history.push(location)
+        this.props.history.push(newHistory)
       }
     });
   }
