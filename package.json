@@ -126,6 +126,7 @@
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-dynamic-import-webpack": "^1.0.2",
     "babel-plugin-flow-runtime": "^0.15.0",
+    "babel-plugin-import": "^1.6.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-preset-env": "^1.6.1",
@@ -168,6 +169,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.0.4",
     "jsdom": "^11.5.1",
+    "less-loader": "^4.0.5",
     "minimist": "^1.2.0",
     "node-sass": "^4.7.2",
     "npm-logical-tree": "^1.2.0",
@@ -189,6 +191,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "antd": "^3.0.1",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",

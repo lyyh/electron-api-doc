@@ -23,7 +23,8 @@ const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
 const dll = path.resolve(process.cwd(), 'dll');
 const manifest = path.resolve(dll, 'renderer.json');
-
+const {join, resolve} = require('path');
+const rootPath = resolve(__dirname);
 /**
  * Warn if the DLL is not built
  */
@@ -69,6 +70,24 @@ export default merge.smart(baseConfig, {
           }
         }
       },
+      // {
+      //   test: /\.less$/,
+      //   use: [
+      //     'style-loader',
+      //     'css-loader',
+      //     'sass-loader',
+      //     'less-loader',
+      //   ]
+      // },
+      // {
+      //   test: /\.less$/,
+      //   include: join(__dirname, 'node_modules/antd'),
+      //   use: [
+      //     'style-loader',
+      //     'css-loader',
+      //     'less-loader'
+      //   ]
+      // },
       {
         test: /\.global\.css$/,
         use: [
@@ -92,10 +111,10 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              // modules: true,
               sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+              importLoaders: 1
+              // localIdentName: '[name]__[local]__[hash:base64:5]',
             }
           },
         ]
@@ -128,10 +147,10 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+            //   modules: true,
               sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+            //   localIdentName: '[name]__[local]__[hash:base64:5]',
             }
           },
           {
@@ -231,7 +250,7 @@ export default merge.smart(baseConfig, {
 
     new ExtractTextPlugin({
       filename: '[name].css'
-    }),
+    })
   ],
 
   node: {
@@ -273,3 +292,5 @@ export default merge.smart(baseConfig, {
     }
   },
 });
+
+console.log(join(__dirname, 'node_modules/antd'))

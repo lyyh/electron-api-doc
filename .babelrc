@@ -7,7 +7,13 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack"],
+  "plugins": ["add-module-exports", "dynamic-import-webpack",
+    ["import", {
+      "libraryName": "antd",
+      "libraryDirectory": "lib",
+      "style": "css" //将antd的css直接import，并且按需加载，不用自己import
+    }]
+  ],
   "env": {
     "production": {
       "presets": ["react-optimize"],
