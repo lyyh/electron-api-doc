@@ -24,14 +24,14 @@ export default class UserGroupEntryContainer extends Component{
   render(){
     return(
       <section>
-        <Card className='ant-card-grid ant-card-grid-point' title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}
+        <Card hoverable className='ant-card-grid' title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}
           onClick={this.handleClick}
         >
           <p>Card content</p>
           <p>Card content</p>
           <p>Card content</p>
         </Card>
-        <Card className='ant-card-grid ant-card-grid-point' title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}
+        <Card hoverable className='ant-card-grid ant-card-grid-point' title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}
           onClick={this.handleClick}
         >
           <p>Card content</p>
