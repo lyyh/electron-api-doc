@@ -1,14 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { createHashHistory } from 'history';
+import { createHashHistory,createMemoryHistory } from 'history';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
 import type { counterStateType } from '../reducers/counter';
 
-const history = createHashHistory();
-
+// const history = createHashHistory();
+const history = createMemoryHistory()
 const configureStore = (initialState?: counterStateType) => {
   // Redux Configuration
   const middleware = [];

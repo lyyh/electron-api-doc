@@ -5,10 +5,12 @@ import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
 import Home from './containers/Home/Home'
 import LoginContainer from './containers/Login/Login'
+import UserGroupContainer from './containers/UserGroup/UserGroup'
 
 export default () => (
   <App>
     <Switch>
+      <Route path="/userGroup" component={UserGroupContainer}/>
       <Route path="/login" component={LoginContainer}/>
       <Route path="/home" component={Home}/>
       <Route path="/counter" component={CounterPage} />

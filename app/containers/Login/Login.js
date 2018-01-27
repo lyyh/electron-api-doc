@@ -5,8 +5,8 @@
  */
 import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Select,Menu } from 'antd';
+// import {browserHistory} from "react-router";
 const FormItem = Form.Item;
-const Option = Select.Option;
 
 class LoginForm extends Component {
   handleSubmit = (e) => {
@@ -14,6 +14,16 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        const location = {
+          pathname: '/userGroup',
+          state: {
+            user: {
+              uid: values.userName,
+              uName: values.userName
+            }
+          }
+        }
+        this.props.history.push(location)
       }
     });
   }
