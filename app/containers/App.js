@@ -10,9 +10,9 @@ export default class App extends React.Component<Props> {
 
   render() {
     return (
-      <div>
+      <main style={{height:'100%'}}>
         {this.props.children}
-      </div>
+      </main>
     );
   }
 }
