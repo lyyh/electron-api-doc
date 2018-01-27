@@ -4,8 +4,11 @@
  * @Description:
  */
 import React,{Component} from 'react'
-import { Form, Icon, Input, Button, Checkbox,Select,Menu,Tabs } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,Select,Menu,Tabs,Card,Dropdown } from 'antd';
 import {Link} from "react-router-dom";
+import './UserGroup.less'
+import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry'
+import UserIcon from '../../components/UserIcon/UserIcon'
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
@@ -13,13 +16,22 @@ class UserGroupContainer extends Component {
     console.log(213)
   }
   render(){
-    const {location} = this.props
+    const {location,history} = this.props
     const {uId,uName} = location.state.user
+    const UserIconHtml = (
+      <UserIcon
+        user={location.state.user}
+      />
+    )
     return (
       <section>
-        <Tabs onChange={this.handleChange} type="card">
-          <TabPane tab="Tab 1" key="1">{uId} {uName}</TabPane>
-          <TabPane tab="Tab 2" key="2">Content of Tab Pane 2</TabPane>
+        <Tabs tabBarExtraContent={UserIconHtml} onChange={this.handleChange} type="card">
+          <TabPane tab="用户组" key="userGroup">
+            <UserGroupEntryContainer
+              history={history}
+            />
+          </TabPane>
+          <TabPane tab="创建用户组" key="2">Content of Tab Pane 2</TabPane>
           <TabPane tab="Tab 3" key="3">Content of Tab Pane 3</TabPane>
         </Tabs>
         <Button type='primary' onClick={()=>{
