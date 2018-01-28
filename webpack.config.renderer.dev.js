@@ -70,14 +70,6 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader',
-        ]
-      },
       // {
       //   test: /\.less$/,
       //   include: join(__dirname, 'node_modules/antd'),
@@ -290,5 +282,3 @@ export default merge.smart(baseConfig, {
     }
   },
 });
-
-console.log(join(__dirname, 'node_modules/antd'))

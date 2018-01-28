@@ -19,6 +19,13 @@ export default {
           cacheDirectory: true
         }
       }
+    },{
+      test: /\.less$/,
+      use: [
+        'style-loader',
+        'css-loader',
+        'less-loader',
+      ]
     }]
   },
 
@@ -43,7 +50,8 @@ export default {
       components: path.join(__dirname, "app/components"),
       actions: path.join(__dirname, "app/actions"),
       containers: path.join(__dirname, "app/containers"),
-      mixins : path.join(__dirname, "app/mixins")
+      mixins : path.join(__dirname, "app/mixins"),
+      utils: path.join(__dirname,'app/utils')
     }
   },
 
