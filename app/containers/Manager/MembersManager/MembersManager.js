@@ -10,6 +10,10 @@ import '../Manager.less'
 const { Meta } = Card;
 
 class MembersMannagerContainer extends Component{
+  hanldeAddMember = (e) =>{
+    e.preventDefault()
+    console.log('add')
+  }
   render(){
     return(
       <section className='manager-members-wrapper'>
@@ -18,7 +22,11 @@ class MembersMannagerContainer extends Component{
             <Breadcrumb.Item>成员管理</Breadcrumb.Item>
             <Breadcrumb.Item></Breadcrumb.Item>
           </Breadcrumb>
-          <Button type="primary" shape="circle" icon="plus" className='manager-members-add'/>
+          <a className='manager-members-add' onClick={this.hanldeAddMember}>
+            <Icon type='plus'/>
+            <span>添加成员</span>
+          </a>
+          {/*<Button type="primary" shape="circle" icon="plus" className='manager-members-add'/>*/}
         </div>
         <Row gutter={16} className='manager-members-card-wrapper'>
           <Col span={8}>

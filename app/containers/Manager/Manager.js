@@ -10,12 +10,13 @@ import MembersManager from './MembersManager/MembersManager'
 import DocumentsManager from './DocumentsManager/DocumentsManager'
 import UserIcon from 'components/UserIcon/UserIcon'
 import './Manager.less'
-
+const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 export default class ManagerContainer extends Component{
   state = {
     collapsed: false,
-    activedMenu: 'members'
+    menuKey: 'members',
+    rootMenuName: ''
   };
   toggle = () => {
     this.setState({
@@ -32,36 +33,57 @@ export default class ManagerContainer extends Component{
     }
     history.push(newHistory)
   }
-  handleMenuClick = ({key}) =>{
+  handleMenuClick = ({item,key,keyPath}) =>{
+    const rootMenuName = keyPath[1]
     this.setState({
-      activedMenu: key
+      menuKey: key,
+      rootMenuName: rootMenuName
     })
   }
   render() {
     const {location,histroy} = this.props
     const {uName,uId} = location.state.user
-    const {activedMenu} = this.state
+    const {menuKey,rootMenuName} = this.state
+    const apiDocData = {
+      name: 'react'
+    }
     return (
       <Layout className='manager-wrapper'>
         <Sider
           trigger={null}
           collapsible
           collapsed={this.state.collapsed}
+          style={{ background: '#fff' }}
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" onClick={this.handleMenuClick} defaultSelectedKeys={['1']}>
+          <Menu
+            theme="light"
+            mode="inline"
+            onClick={this.handleMenuClick}
+            defaultSelectedKeys={['1']}
+          >
             <Menu.Item key="members" >
               <Icon type="user" />
               <span>成员管理</span>
-            </Menu.Item>
-            <Menu.Item key="apiDocuments">
-              <Icon type="video-camera" />
-              <span>API 文档管理</span>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="upload" />
               <span>nav 3</span>
             </Menu.Item>
+            <SubMenu key="APIDocuments" title={<span><Icon type="appstore" /><span>API 文档管理</span></span>}>
+              <Menu.Item key="react">react</Menu.Item>
+              <Menu.Item key="vue">vue</Menu.Item>
+              <SubMenu key="sub1-2" title="Submenu">
+                <Menu.Item key="5">Option 5</Menu.Item>
+                <Menu.Item key="6">Option 6</Menu.Item>
+              </SubMenu>
+            </SubMenu>
+            <SubMenu key="sub2" title={<span><Icon type="setting" /><span>Navigation Four</span></span>}>
+              <Menu.Item key="7">Option 7</Menu.Item>
+              <Menu.Item key="8">Option 8</Menu.Item>
+              <Menu.Item key="9">Option 9</Menu.Item>
+              <Menu.Item key="10">Option 10</Menu.Item>
+            </SubMenu>
           </Menu>
         </Sider>
         <Layout>
@@ -97,8 +119,12 @@ export default class ManagerContainer extends Component{
               {/*<br />...<br />...<br />...<br />...<br />...<br />*/}
               {/*content*/}
               {
-                activedMenu==='members'?<MembersManager/>:
-                  activedMenu==='apiDocuments'?<DocumentsManager/>:null
+                menuKey==='members'?<MembersManager/>:
+                  menuKey==='react'?
+                    <DocumentsManager
+                      data={apiDocData}
+                      rootMenuName={rootMenuName}
+                    />:null
               }
             </div>
           </Content>
