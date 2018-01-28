@@ -40,7 +40,6 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-
 /**
  * Add event listeners...
  */
@@ -56,7 +55,7 @@ app.on('window-all-closed', () => {
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    await installExtensions();
+    // await installExtensions();
   }
 
   mainWindow = new BrowserWindow({
@@ -83,4 +82,7 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  // DevTool 调试
+  mainWindow.webContents.openDevTools();
 });

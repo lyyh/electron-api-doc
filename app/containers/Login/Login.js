@@ -5,6 +5,7 @@
  */
 import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Select,Menu } from 'antd';
+// import {createMemoryHisLocation} from 'utils/historyUtil'
 // import {browserHistory} from "react-router";
 const FormItem = Form.Item;
 
@@ -14,16 +15,17 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        const newHistory = {
+        const location = {
           pathname: '/userGroup',
           state: {
             user: {
-              uid: values.userName,
+              uId: values.userName,
               uName: values.userName
             }
           }
         }
-        this.props.history.push(newHistory)
+
+        this.props.history.push(location)
       }
     });
   }
