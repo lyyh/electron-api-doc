@@ -58,7 +58,7 @@ app.on('ready', async () => {
     // await installExtensions();
   }
 
-  mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({ // 渲染进程
     show: false,
     width: 1024,
     height: 728
@@ -83,6 +83,6 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  // DevTool 调试
-  mainWindow.webContents.openDevTools();
+  //DevTool 调试
+  // mainWindow.webContents.openDevTools();
 });
