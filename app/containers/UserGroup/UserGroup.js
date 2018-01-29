@@ -7,8 +7,8 @@ import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Select,Menu,Tabs,Card,Dropdown } from 'antd';
 import {Link} from "react-router-dom";
 import './UserGroup.less'
-import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry'
-import UserIcon from '../../components/UserIcon/UserIcon'
+import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry';
+import UserIcon from '../../components/UserIcon/UserIcon';
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
