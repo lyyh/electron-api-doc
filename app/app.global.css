@@ -34,11 +34,11 @@ li {
   list-style: none;
 }
 
-a {
-  color: white;
-  opacity: 0.75;
-  text-decoration: none;
-}
+/*a {*/
+  /*color: white;*/
+  /*opacity: 0.75;*/
+  /*text-decoration: none;*/
+/*}*/
 
 a:hover {
   opacity: 1;

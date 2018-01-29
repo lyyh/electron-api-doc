@@ -1,3 +1,8 @@
+/**
+ * @author liuyanhao
+ * @date 2018-01-29
+ * @Description:
+ */
 import React from 'react'
 import { Switch, Route } from 'react-router';
 import App from './containers/App';
@@ -20,4 +25,4 @@ export default () => (
       <Route path="/" component={LoginContainer} />
     </Switch>
   </App>
-);
+)

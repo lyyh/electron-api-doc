@@ -6,7 +6,7 @@
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
 import { Menu, Icon, Button,Row, Col,Breadcrumb,Card,Avatar } from 'antd';
-import '../Manager.less'
+import './index.less'
 const { Meta } = Card;
 
 class MembersMannagerContainer extends Component{
@@ -16,7 +16,7 @@ class MembersMannagerContainer extends Component{
   }
   render(){
     return(
-      <section className='manager-members-wrapper'>
+      <section className='manageMembersManagerr-members-wrapper'>
         <div className='manager-members-head'>
           <Breadcrumb>
             <Breadcrumb.Item>成员管理</Breadcrumb.Item>

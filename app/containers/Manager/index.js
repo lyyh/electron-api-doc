@@ -3,21 +3,33 @@
  * @date 2018-01-27
  * @Description:
  */
-import React,{Component} from 'react'
+import React,{PureComponent} from 'react'
 import { Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
 import { Layout, Menu, Icon, Button,Row, Col } from 'antd';
 import MembersManager from './MembersManager/MembersManager'
 import DocumentsManager from './DocumentsManager/DocumentsManager'
+import AddAPIDocument from './DocumentsManager/AddAPIDocument'
+import APIDocumentList from './DocumentsManager/APIDocumentList'
+import APIDocOperation from './DocumentsManager/APIDocumentOperation'
 import UserIcon from 'components/UserIcon/UserIcon'
 import './Manager.less'
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
-export default class ManagerContainer extends Component{
+export default class ManagerContainer extends PureComponent{
+  static defaultProps = {
+    menuKey: 'members'
+  }
   state = {
     collapsed: false,
-    menuKey: 'members',
-    rootMenuName: ''
+    rootMenuName: '',
+    curMenuKey: 'members'
   };
+  managerParams = {
+    currentPrePath: '',
+    user: {},
+    apiDoc: {}
+  }
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -33,17 +45,44 @@ export default class ManagerContainer extends Component{
     }
     history.push(newHistory)
   }
-  handleMenuClick = ({item,key,keyPath}) =>{
-    const rootMenuName = keyPath[1]
-    this.setState({
-      menuKey: key,
-      rootMenuName: rootMenuName
-    })
+  getRoutePath(nextPath,prePath){
+    return `${prePath}/${nextPath}`
   }
+  // handleMenuClick = ({item,key,keyPath}) =>{
+  //   const {history} = this.props
+  //   const path = this.managerParams.currentPrePath
+  //   const targetPath = this.getRoutePath(key,path)
+  //   const nextLocation = {
+  //     pathname: targetPath,
+  //     state:{...this.managerParams}
+  //   }
+  //   history.push(nextLocation)
+  // }
+  // componentDidMount(){
+  //   const {location,history,menuKey,match} = this.props
+  //   this.managerParams.currentPrePath = match.url
+  //   const user = location.state.user
+  //   const targetPath = this.getRoutePath(menuKey,match.url)
+  //
+  //   this.managerParams = {...this.managerParams,...{user:user}}
+  //   const nextLocation = {
+  //     pathname: targetPath,
+  //     state: this.managerParams
+  //   }
+  //   history.push(nextLocation)
+  // }
+
+  handleSwitchMenu = ({item,key,keyPath}) => {
+      this.setState({
+        curMenuKey: key,
+        rootMenuKey: keyPath[1]
+      })
+  }
+
   render() {
-    const {location,histroy} = this.props
+    const {location,match,menuKey} = this.props
     const {uName,uId} = location.state.user
-    const {menuKey,rootMenuName} = this.state
+    const {rootMenuName,curMenuKey} = this.state
     const apiDocData = {
       name: 'react'
     }
@@ -59,16 +98,21 @@ export default class ManagerContainer extends Component{
           <Menu
             theme="light"
             mode="inline"
-            onClick={this.handleMenuClick}
+            // onClick={this.handleMenuClick}
+            onClick={this.handleSwitchMenu}
             defaultSelectedKeys={['1']}
           >
             <Menu.Item key="members" >
               <Icon type="user" />
               <span>成员管理</span>
             </Menu.Item>
-            <Menu.Item key="3">
-              <Icon type="upload" />
-              <span>nav 3</span>
+            <Menu.Item key="addApiDoc">
+              <Icon type="new" />
+              <span>新建API文档</span>
+            </Menu.Item>
+            <Menu.Item key="showApiDoc">
+              <Icon type="new" />
+              <span>查看API文档</span>
             </Menu.Item>
             <SubMenu key="APIDocuments" title={<span><Icon type="appstore" /><span>API 文档管理</span></span>}>
               <Menu.Item key="react">react</Menu.Item>
@@ -103,28 +147,25 @@ export default class ManagerContainer extends Component{
               onClick={this.toggle}
             />
           </Header>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' ,display:'flex'}}>
-            <div style={{ padding: 24, background: '#fff',flex:'auto'}}>
-              {/*...*/}
-              {/*<br />*/}
-              {/*Really*/}
-              {/*<br />...<br />...<br />...<br />*/}
-              {/*long*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />...*/}
-              {/*<br />...<br />...<br />...<br />...<br />...<br />*/}
-              {/*content*/}
+          <Content style={{ margin: '24px 16px 0', overflowY: 'auto' ,display:'flex'}}>
+            <div style={{ padding: 24, background: '#fff',flex:'auto',overflowY:'auto'}}>
+              {/*<Route path={`${match.url}/members`} component={MembersManager}/>*/}
+              {/*<Route path={`${match.url}/addAPIDoc`} component={AddAPIDocument}/>*/}
+              {/*<Route path={`${match.url}/showAPIDoc`} component={APIDocumentList}/>*/}
+              {/*<Route path={`${match.url}/apiOperation`} component={APIDocOperation}/>*/}
               {
-                menuKey==='members'?<MembersManager/>:
-                  menuKey==='react'?
-                    <DocumentsManager
-                      data={apiDocData}
-                      rootMenuName={rootMenuName}
-                    />:null
+              curMenuKey==='members'?
+              <MembersManager/>:
+              curMenuKey==='react'?
+              <DocumentsManager
+              data={apiDocData}
+              rootMenuName={rootMenuName}
+              />:
+              curMenuKey==='addApiDoc'?
+              <AddAPIDocument/>:
+              curMenuKey==='showApiDoc'?
+              <APIDocumentList/>:
+              null
               }
             </div>
           </Content>
