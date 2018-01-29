@@ -19,8 +19,7 @@ for (let i = 0; i < 46; i++) {
 }
 
 class APIDocumentContainer extends Component{
-  static defaultProps = {
-    // currentUrl: this.props.match.url,
+  state = {
     columns:[{
       title: 'name',
       dataIndex: 'name',
@@ -31,17 +30,17 @@ class APIDocumentContainer extends Component{
       title: 'Address',
       dataIndex: 'address',
     }, {
-      title: 'Action', dataIndex: '', key: 'x',
-      render(item,record,index){
-        const {name,id} = item
-        this.setState({
-          apiOperation: true
-        })
+      title: 'Action',
+      dataIndex: 'action',
+      render: (item,record,index) => {
+        return <a href='#' onClick={() => {
+          this.setState({
+            apiOperation: true
+          })
+        }}>编辑</a>
       }
     }],
-    data: data
-  }
-  state = {
+    data: data,
     selectedRowKeys: [], // Check here to configure the default column
     loading: false,
     apiOperation: false
@@ -60,15 +59,19 @@ class APIDocumentContainer extends Component{
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   }
+  handleAction = (e)=>{
+    e.preventDefault()
+
+  }
   render() {
-    const { loading, selectedRowKeys,apiOperation } = this.state;
-    const {columns, data} = this.props
+    const { loading, selectedRowKeys,apiOperation,columns,data } = this.state;
+    // const {columns, data} = this.props
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
-    return apiOperation===0?(
+    return !apiOperation?(
           <div>
             <div style={{ marginBottom: 16 }}>
               <Button
