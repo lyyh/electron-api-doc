@@ -39,12 +39,12 @@ class APIDocEntryContainer extends Component{
           </div>
           <Row gutter={10} className='apidoc-entry-wrapper'>
             <Col span={8}>
+              <Card hoverable title="Card title" bordered={false} className='ant-card-grid apidoc-entry-item' onClick={this.handleEntry}>Card content</Card>
+            </Col>
+            <Col hoverable span={8}>
               <Card title="Card title" bordered={false} className='ant-card-grid apidoc-entry-item' onClick={this.handleEntry}>Card content</Card>
             </Col>
-            <Col span={8}>
-              <Card title="Card title" bordered={false} className='ant-card-grid apidoc-entry-item' onClick={this.handleEntry}>Card content</Card>
-            </Col>
-            <Col span={8}>
+            <Col hoverable span={8}>
               <Card title="Card title" bordered={false} className='ant-card-grid apidoc-entry-item' onClick={this.handleEntry}>Card content</Card>
             </Col>
           </Row>

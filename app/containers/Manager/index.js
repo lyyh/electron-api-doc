@@ -12,7 +12,7 @@ import APIDocumentEntry from './DocumentsManager/APIDocumentEntry'
 import AddAPIDocument from './DocumentsManager/AddAPIDocument'
 import APIDocumentList from './DocumentsManager/APIDocumentList'
 import UserIcon from 'components/UserIcon/UserIcon'
-import './Manager.less'
+import './index.less'
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 export default class ManagerContainer extends PureComponent{
