@@ -39,12 +39,12 @@ class APIDocumentOperation extends Component{
     // }
     ]
     return (
-      <section style={{height:'100%'}} /*className='apidoc-card-wrapper'*/>
+      <section style={{height:'100%'}}>
         <Tabs
           defaultActiveKey={data[0].key}
           tabPosition='top'
-          style={{height:'100%',overflowY:'auto',position:'relative'}}
-          className='apidoc-tabcard-wrapper'
+          // style={{height:'100%',overflowY:'auto',position:'relative'}}
+          className='apidoc-scroll-wrapper apidoc-tabcard-wrapper'
         >
           {
             data.map((item,index)=>

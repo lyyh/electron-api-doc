@@ -109,6 +109,10 @@ class APIDocDetailForm extends PureComponent {
       key: '1',
       code: '200',
       message: '{a:1,b:2}'
+    },{
+      key: '2',
+      code: '201',
+      message: '{a:1,b:2}'
     }]
   }
   onTabChange = (key, type) => {

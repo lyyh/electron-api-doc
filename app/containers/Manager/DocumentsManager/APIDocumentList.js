@@ -72,7 +72,7 @@ class APIDocumentContainer extends Component{
     };
     const hasSelected = selectedRowKeys.length > 0;
     return !apiOperation?(
-          <div>
+          <div className="apidoc-scroll-wrapper">
             <div style={{ marginBottom: 16 }}>
               <Button
                 type="primary"
