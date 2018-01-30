@@ -7,11 +7,10 @@ import React,{PureComponent} from 'react'
 import { Link } from 'react-router-dom';
 import { Switch, Route } from 'react-router';
 import { Layout, Menu, Icon, Button,Row, Col } from 'antd';
-import MembersManager from './MembersManager/MembersManager'
-import DocumentsManager from './DocumentsManager/DocumentsManager'
+import MembersManager from './MembersManager'
+import APIDocumentEntry from './DocumentsManager/APIDocumentEntry'
 import AddAPIDocument from './DocumentsManager/AddAPIDocument'
 import APIDocumentList from './DocumentsManager/APIDocumentList'
-import APIDocOperation from './DocumentsManager/APIDocumentOperation'
 import UserIcon from 'components/UserIcon/UserIcon'
 import './Manager.less'
 const { SubMenu } = Menu;
@@ -110,7 +109,11 @@ export default class ManagerContainer extends PureComponent{
               <Icon type="new" />
               <span>新建API文档</span>
             </Menu.Item>
-            <Menu.Item key="showApiDoc">
+            <Menu.Item key="listApiDoc">
+              <Icon type="new" />
+              <span>管理API文档</span>
+            </Menu.Item>
+            <Menu.Item key="entryApiDoc">
               <Icon type="new" />
               <span>查看API文档</span>
             </Menu.Item>
@@ -156,14 +159,13 @@ export default class ManagerContainer extends PureComponent{
               {
               curMenuKey==='members'?
               <MembersManager/>:
-              curMenuKey==='react'?
-              <DocumentsManager
+              curMenuKey==='entryApiDoc'?
+              <APIDocumentEntry
               data={apiDocData}
-              rootMenuName={rootMenuName}
               />:
               curMenuKey==='addApiDoc'?
               <AddAPIDocument/>:
-              curMenuKey==='showApiDoc'?
+              curMenuKey==='listApiDoc'?
               <APIDocumentList/>:
               null
               }

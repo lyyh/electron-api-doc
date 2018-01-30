@@ -43,7 +43,6 @@ class APIDocumentOperation extends Component{
         <Tabs
           defaultActiveKey={data[0].key}
           tabPosition='top'
-          // style={{height:'100%',overflowY:'auto',position:'relative'}}
           className='apidoc-scroll-wrapper apidoc-tabcard-wrapper'
         >
           {

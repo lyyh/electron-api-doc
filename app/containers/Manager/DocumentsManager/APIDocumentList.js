@@ -23,6 +23,13 @@ class APIDocumentContainer extends Component{
     columns:[{
       title: 'name',
       dataIndex: 'name',
+      render: (text,record,index) => {
+        return <a href='#' onClick={() => {
+          this.setState({
+            apiOperation: true
+          })
+        }}>{text}</a>
+      }
     }, {
       title: 'id',
       dataIndex: 'age',
@@ -33,11 +40,7 @@ class APIDocumentContainer extends Component{
       title: 'Action',
       dataIndex: 'action',
       render: (item,record,index) => {
-        return <a href='#' onClick={() => {
-          this.setState({
-            apiOperation: true
-          })
-        }}>编辑</a>
+        return <a href='#'>编辑</a>
       }
     }],
     data: data,
