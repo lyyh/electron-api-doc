@@ -13,27 +13,42 @@ import NewUserGroupContainer from './NewUserGroup'
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
-  handleChange = e => {
-    console.log(213)
+  state = {
+    selectedTab: 'userGroup'
   }
+
+  handleChange = key => {
+    this.setState({
+      selectedTab: key
+    })
+  }
+
+  handleBackAction = () => {
+    const targetTab = 'userGroup'
+    this.setState({
+      selectedTab: targetTab
+    })
+  }
+
   render(){
     const {location,history} = this.props
+    const {selectedTab} = this.state
     const {uId,uName} = location.state.user
     const UserIconHtml = (
       <UserIcon
+        history={history}
         user={location.state.user}
       />
     )
     return (
       <section>
-        <Tabs tabBarExtraContent={UserIconHtml} onChange={this.handleChange} type="card">
+        <Tabs activeKey={selectedTab} tabBarExtraContent={UserIconHtml} onChange={this.handleChange} type="card">
           <TabPane tab="用户组" key="userGroup">
             <UserGroupEntryContainer
               history={history}
             />
           </TabPane>
-          <TabPane tab="创建用户组" key="2"><NewUserGroupContainer/></TabPane>
-          <TabPane tab="Tab 3" key="3">Content of Tab Pane 3</TabPane>
+          <TabPane tab="新建用户组" key="newUserGroup"><NewUserGroupContainer onReturn={this.handleBackAction}/></TabPane>
         </Tabs>
       </section>
       )

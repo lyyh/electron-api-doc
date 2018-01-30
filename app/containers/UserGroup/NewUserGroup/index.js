@@ -3,7 +3,7 @@
  * @date 2018-01-30
  * @Description:
  */
-import React,{PureComponent} from 'react'
+import React,{Component,PureComponent} from 'react'
 import { Select, Spin,Form, Input, Tooltip, Icon, Cascader, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import SelectRemoteUser from './SelectRemoteUser'
 const FormItem = Form.Item;
@@ -33,9 +33,10 @@ const residences = [{
   }],
 }];
 
-class RegistrationForm extends PureComponent {
+class RegistrationForm extends Component {
   state = {
     confirmDirty: false,
+    submitLoading: false,
     autoCompleteResult: [],
   };
   handleSubmit = (e) => {
@@ -76,9 +77,16 @@ class RegistrationForm extends PureComponent {
     this.setState({ autoCompleteResult });
   }
 
+  enterLoading = () => {
+    this.setState({
+      submitLoading: true
+    })
+  }
+
   render() {
+    const {onReturn} = this.props
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    const { autoCompleteResult,submitLoading } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -173,10 +181,10 @@ class RegistrationForm extends PureComponent {
           </FormItem>
           <Row>
             <Col offset={4} span={20}>
-              <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+              <Button type="primary" loading={submitLoading} onClick={this.enterLoading}>
                 Click me!
               </Button>
-              <Button style={{marginLeft:'10px'}}>返回上一层</Button>
+              <Button style={{marginLeft:'10px'}} onClick={onReturn}>返回上一层</Button>
             </Col>
           </Row>
         </Form>

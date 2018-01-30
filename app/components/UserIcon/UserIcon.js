@@ -9,16 +9,22 @@ import './UserIcon.less';
 const {Item} = Menu
 
 class UserIconMenu extends Component{
-  onClick = ({key}) => {
-    message.info(`Click on item ${key}`);
+  handleClick = ({key}) => {
+    console.log(key)
+    const {history} = this.props
+    const nextLocation = {
+      pathname: key,
+      state:{}
+    }
+    history.push(nextLocation)
   }
   render(){
     const {uName,uId} = this.props
     return (
-      <Menu onClick={this.onClick}>
+      <Menu onClick={this.handleClick}>
         <Item key="1">uName</Item>
         <Item key="2">uId</Item>
-        <Item key="3">退出登录</Item>
+        <Item key="/login">退出登录</Item>
       </Menu>
     )
   }
@@ -26,10 +32,12 @@ class UserIconMenu extends Component{
 
 class UserIcon extends Component {
   render() {
-    const {style,user} = this.props
+    const {style,user,history} = this.props
     const {uName,uId} = user
     const menuHtml = (
-      <UserIconMenu/>
+      <UserIconMenu
+        history={history}
+      />
     )
     return (
       <section style={style}>
