@@ -49,3 +49,7 @@ a:hover {
 #root {
   height: 100%;
 }
+
+.api-container {
+  padding: 24px;
+}

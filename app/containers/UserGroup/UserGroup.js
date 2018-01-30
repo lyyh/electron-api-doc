@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 import './UserGroup.less'
 import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry';
 import UserIcon from '../../components/UserIcon/UserIcon';
+import NewUserGroupContainer from './NewUserGroup'
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
@@ -31,12 +32,9 @@ class UserGroupContainer extends Component {
               history={history}
             />
           </TabPane>
-          <TabPane tab="创建用户组" key="2">Content of Tab Pane 2</TabPane>
+          <TabPane tab="创建用户组" key="2"><NewUserGroupContainer/></TabPane>
           <TabPane tab="Tab 3" key="3">Content of Tab Pane 3</TabPane>
         </Tabs>
-        <Button type='primary' onClick={()=>{
-          this.props.history.push('/login')
-        }}>返回登录界面</Button>
       </section>
       )
   }
