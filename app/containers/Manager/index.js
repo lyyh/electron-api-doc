@@ -147,8 +147,8 @@ export default class ManagerContainer extends PureComponent{
               onClick={this.toggle}
             />
           </Header>
-          <Content style={{ margin: '24px 16px 0', overflowY: 'auto' ,display:'flex'}}>
-            <div style={{ padding: 24, background: '#fff',flex:'auto',overflowY:'auto'}}>
+          <Content style={{ margin: '24px 16px 0',display:'flex',postition:'relative'}}>
+            <div style={{ padding: 24, background: '#fff',flex:'auto',width:'100%'}}>
               {/*<Route path={`${match.url}/members`} component={MembersManager}/>*/}
               {/*<Route path={`${match.url}/addAPIDoc`} component={AddAPIDocument}/>*/}
               {/*<Route path={`${match.url}/showAPIDoc`} component={APIDocumentList}/>*/}

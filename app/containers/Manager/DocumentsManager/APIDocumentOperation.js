@@ -26,20 +26,25 @@ class APIDocumentOperation extends Component{
       name: 'category',
       key: 'category',
       list: 'adfdfs'
-    },{
+    },
+      {
       name: 'user',
       key: 'user',
       list: 'adfdfs'
-    },{
-      name: 'aaa',
-      key: 'aaa',
-      list: 'adfdfs'
-    }]
+    },
+      // {
+    //   name: 'aaa',
+    //   key: 'aaa',
+    //   list: 'adfdfs'
+    // }
+    ]
     return (
-      <section>
+      <section style={{height:'100%'}} /*className='apidoc-card-wrapper'*/>
         <Tabs
           defaultActiveKey={data[0].key}
           tabPosition='top'
+          style={{height:'100%',overflowY:'auto',position:'relative'}}
+          className='apidoc-tabcard-wrapper'
         >
           {
             data.map((item,index)=>
