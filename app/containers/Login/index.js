@@ -4,6 +4,7 @@
  * @Description:
  */
 import React,{Component} from 'react'
+import {Link} from 'react-router-dom'
 import { Form, Icon, Input, Button, Checkbox,Select,Menu } from 'antd';
 // import {createMemoryHisLocation} from 'utils/historyUtil'
 // import {browserHistory} from "react-router";
@@ -59,7 +60,7 @@ class LoginForm extends Component {
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <Link to='/register'>register now!</Link>
         </FormItem>
       </Form>
     );
