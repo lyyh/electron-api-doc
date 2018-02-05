@@ -6,8 +6,7 @@
 import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Select,Tabs,Card,Dropdown,Avatar,Menu } from 'antd';
 import './UserIcon.less';
-const {Item} = Menu
-
+const {MenuItem} = Menu.Item
 class UserIconMenu extends Component{
   handleClick = ({key}) => {
     console.log(key)
@@ -22,9 +21,9 @@ class UserIconMenu extends Component{
     const {uName,uId} = this.props
     return (
       <Menu onClick={this.handleClick}>
-        <Item key="1">uName</Item>
-        <Item key="2">uId</Item>
-        <Item key="/login">退出登录</Item>
+        <MenuItem key="1">uName</MenuItem>
+        <MenuItem key="2">uId</MenuItem>
+        <MenuItem key="/login">退出登录</MenuItem>
       </Menu>
     )
   }
