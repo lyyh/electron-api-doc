@@ -5,12 +5,12 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const db = require('./dbServer')
+const dbServer = require('./app/dbs/dbServer')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
 // 连接数据库
-db.connect()
+dbServer.connect()
 
 // middlewares
 app.use(bodyparser({

@@ -20,8 +20,9 @@ module.exports = new Schema({
         require: true
     },
     name: {
+        unique: true,
         type: String,
-        require: true,
+        require: true
     },
     nickname: {
         type: String,

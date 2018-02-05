@@ -25,6 +25,11 @@ class UserEntity {
         return await BaseEntity.insert(this.model,data)
     }
 
+    // find user by account
+    async findByAccount(condition){
+        return await BaseEntity.findUniqueOne(this.model,{condition})
+    }
+
 }
 
 module.exports = new UserEntity
