@@ -32,9 +32,13 @@ class UserEntity {
 
     // update a userGroup
     async updateUserGroup(condition,data){
-      return await BaseEntity.update(this.model,condition,data)
+        return await BaseEntity.updateUniqueOne(this.model,condition,data)
     }
 
+    // update a user
+    async update(condition,data){
+        return await BaseEntity.updateUniqueOne(this.model,condition,data)
+    }
     // logout account
     async logout(key,accessToken){
         // return await BaseEntity

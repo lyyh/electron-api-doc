@@ -48,26 +48,23 @@ exports.addUserGroup = async (ctx,next) => {
   const {userGroup} = ctx.request.body
   const {key} = ctx.params
   const userData = await UserEntity.findByKey({key:key})
-  if(!userData.success || !userData.data){
-    ctx.body = {
-      ERROR_STATUS,
-      err: {
-        errors: 'user key is not exist!',
-        message: 'user key is not exist!'
-      }
-    }
-    return next
-  }
+  // if(!userData.success || !userData.data){
+  //   ctx.body = {
+  //     ERROR_STATUS,
+  //     err: {
+  //       errors: 'user key is not exist!',
+  //       message: 'user key is not exist!'
+  //     }
+  //   }
+  //   return next
+  // }
   const updateData = userData.data.userGroup.concat(userGroup)
-  const result = await UserEntity.updateUserGroup({key},{userGroup:updateData})
-  if(!result.success) {
+  const result = await UserEntity.update({key},{userGroup:updateData})
+  if(!result.success || !result.data) {
     ctx.body = ERROR_STATUS
     return next
   }
-  ctx.body = {
-    ...result,
-    data: updateData
-  }
+  ctx.body = result
   await next()
 }
 
@@ -77,15 +74,12 @@ exports.deleteUserGroup = async(ctx,next) => {
   const {key} = ctx.params
   const userData = await UserEntity.findByKey({key:key})
   const updateData = userData.data.userGroup.filter(element => element !== userGroup)
-  const result = await UserEntity.updateUserGroup({key},{userGroup:updateData})
-  if(!result.success) {
+  const result = await UserEntity.update({key},{userGroup:updateData})
+  if(!result.success || !result.data) {
     ctx.body = ERROR_STATUS
     return next
   }
-  ctx.body = {
-    ...result,
-    data: updateData
-  }
+  ctx.body = result
   await next()
 }
 
@@ -95,4 +89,16 @@ exports.getUserByKey = async (ctx,next) => {
   // }
   await next()
   // const {key} = ctx.query
+}
+
+exports.updateUser = async (ctx,next) => {
+  const {key} = ctx.params
+  const data = ctx.request.body
+  const result = await UserEntity.update({key},data)
+  if(!result.success || !result.data){
+    ctx.body = ERROR_STATUS
+    return next
+  }
+  ctx.body = result
+  await next()
 }

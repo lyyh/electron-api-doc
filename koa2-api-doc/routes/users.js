@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const {addUserGroup,deleteUserGroup} = require('../app/controllers/userController')
+const {addUserGroup,deleteUserGroup,updateUser} = require('../app/controllers/userController')
 
 router.prefix('/users')
 
@@ -10,7 +10,7 @@ router.prefix('/users')
 // router.get('/bar', function (ctx, next) {
 //   ctx.body = 'this is a users/bar response'
 // })
-
+router.put('/:key',updateUser)
 router.post('/:key/userGroup',addUserGroup)
 
 router.delete('/:key/userGroup',deleteUserGroup)

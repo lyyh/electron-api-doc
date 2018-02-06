@@ -89,8 +89,8 @@ const create = async (model,data) => {
 }
 
 // update data
-const update = async (model,condition,data,options) => {
-  const query = model.findOneAndUpdate(condition,data)
+const updateUniqueOne = async (model,condition,data,options = {new:true}) => {
+  const query = model.findOneAndUpdate(condition,data,options)
   return new Promise((resolve,reject) => {
     query.exec((err,doc) => {
       if(!err){
@@ -118,7 +118,7 @@ class BaseEntity{
         this.create = create
         this.findByKey = findByKey
         this.findUniqueOne = findUniqueOne
-        this.update = update
+        this.updateUniqueOne = updateUniqueOne
     }
 }
 
