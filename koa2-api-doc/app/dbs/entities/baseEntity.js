@@ -21,11 +21,11 @@ const findAll = (model) => {
 
 // find one by condition of unique
 const findUniqueOne = (model,condition) => {
+  const query = model.findOne(condition)
   return new Promise((resolve,reject) => {
-    const query = model.findOne(condition)
     query.exec((err,doc) => {
       if(!err){
-        console.log('find unique one by',condition.toString())
+        console.log('find unique one by',JSON.stringify(condition))
         resolve({
           ...SUCCESS_STATUS,
           data: doc
@@ -44,22 +44,31 @@ const findUniqueOne = (model,condition) => {
 }
 
 // find user by key
-const findByKey = async(model,key) => {
-    const query = model.findByKey(key)
+const findByKey = async(model,condition) => {
+    const query = model.findOne(condition)
     return new Promise((resolve,reject)=>{
         query.exec((err,doc) => {
             if(!err){
-                console.log('find a user')
-                resolve(doc)
+                console.log('find a user by key:',JSON.stringify(doc))
+                resolve({
+                  ...SUCCESS_STATUS,
+                  data: doc
+                })
             }else{
-                resolve(err.message)
+                resolve({
+                  ...ERROR_STATUS,
+                  err: {
+                    errors: err.message,
+                    message: ''
+                  }
+                })
             }
         })
     })
 }
 
 // insert user data
-const insert = async (model,data) => {
+const create = async (model,data) => {
     return new Promise((resolve,reject) => {
         model.create(data,(err,doc) => {
             if(!err){
@@ -79,12 +88,37 @@ const insert = async (model,data) => {
     })
 }
 
+// update data
+const update = async (model,condition,data,options) => {
+  const query = model.findOneAndUpdate(condition,data)
+  return new Promise((resolve,reject) => {
+    query.exec((err,doc) => {
+      if(!err){
+        console.log('update data by condition')
+        resolve({
+          ...SUCCESS_STATUS,
+          data: doc
+        })
+      }else{
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: err.message,
+            message: ''
+          }
+        })
+      }
+    })
+  })
+}
+
 class BaseEntity{
     constructor(){
         this.findAll = findAll
-        this.insert = insert
+        this.create = create
         this.findByKey = findByKey
         this.findUniqueOne = findUniqueOne
+        this.update = update
     }
 }
 

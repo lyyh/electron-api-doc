@@ -8,6 +8,7 @@ const logger = require('koa-logger')
 const dbServer = require('./app/dbs/dbServer')
 const index = require('./routes/index')
 const users = require('./routes/users')
+const {ERROR_STATUS} = require('./app/configs/statusConfig')
 
 // 连接数据库
 dbServer.connect()
@@ -17,7 +18,9 @@ app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
-app.use(logger())
+app.use(logger(),(err,ctx)=>{
+  console.log(err)
+})
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
@@ -36,8 +39,11 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 
-// error-handling
-app.on('error', (err, ctx) => {
+// handle error event
+// onerror(app)
+
+// // error-handling
+app.on('error', (err, ctx,next) => {
   console.error('server error', err, ctx)
 });
 

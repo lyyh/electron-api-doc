@@ -48,8 +48,7 @@ module.exports = new Schema({
         default: ''
     },
     userGroup: {
-        type: [String],
-        default: ''
+        type: [String]
     },
     age: {
         type: String,

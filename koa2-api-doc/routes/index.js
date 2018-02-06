@@ -8,7 +8,7 @@ router.get('/', async (ctx, next) => {
 
 router.post('/signup',UserController.signup)
 router.post('/signIn',UserController.signIn)
-router.get('/user/key/:id',UserController.getUserByKey)
+// router.get('/user/key/:key',UserController.getUserByKey)
 router.get('/string', async (ctx, next) => {
   ctx.body = 'koa2 string'
 })
