@@ -24,20 +24,30 @@ const findUniqueOne = (model,condition) => {
   const query = model.findOne(condition)
   return new Promise((resolve,reject) => {
     query.exec((err,doc) => {
-      if(!err){
+      if(!err && doc){
         console.log('find unique one by',JSON.stringify(condition))
         resolve({
           ...SUCCESS_STATUS,
           data: doc
         })
       }else{
-        resolve({
-          ...ERROR_STATUS,
-          err:{
-            errors: err.message,
-            message: ''
-          }
-        })
+        if(err){
+          resolve({
+            ...ERROR_STATUS,
+            err:{
+              errors: err.message,
+              message: ''
+            }
+          })
+        }else{
+          resolve({
+            ...ERROR_STATUS,
+            err:{
+              errors: '',
+              message: `not found by ${JSON.stringify(condition)}`
+            }
+          })
+        }
       }
     })
   })
@@ -93,20 +103,30 @@ const updateUniqueOne = async (model,condition,data,options = {new:true}) => {
   const query = model.findOneAndUpdate(condition,data,options)
   return new Promise((resolve,reject) => {
     query.exec((err,doc) => {
-      if(!err){
-        console.log('update data by condition')
+      if(!err && doc){
+        console.log('update data by condition',JSON.stringify(condition))
         resolve({
           ...SUCCESS_STATUS,
           data: doc
         })
       }else{
-        resolve({
-          ...ERROR_STATUS,
-          err:{
-            errors: err.message,
-            message: ''
-          }
-        })
+        if(err){
+          resolve({
+            ...ERROR_STATUS,
+            err:{
+              errors: err.message,
+              message: ''
+            }
+          })
+        }else{
+          resolve({
+            ...ERROR_STATUS,
+            err:{
+              errors: '',
+              message: `not found data by condition: ${JSON.stringify(condition)}`
+            }
+          })
+        }
       }
     })
   })
