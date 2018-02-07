@@ -37,3 +37,16 @@ exports.update = async (ctx,next) => {
   if(!result.success)return next
   await next()
 }
+
+exports.addUser = async (ctx,next) => {
+  const {key} = ctx.params
+  const reqData = ctx.request.body
+  const users = JSON.parse(reqData.users)
+  const processDataFn = doc => {
+    return doc.users = [...doc.users,...users]
+  }
+  const result = await userGroupEntity.updateUsers({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}

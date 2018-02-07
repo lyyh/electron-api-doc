@@ -132,6 +132,42 @@ const updateUniqueOne = async (model,condition,data,options = {new:true}) => {
   })
 }
 
+const updateUniqueOneWithFun = (model,condition,processDataFn,options = {new:true}) => {
+  const query = model.findOne(condition)
+  return new Promise((resolve,reject) => {
+    query.exec((err,doc) => {
+      // process data with self-defining function
+      processDataFn(doc)
+
+      doc.save((err,doc)=>{
+        if(!doc){
+          resolve({
+            ...ERROR_STATUS,
+            err:{
+              errors: '',
+              message: `not found by condition: ${JSON.stringify(condition)}`
+            }
+          })
+        }
+        if(!err){
+          resolve({
+            ...SUCCESS_STATUS,
+            data: doc
+          })
+        }else {
+          resolve({
+            ...ERROR_STATUS,
+            err:{
+              errors: err.message,
+              message: ''
+            }
+          })
+        }
+      })
+    })
+  })
+}
+
 class BaseEntity{
     constructor(){
         this.findAll = findAll
@@ -139,6 +175,7 @@ class BaseEntity{
         this.findByKey = findByKey
         this.findUniqueOne = findUniqueOne
         this.updateUniqueOne = updateUniqueOne
+        this.updateUniqueOneWithFun = updateUniqueOneWithFun
     }
 }
 
