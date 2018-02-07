@@ -4,7 +4,7 @@
  * @Description:
  */
 const router = require('koa-router')()
-const {create,findByKey,update,addUser,deleteUser} = require('../app/controllers/userGroup')
+const {create,findByKey,update,addUser,deleteUser,addApiDoc,deleteApiDoc} = require('../app/controllers/userGroup')
 
 router.prefix('/userGroups')
 
@@ -14,7 +14,11 @@ router.get('/:key',findByKey)
 router.put('/:key',update)
 
 // users
-router.put('/:key/users',addUser)
+router.post('/:key/users',addUser)
 router.delete('/:key/users',deleteUser)
+
+// apidocs
+router.post('/:key/apidocs',addApiDoc)
+router.delete('/:key/apidocs',deleteApiDoc)
 
 module.exports = router

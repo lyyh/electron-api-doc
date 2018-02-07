@@ -26,7 +26,7 @@ class UserGroupEntity {
   }
 
   // update users with self-defining function
-  async updateUsers(condition,processDataFn){
+  async updateWithFun(condition,processDataFn){
     return await BaseEntity.updateUniqueOneWithFun(this.model,condition,processDataFn)
   }
 }

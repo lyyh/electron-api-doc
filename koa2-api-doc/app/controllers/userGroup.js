@@ -46,7 +46,7 @@ exports.addUser = async (ctx,next) => {
   const processDataFn = doc => {
     return doc.users = [...doc.users,...users]
   }
-  const result = await userGroupEntity.updateUsers({key},processDataFn)
+  const result = await userGroupEntity.updateWithFun({key},processDataFn)
   ctx.body = result
   if(!result.success)return next
   await next()
@@ -60,9 +60,36 @@ exports.deleteUser = async(ctx,next) => {
   const processDataFn = doc => {
     return doc.users = doc.users.filter(ele => !(users.indexOf(ele.key) >= 0))
   }
-  const result = await userGroupEntity.updateUsers({key},processDataFn)
+  const result = await userGroupEntity.updateWithFun({key},processDataFn)
   ctx.body = result
   if(!result.success)return next
   await next()
 }
 
+// add apidoc
+exports.addApiDoc = async(ctx,next) => {
+  const {key} = ctx.params
+  const reqData = ctx.request.body
+  const apiDocs = JSON.parse(reqData.apiDocs)
+  const processDataFn = doc => {
+    return doc.apiDocs = [...doc.apiDocs,...apiDocs]
+  }
+  const result = await userGroupEntity.updateWithFun({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
+// delete apiDoc
+exports.deleteApiDoc = async(ctx,next)=>{
+  const {key} = ctx.params
+  const reqData = ctx.request.body
+  const apiDocs = JSON.parse(reqData.apiDocs)
+  const processDataFn = doc => {
+    return doc.apiDocs = doc.apiDocs.filter(ele => !(apiDocs.indexOf(ele) >= 0))
+  }
+  const result = await userGroupEntity.updateWithFun({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
