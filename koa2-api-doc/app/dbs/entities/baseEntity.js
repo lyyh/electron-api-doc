@@ -103,13 +103,61 @@ const updateUniqueOne = async (model,condition,data,options = {new:true}) => {
   const query = model.findOneAndUpdate(condition,data,options)
   return new Promise((resolve,reject) => {
     query.exec((err,doc) => {
-      if(!err && doc){
-        console.log('update data by condition',JSON.stringify(condition))
+      if(err){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: err.message,
+            message: ''
+          }
+        })
+      }else if(!doc){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: '',
+            message: `data is null by condition: ${JSON.stringify(condition)},please checking the key is correct or the database is not null `
+          }
+        })
+      }else {
         resolve({
           ...SUCCESS_STATUS,
           data: doc
         })
-      }else{
+      }
+    })
+  })
+}
+
+// update data with self-defining function
+const updateUniqueOneWithFun = (model,condition,processDataFn,options = {new:true}) => {
+  const query = model.findOne(condition)
+  return new Promise((resolve,reject) => {
+    query.exec((err,doc) => {
+      if(err){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: err.message,
+            message: ''
+          }
+        })
+        return
+      }else if(!doc){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: '',
+            message: `data is null by condition: ${JSON.stringify(condition)},please checking the key is correct or the database is not null `
+          }
+        })
+        return
+      }
+
+      // process data with self-defining function
+      processDataFn(doc)
+
+      doc.save((err,doc)=>{
         if(err){
           resolve({
             ...ERROR_STATUS,
@@ -118,49 +166,18 @@ const updateUniqueOne = async (model,condition,data,options = {new:true}) => {
               message: ''
             }
           })
-        }else{
+        }else if(!doc){
           resolve({
             ...ERROR_STATUS,
             err:{
               errors: '',
-              message: `not found data by condition: ${JSON.stringify(condition)}`
+              message: `data is null by condition: ${JSON.stringify(condition)},please checking the key is correct or the database is not null `
             }
-          })
-        }
-      }
-    })
-  })
-}
-
-const updateUniqueOneWithFun = (model,condition,processDataFn,options = {new:true}) => {
-  const query = model.findOne(condition)
-  return new Promise((resolve,reject) => {
-    query.exec((err,doc) => {
-      // process data with self-defining function
-      processDataFn(doc)
-
-      doc.save((err,doc)=>{
-        if(!doc){
-          resolve({
-            ...ERROR_STATUS,
-            err:{
-              errors: '',
-              message: `not found by condition: ${JSON.stringify(condition)}`
-            }
-          })
-        }
-        if(!err){
-          resolve({
-            ...SUCCESS_STATUS,
-            data: doc
           })
         }else {
           resolve({
-            ...ERROR_STATUS,
-            err:{
-              errors: err.message,
-              message: ''
-            }
+            ...SUCCESS_STATUS,
+            data: doc
           })
         }
       })

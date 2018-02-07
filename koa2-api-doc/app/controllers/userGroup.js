@@ -38,6 +38,7 @@ exports.update = async (ctx,next) => {
   await next()
 }
 
+// add user
 exports.addUser = async (ctx,next) => {
   const {key} = ctx.params
   const reqData = ctx.request.body
@@ -50,3 +51,18 @@ exports.addUser = async (ctx,next) => {
   if(!result.success)return next
   await next()
 }
+
+// delete user
+exports.deleteUser = async(ctx,next) => {
+  const {key} = ctx.params
+  const reqData = ctx.request.body
+  const users = JSON.parse(reqData.users)
+  const processDataFn = doc => {
+    return doc.users = doc.users.filter(ele => !(users.indexOf(ele.key) >= 0))
+  }
+  const result = await userGroupEntity.updateUsers({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
