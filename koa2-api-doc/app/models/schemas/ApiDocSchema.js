@@ -40,6 +40,11 @@ module.exports = new Schema({
       required: true
     },
     params: [{
+      key: {
+        type: String,
+        required: true,
+        unique: true
+      },
       name: {
         type: String,
         required: true

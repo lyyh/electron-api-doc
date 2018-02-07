@@ -4,7 +4,7 @@
  * @Description:
  */
 const router = require('koa-router')()
-const {create,findByKey,addOwner,addApis,deleteOwner,deleteApis} = require('../app/controllers/apiDoc')
+const {create,findByKey,addOwners,addApis,deleteOwners,deleteApis,modifyApis,modifyOwners} = require('../app/controllers/apiDoc')
 
 router.prefix('/apiDocs')
 
@@ -14,14 +14,13 @@ router.get('/:key',findByKey)
 // router.put('/:key',update)
 
 // owners
-router.post('/:key/owners',addOwner)
-router.delete('/:key/owners',deleteOwner)
-// router.post('/:key/users',addUser)
-// router.delete('/:key/users',deleteUser)
+router.post('/:key/owners',addOwners)
+router.delete('/:key/owners',deleteOwners)
+router.put('/:key/owners',modifyOwners)
 
 // apis
 router.post('/:key/apis',addApis)
 router.delete('/:key/apis',deleteApis)
-// router.delete('/:key/apidocs',deleteApiDoc)
+router.put('/:key/apis',modifyApis)
 
 module.exports = router

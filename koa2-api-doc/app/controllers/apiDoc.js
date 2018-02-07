@@ -30,7 +30,7 @@ exports.create = async (ctx,next) => {
 }
 
 // add owner
-exports.addOwner = async(ctx,next) => {
+exports.addOwners = async(ctx,next) => {
   const {key} = ctx.params
   const reqData = ctx.request.body
   const owners = JSON.parse(reqData.owners)
@@ -44,7 +44,7 @@ exports.addOwner = async(ctx,next) => {
 }
 
 // delete owner
-exports.deleteOwner = async(ctx,next)=>{
+exports.deleteOwners = async(ctx,next)=>{
   const {key} = ctx.params
   const reqData = ctx.request.body
   const owners = JSON.parse(reqData.owners)
@@ -78,6 +78,42 @@ exports.deleteApis = async(ctx,next)=>{
   const apis = JSON.parse(reqData.apis)
   const processDataFn = doc => {
     return doc.apis = doc.apis.filter(ele => !(apis.indexOf(ele.key) >= 0))
+  }
+  const result = await apiDocEntity.updateWithFun({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
+// modify apis
+// only supporting to modify single data
+exports.modifyApis = async(ctx,next) => {
+  const {key} = ctx.params
+  const reqData = ctx.request.body
+  const api = JSON.parse(reqData.api)
+  const processDataFn = doc => {
+    return doc.apis = doc.apis.map(ele => {
+      if(ele.key == api.key)return api
+      return ele
+    })
+  }
+  const result = await apiDocEntity.updateWithFun({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
+// modify owners
+// only supporting to modify single data
+exports.modifyOwners = async(ctx,next) => {
+  const {key} = ctx.params
+  const reqData = ctx.request.body
+  const owner = JSON.parse(reqData.owner)
+  const processDataFn = doc => {
+    return doc.owners = doc.owners.map(ele => {
+      if(ele.key == owner.key)return owner
+      return ele
+    })
   }
   const result = await apiDocEntity.updateWithFun({key},processDataFn)
   ctx.body = result
