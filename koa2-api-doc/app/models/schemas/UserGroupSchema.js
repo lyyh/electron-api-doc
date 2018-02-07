@@ -20,7 +20,7 @@ module.exports = new Schema({
   users: [{
     key: {
       type: String,
-      require: true
+      required: true
     },
     permission: {
       type: String,

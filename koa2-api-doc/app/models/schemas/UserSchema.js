@@ -13,17 +13,9 @@ const Schema = mongoose.Schema
  * 除了定义结构外，还定义文档的实例方法，静态模型方法，复合索引，中间件等
  * @type {mongoose}
  */
+const baseSchema = require('./BaseSchema')
 module.exports = new Schema({
-    key: {
-        unique: true,
-        type: String,
-        require: true
-    },
-    name: {
-        unique: true,
-        type: String,
-        require: true
-    },
+    ...baseSchema,
     nickname: {
         type: String,
         default: ''
@@ -32,20 +24,16 @@ module.exports = new Schema({
         account: {
             unique: true,
             type: String,
-            require: true
+            required: true
         },
         password: {
             type: String,
-            require: true
+            required: true
         },
         accessToken: {
             type: String,
             default: ''
         }
-    },
-    info: {
-        type: String,
-        default: ''
     },
     userGroup: {
         type: [String]
@@ -57,41 +45,5 @@ module.exports = new Schema({
     avatar: {
         type: String,
         default: ''
-    },
-    meta: {
-        createAt: {
-            type: Date,
-            dafault: Date.now()
-        },
-        updateAt: {
-            type: Date,
-            dafault: Date.now()
-        }
     }
-    // phoneNumber: {
-    //     unique: true,
-    //     type: String
-    // },
-    // areaCode: String,
-    // verifyCode: String,
-    // verified: {
-    //     type: Boolean,
-    //     default: false
-    // },
-    // accessToken: String,
-    // nickname: String,
-    // gender: String,
-    // breed: String,
-    // age: String,
-    // avatar: String,
-    // meta: {
-    //     createAt: {
-    //         type: Date,
-    //         dafault: Date.now()
-    //     },
-    //     updateAt: {
-    //         type: Date,
-    //         dafault: Date.now()
-    //     }
-    // }
 })

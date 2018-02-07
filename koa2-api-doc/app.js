@@ -9,6 +9,7 @@ const dbServer = require('./app/dbs/dbServer')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const userGroups = require('./routes/userGroup')
+const apiDocs = require('./routes/apiDocs')
 const {ERROR_STATUS} = require('./app/configs/statusConfig')
 
 // 连接数据库
@@ -40,12 +41,21 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(userGroups.routes(), users.allowedMethods())
+app.use(apiDocs.routes(),apiDocs.allowedMethods())
 
 // handle error event
 // onerror(app)
 
 // // error-handling
 app.on('error', (err, ctx,next) => {
+  // ctx.body = {
+  //   ERROR_STATUS,
+  //   err: {
+  //     errors: err.message,
+  //     message: ''
+  //   }
+  // }
+  ctx.message = err
   console.error('server error', err, ctx)
 });
 

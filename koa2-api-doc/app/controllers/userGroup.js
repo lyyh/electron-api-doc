@@ -80,7 +80,7 @@ exports.addApiDoc = async(ctx,next) => {
   await next()
 }
 
-// delete apiDoc
+// delete apidoc
 exports.deleteApiDoc = async(ctx,next)=>{
   const {key} = ctx.params
   const reqData = ctx.request.body

@@ -7,12 +7,12 @@ module.exports = {
   key: {
     unique: true,
     type: String,
-    require: true
+    required: true
   },
   name: {
     unique: true,
     type: String,
-    require: true
+    required: true
   },
   info: {
     type: String,

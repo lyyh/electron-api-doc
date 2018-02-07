@@ -81,19 +81,28 @@ const findByKey = async(model,condition) => {
 const create = async (model,data) => {
     return new Promise((resolve,reject) => {
         model.create(data,(err,doc) => {
-            if(!err){
-                console.log('insert completion:',doc)
-                resolve(SUCCESS_STATUS)
-            }else{
-                console.log('insert exception!')
-                resolve({
-                  ...ERROR_STATUS,
-                  err:{
-                    errors: err.message,
-                    message: ''
-                  }
-                })
-            }
+          if(err){
+            resolve({
+              ...ERROR_STATUS,
+              err:{
+                errors: err.message,
+                message: ''
+              }
+            })
+          }else if(!doc){
+            resolve({
+              ...ERROR_STATUS,
+              err:{
+                errors: '',
+                message: `invalid operation!`
+              }
+            })
+          }else {
+            resolve({
+              ...SUCCESS_STATUS,
+              data: doc
+            })
+          }
         })
     })
 }
