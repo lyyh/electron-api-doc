@@ -8,6 +8,7 @@ const logger = require('koa-logger')
 const dbServer = require('./app/dbs/dbServer')
 const index = require('./routes/index')
 const users = require('./routes/users')
+const userGroups = require('./routes/userGroup')
 const {ERROR_STATUS} = require('./app/configs/statusConfig')
 
 // 连接数据库
@@ -38,6 +39,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(userGroups.routes(), users.allowedMethods())
 
 // handle error event
 // onerror(app)

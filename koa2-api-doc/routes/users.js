@@ -3,17 +3,10 @@ const {addUserGroup,deleteUserGroup,updateUser} = require('../app/controllers/us
 
 router.prefix('/users')
 
-// router.get('/', function (ctx, next) {
-//   ctx.body = 'this is a users response!'
-// })
-//
-// router.get('/bar', function (ctx, next) {
-//   ctx.body = 'this is a users/bar response'
-// })
 router.put('/:key',updateUser)
+
 router.post('/:key/userGroup',addUserGroup)
 
 router.delete('/:key/userGroup',deleteUserGroup)
-
 
 module.exports = router

@@ -22,7 +22,10 @@ module.exports = new Schema({
       type: String,
       require: true
     },
-    permission: String
+    permission: {
+      type: String,
+      default: '0'
+    }
   }],
   apiDocs: [String]
 })

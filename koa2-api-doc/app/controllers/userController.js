@@ -91,6 +91,7 @@ exports.getUserByKey = async (ctx,next) => {
   // const {key} = ctx.query
 }
 
+// update user
 exports.updateUser = async (ctx,next) => {
   const {key} = ctx.params
   const data = ctx.request.body
