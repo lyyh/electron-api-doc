@@ -58,21 +58,28 @@ const findByKey = async(model,condition) => {
     const query = model.findOne(condition)
     return new Promise((resolve,reject)=>{
         query.exec((err,doc) => {
-            if(!err){
-                console.log('find a user by key:',JSON.stringify(doc))
-                resolve({
-                  ...SUCCESS_STATUS,
-                  data: doc
-                })
-            }else{
-                resolve({
-                  ...ERROR_STATUS,
-                  err: {
-                    errors: err.message,
-                    message: ''
-                  }
-                })
-            }
+          if(err){
+            resolve({
+              ...ERROR_STATUS,
+              err:{
+                errors: err.message,
+                message: ''
+              }
+            })
+          }else if(!doc){
+            resolve({
+              ...ERROR_STATUS,
+              err:{
+                errors: '',
+                message: `not found data by ${JSON.stringify(condition)}`
+              }
+            })
+          }else {
+            resolve({
+              ...SUCCESS_STATUS,
+              data: doc
+            })
+          }
         })
     })
 }

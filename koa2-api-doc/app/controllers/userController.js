@@ -11,9 +11,15 @@ const {ERROR_STATUS,SUCCESS_STATUS} = require('../configs/statusConfig')
 exports.signup = async (ctx,next) => {
   const {name,account,password} = ctx.request.body
   const key = name
-  const user = await UserEntity.findByKey(key)
-  if(user){
-    ctx.body = ERROR_STATUS
+  const queryResult = await UserEntity.findByKey({key})
+  if(queryResult.data){
+    ctx.body = {
+      ...ERROR_STATUS,
+      err: {
+        errors: '',
+        message: 'name or account has existed'
+      }
+    }
     return next
   }else{
     const accessToken = uuid.v1()
@@ -48,16 +54,6 @@ exports.addUserGroup = async (ctx,next) => {
   const {userGroup} = ctx.request.body
   const {key} = ctx.params
   const userData = await UserEntity.findByKey({key:key})
-  // if(!userData.success || !userData.data){
-  //   ctx.body = {
-  //     ERROR_STATUS,
-  //     err: {
-  //       errors: 'user key is not exist!',
-  //       message: 'user key is not exist!'
-  //     }
-  //   }
-  //   return next
-  // }
   const updateData = userData.data.userGroup.concat(userGroup)
   const result = await UserEntity.update({key},{userGroup:updateData})
   if(!result.success || !result.data) {

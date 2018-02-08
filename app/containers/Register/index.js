@@ -4,10 +4,12 @@
  * @Description:
  */
 import React,{PureComponent} from 'react'
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button,message } from 'antd';
+import { connect } from 'react-redux';
+import {doRegister} from "actions/register";
+import {LOADING_STATUS} from "../../mixins/statusMixins";
+
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 const residences = [{
   value: 'zhejiang',
@@ -39,10 +41,11 @@ class RegistrationForm extends PureComponent {
     autoCompleteResult: [],
   };
   handleSubmit = (e) => {
+    const {dispatch} = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        dispatch(doRegister(values))
       }
     });
   }
@@ -66,17 +69,19 @@ class RegistrationForm extends PureComponent {
     callback();
   }
 
-  handleWebsiteChange = (value) => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
+  // componentWillUpdate(){
+  //
+  // }
+  handleMessage(data){
+    if(data.success){
+      message.success('注册成功!')
+    }else{
+      message.error(data.err.errors || data.err.message)
     }
-    this.setState({ autoCompleteResult });
   }
-
   render() {
+    const {data,state} = this.props
+    // data && this.handleMessage(data)
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
 
@@ -102,21 +107,33 @@ class RegistrationForm extends PureComponent {
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
 
     return (
       <Form onSubmit={this.handleSubmit}>
+        <FormItem
+          {...formItemLayout}
+          label="name"
+        >
+          {getFieldDecorator('name', {
+            rules: [{
+              required: true, message: 'Please input your name!',
+            }]
+          })(
+            <Input />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="account"
+        >
+          {getFieldDecorator('account', {
+            rules: [{
+              required: true, message: 'Please input your account!',
+            }]
+          })(
+            <Input />
+          )}
+        </FormItem>
         <FormItem
           {...formItemLayout}
           label="E-mail"
@@ -159,78 +176,6 @@ class RegistrationForm extends PureComponent {
             <Input type="password" onBlur={this.handleConfirmBlur} />
           )}
         </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label={(
-            <span>
-              Nickname&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          )}
-        >
-          {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Habitual Residence"
-        >
-          {getFieldDecorator('residence', {
-            initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-            rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
-          })(
-            <Cascader options={residences} />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Phone Number"
-        >
-          {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
-          })(
-            <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Website"
-        >
-          {getFieldDecorator('website', {
-            rules: [{ required: true, message: 'Please input website!' }],
-          })(
-            <AutoComplete
-              dataSource={websiteOptions}
-              onChange={this.handleWebsiteChange}
-              placeholder="website"
-            >
-              <Input />
-            </AutoComplete>
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Captcha"
-          extra="We must make sure that your are a human."
-        >
-          <Row gutter={8}>
-            <Col span={12}>
-              {getFieldDecorator('captcha', {
-                rules: [{ required: true, message: 'Please input the captcha you got!' }],
-              })(
-                <Input />
-              )}
-            </Col>
-            <Col span={12}>
-              <Button>Get captcha</Button>
-            </Col>
-          </Row>
-        </FormItem>
         <FormItem {...tailFormItemLayout}>
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
@@ -247,4 +192,15 @@ class RegistrationForm extends PureComponent {
 }
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
-export default WrappedRegistrationForm
+export default connect((state)=> {
+  const currentRegister = state['register'];
+  return currentRegister ? {
+    state: currentRegister['state'] || null,
+    data: currentRegister['data'] || null,
+    error: currentRegister['error'] || null
+  }:{
+    state: LOADING_STATUS
+  }
+})(WrappedRegistrationForm)
+
+// export default WrappedRegistrationForm
