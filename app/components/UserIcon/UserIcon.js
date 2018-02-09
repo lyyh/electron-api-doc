@@ -9,7 +9,6 @@ import './UserIcon.less';
 const {MenuItem} = Menu.Item
 class UserIconMenu extends Component{
   handleClick = ({key}) => {
-    console.log(key)
     const {history} = this.props
     const nextLocation = {
       pathname: key,
@@ -18,11 +17,11 @@ class UserIconMenu extends Component{
     history.push(nextLocation)
   }
   render(){
-    const {uName,uId} = this.props
+    const {name,key} = this.props.data
     return (
       <Menu onClick={this.handleClick}>
-        <MenuItem key="1">uName</MenuItem>
-        <MenuItem key="2">uId</MenuItem>
+        <MenuItem key="1">{name}</MenuItem>
+        <MenuItem key="2">{key}</MenuItem>
         <MenuItem key="/login">退出登录</MenuItem>
       </Menu>
     )
@@ -32,9 +31,10 @@ class UserIconMenu extends Component{
 class UserIcon extends Component {
   render() {
     const {style,user,history} = this.props
-    const {uName,uId} = user
+    const {name,key} = user
     const menuHtml = (
       <UserIconMenu
+        data={user}
         history={history}
       />
     )
@@ -43,9 +43,9 @@ class UserIcon extends Component {
         <Dropdown overlay={menuHtml} placement="bottomRight">
           <div className="ant-dropdown-link avatar-action" href="#">
             <Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} size="large">
-              {uName}
+              {name}
             </Avatar>
-            <span>{uName}</span>
+            <span>{name}</span>
           </div>
         </Dropdown>
       </section>

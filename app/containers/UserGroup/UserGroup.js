@@ -33,7 +33,7 @@ class UserGroupContainer extends Component {
   render(){
     const {location,history} = this.props
     const {selectedTab} = this.state
-    const {uId,uName} = location.state.user
+    const {key,name} = location.state.user
     const UserIconHtml = (
       <UserIcon
         history={history}

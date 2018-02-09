@@ -4,50 +4,7 @@
  * @Description:
  */
 const UserEntity = require('../dbs/entities/userEntity')
-const uuid = require('uuid')
 const {ERROR_STATUS,SUCCESS_STATUS} = require('../configs/statusConfig')
-
-// signup user account
-exports.signup = async (ctx,next) => {
-  const {name,account,password} = ctx.request.body
-  const key = name
-  const queryResult = await UserEntity.findByKey({key})
-  if(queryResult.data){
-    ctx.body = {
-      ...ERROR_STATUS,
-      err: {
-        errors: '',
-        message: 'name or account has existed'
-      }
-    }
-    return next
-  }else{
-    const accessToken = uuid.v1()
-    const insertData = {key,name,auth:{account,password,accessToken}}
-    const result = await UserEntity.create(insertData)
-    ctx.body = result
-  }
-
-  await next()
-}
-
-// signIn user account
-exports.signIn = async (ctx,next) => {
-  const {account,password,accessToken} = ctx.request.body
-  if(account && password){
-    const result = await UserEntity.findByAccount({'auth.account':account})
-    if(result.data.auth.password == password){
-      ctx.body = SUCCESS_STATUS
-    }else{
-      ctx.body = ERROR_STATUS
-      return next
-    }
-  }else{
-    return next
-  }
-
-  await next()
-}
 
 // add user group
 exports.addUserGroup = async (ctx,next) => {

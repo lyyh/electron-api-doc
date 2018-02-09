@@ -5,28 +5,19 @@
  */
 import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
-import { Form, Icon, Input, Button, Checkbox,Select,Menu } from 'antd';
-// import {createMemoryHisLocation} from 'utils/historyUtil'
-// import {browserHistory} from "react-router";
+import { connect } from 'react-redux'
+import { Form, Icon, Input, Button, Checkbox,Select,Menu,message } from 'antd';
+import {doLogin} from "actions/login";
 const FormItem = Form.Item;
 
 class LoginForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
+    const {dispatch,history} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        const location = {
-          pathname: '/userGroup',
-          state: {
-            user: {
-              uId: values.userName,
-              uName: values.userName
-            }
-          }
-        }
-
-        this.props.history.push(location)
+        dispatch(doLogin(values,history))
       }
     });
   }
@@ -36,10 +27,10 @@ class LoginForm extends Component {
 
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+          {getFieldDecorator('account', {
+            rules: [{ required: true, message: 'Please input your account!' }],
           })(
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="account" />
           )}
         </FormItem>
         <FormItem>
@@ -67,5 +58,15 @@ class LoginForm extends Component {
   }
 }
 
-const LoginContainer = Form.create()(LoginForm);
-export default LoginContainer
+export default connect((state)=> {
+  const currentLogin = state['login'];
+  return currentLogin ? {
+    state: currentLogin['state'] || null,
+    data: currentLogin['data'] || null,
+    error: currentLogin['error'] || null
+  }:{
+    state: LOADING_STATUS
+  }
+})(Form.create()(LoginForm))
+// const LoginContainer = Form.create()(LoginForm);
+// export default LoginContainer

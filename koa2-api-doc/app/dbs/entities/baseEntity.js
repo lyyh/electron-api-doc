@@ -24,30 +24,27 @@ const findUniqueOne = (model,condition) => {
   const query = model.findOne(condition)
   return new Promise((resolve,reject) => {
     query.exec((err,doc) => {
-      if(!err && doc){
-        console.log('find unique one by',JSON.stringify(condition))
+      if(err){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: err.message,
+            message: ''
+          }
+        })
+      }else if(!doc){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: '',
+            message: `not found data by ${JSON.stringify(condition)}`
+          }
+        })
+      }else {
         resolve({
           ...SUCCESS_STATUS,
           data: doc
         })
-      }else{
-        if(err){
-          resolve({
-            ...ERROR_STATUS,
-            err:{
-              errors: err.message,
-              message: ''
-            }
-          })
-        }else{
-          resolve({
-            ...ERROR_STATUS,
-            err:{
-              errors: '',
-              message: `not found by ${JSON.stringify(condition)}`
-            }
-          })
-        }
       }
     })
   })

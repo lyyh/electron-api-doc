@@ -17,7 +17,7 @@ class UserEntity {
 
     // find by key
     async findByKey(condition){
-        return await BaseEntity.findByKey(this.model,condition)
+        return await BaseEntity.findUniqueOne(this.model,condition)
     }
 
     // insert user data
