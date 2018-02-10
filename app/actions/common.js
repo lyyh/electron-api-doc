@@ -7,13 +7,13 @@ import {SUCCESS_STATUS,ERROR_STATUS,LOADING_STATUS} from "mixins/statusMixins";
 import http from '../utils/http'
 import {message} from "antd";
 
-export const fetchData = (fetchParams,dispatch) => {
-  const {url,method,actionType} = fetchParams
+export const httpAction = (options,dispatch) => {
+  const {url,method,actionType,query,body} = options
   dispatch({
     type: actionType,
     state: LOADING_STATUS
   })
-  http[method](url,fetchParams.query)
+  http[method](url,query || body)
     .then((res)=>{
       const {data} = res
       if(data && data.success){

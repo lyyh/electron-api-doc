@@ -6,58 +6,15 @@
 import {FETCH_USERS_ACTION,FETCH_ALL_USERS_ACTION} from 'actions/user'
 import {SUCCESS_STATUS,ERROR_STATUS,LOADING_STATUS} from "../mixins/statusMixins";
 import {FETCH_SIMILAR_USERS_ACTION,FETCH_USERS_OVER_ACTION} from "../actions/user";
+import {commonReducer} from "./common";
 
-export default (state = null,action) => {
+export default (initialState = null,action) => {
   switch (action.type){
-    case FETCH_ALL_USERS_ACTION: { // new userGroup
-      let nextState = {}
-      if(action.state == SUCCESS_STATUS){
-        nextState = {
-          state: SUCCESS_STATUS,
-          data: action.data,
-          error: null
-        }
-      }else if(action.state == ERROR_STATUS){
-        nextState = {
-          state: ERROR_STATUS,
-          error: action.error,
-          data: null
-        }
-      }else {
-        nextState = {
-          state: LOADING_STATUS
-        }
-      }
-      return {
-        ...state,
-        ...nextState
-      }
+    case FETCH_ALL_USERS_ACTION: {
+      return commonReducer(action,initialState)
     }
     case FETCH_SIMILAR_USERS_ACTION: {
-      let nextState = {}
-      if(action.state == SUCCESS_STATUS){
-        nextState = {
-          state: SUCCESS_STATUS,
-          data: action.data,
-          error: null
-        }
-      }else if(action.state == ERROR_STATUS){
-        nextState = {
-          state: ERROR_STATUS,
-          error: action.error,
-          data: null
-        }
-      }else {
-        nextState = {
-          state: LOADING_STATUS,
-          data: null,
-          error: null
-        }
-      }
-      return {
-        ...state,
-        ...nextState
-      }
+      return commonReducer(action,initialState)
     }
     case FETCH_USERS_OVER_ACTION: {
       const nextState = {
@@ -66,12 +23,12 @@ export default (state = null,action) => {
         error: null
       }
       return {
-        ...state,
+        ...initialState,
         ...nextState
       }
     }
     default: {
-      return state
+      return initialState
     }
   }
 }

@@ -11,7 +11,12 @@ exports.create = async (ctx,next) => {
   const insertData = {
     ...requestData,
     key: requestData.name,
-    users: JSON.parse(requestData.users)
+    users: requestData.users.map((ele)=>{
+      return {
+        key: ele,
+        permission: '0'
+      }
+    })
   }
   const result = await userGroupEntity.create(insertData)
   ctx.body = result

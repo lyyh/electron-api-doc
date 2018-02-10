@@ -6,7 +6,9 @@
 import React,{Component,PureComponent} from 'react'
 import { Select, Spin,Form, Input, Tooltip, Icon, Cascader, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import SelectRemoteUser from './SelectRemoteUser'
-import {doNewUserGroup} from "actions/userGroup";
+import {createUserGroup} from "actions/userGroup";
+import {SUCCESS_STATUS} from "../../../mixins/statusMixins";
+import {FETCH_USERS_OVER_ACTION} from 'actions/user'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -39,6 +41,7 @@ class RegistrationForm extends Component {
     confirmDirty: false,
     submitLoading: false,
     autoCompleteResult: [],
+    selectedValue: []
   };
   handleSubmit = (e) => {
     const {dispatch} = this.props
@@ -46,7 +49,7 @@ class RegistrationForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        dispatch(doNewUserGroup(values))
+        dispatch(createUserGroup(values))
       }
     });
   }
@@ -86,10 +89,28 @@ class RegistrationForm extends Component {
     })
   }
 
+  handleSelectChange = (selectedValue) => {
+    const {dispatch,form} = this.props
+    const userKeys = selectedValue.map((ele,index) => {
+      return {
+        key: ele.key,
+        permission: '0' // temporary code
+      }
+    })
+
+    form.setFieldsValue({
+      users: [...userKeys]
+    })
+    dispatch({
+      type: FETCH_USERS_OVER_ACTION,
+      state: SUCCESS_STATUS
+    })
+  }
+
   render() {
     const {onReturn,dispatch} = this.props
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult,submitLoading } = this.state;
+    const { autoCompleteResult,submitLoading,selectedValue } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -128,20 +149,6 @@ class RegistrationForm extends Component {
     return (
       <section className='ant-layout-content api-container'>
         <Form onSubmit={this.handleSubmit}>
-          {/*<FormItem
-            {...formItemLayout}
-            label="key"
-          >
-            {getFieldDecorator('key', {
-              rules: [{
-                message: '请输入Key',
-              }, {
-                required: true, message: 'Please input your E-mail!',
-              }],
-            })(
-              <Input />
-            )}
-          </FormItem>*/}
           <FormItem
             {...formItemLayout}
             label="名称"
@@ -165,7 +172,7 @@ class RegistrationForm extends Component {
                 message: '请输入描述',
               }, {
                 required: true, message: 'Please input your E-mail!',
-              }],
+              }]
             })(
               <Input />
             )}
@@ -174,17 +181,15 @@ class RegistrationForm extends Component {
             {...formItemLayout}
             label="选择users"
           >
-            {getFieldDecorator('users', {
-              rules: [{
-                required: true, message: 'Please input your password!',
-              }]
-            })(
-              <SelectRemoteUser/>
+            {getFieldDecorator('users')(
+              <SelectRemoteUser
+                handleSelectChange={this.handleSelectChange}
+              />
             )}
           </FormItem>
           <Row>
             <Col offset={4} span={20}>
-              <Button type="primary" loading={submitLoading} onClick={this.enterLoading}>
+              <Button type="primary" htmlType="submit" loading={submitLoading}>
                 Click me!
               </Button>
               <Button style={{marginLeft:'10px'}} onClick={onReturn}>返回上一层</Button>

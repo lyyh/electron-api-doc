@@ -3,35 +3,17 @@
  * @date 2018-02-09
  * @Description:
  */
-import {NEW_USERGROUP_ACTION} from 'actions/userGroup'
+import {CREATE_USERGROUP_ACTION} from 'actions/userGroup'
 import {SUCCESS_STATUS,ERROR_STATUS,LOADING_STATUS} from "../mixins/statusMixins";
+import {commonReducer} from './common'
 
-export default (state = {},action) => {
+export default (initialState = {},action) => {
   switch (action.type){
-    case NEW_USERGROUP_ACTION: { // new userGroup
-      let nextState = {}
-      if(action.state == SUCCESS_STATUS){
-        nextState = {
-          state: SUCCESS_STATUS,
-          data: action.data
-        }
-      }else if(action.state == ERROR_STATUS){
-        nextState = {
-          state: ERROR_STATUS,
-          error: action.error
-        }
-      }else {
-        nextState = {
-          state: LOADING_STATUS
-        }
-      }
-      return {
-        ...state,
-        ...nextState
-      }
+    case CREATE_USERGROUP_ACTION: { // new userGroup
+      return commonReducer(action,initialState)
     }
     default: {
-      return state
+      return initialState
     }
   }
 }

@@ -68,19 +68,19 @@ class UserSelectContainer extends PureComponent {
     })
   }
   render() {
-    const { fetching, data} = this.props;
+    const { fetching, data,handleSelectChange} = this.props;
     const {value} = this.state
 
     return (
       <Select
         mode="multiple"
         labelInValue
-        value={value}
+        /*value={value}*/
         placeholder="Select users"
         notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
         onSearch={this.fetchUser}
-        onChange={this.handleChange}
+        onChange={handleSelectChange}
         style={{ width: '100%' }}
       >
         {data.map(d => <Option key={d.key}>{d.name}</Option>)}
