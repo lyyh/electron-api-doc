@@ -6,6 +6,7 @@
 import React,{Component,PureComponent} from 'react'
 import { Select, Spin,Form, Input, Tooltip, Icon, Cascader, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import SelectRemoteUser from './SelectRemoteUser'
+import {doNewUserGroup} from "actions/userGroup";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -40,10 +41,12 @@ class RegistrationForm extends Component {
     autoCompleteResult: [],
   };
   handleSubmit = (e) => {
+    const {dispatch} = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        dispatch(doNewUserGroup(values))
       }
     });
   }
@@ -84,7 +87,7 @@ class RegistrationForm extends Component {
   }
 
   render() {
-    const {onReturn} = this.props
+    const {onReturn,dispatch} = this.props
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult,submitLoading } = this.state;
 
@@ -125,7 +128,7 @@ class RegistrationForm extends Component {
     return (
       <section className='ant-layout-content api-container'>
         <Form onSubmit={this.handleSubmit}>
-          <FormItem
+          {/*<FormItem
             {...formItemLayout}
             label="key"
           >
@@ -138,7 +141,7 @@ class RegistrationForm extends Component {
             })(
               <Input />
             )}
-          </FormItem>
+          </FormItem>*/}
           <FormItem
             {...formItemLayout}
             label="名称"
@@ -192,6 +195,16 @@ class RegistrationForm extends Component {
     );
   }
 }
+// export default connect((state)=> {
+//   const currentLogin = state['login'];
+//   return currentLogin ? {
+//     state: currentLogin['state'] || null,
+//     data: currentLogin['data'] || null,
+//     error: currentLogin['error'] || null
+//   }:{
+//     state: LOADING_STATUS
+//   }
+// })(Form.create()(RegistrationForm))
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 export default WrappedRegistrationForm

@@ -5,13 +5,17 @@ import counter from './counter';
 import home from './home'
 import login from './login'
 import register from './register'
+import userGroup from './userGroup'
+import user from './user'
 
 const rootReducer = combineReducers({
   home,
   counter,
   router,
   login,
-  register
+  register,
+  userGroup,
+  user
 });
 
 export default rootReducer;

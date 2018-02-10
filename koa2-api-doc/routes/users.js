@@ -1,7 +1,9 @@
 const router = require('koa-router')()
-const {addUserGroup,deleteUserGroup,updateUser} = require('../app/controllers/user')
+const {addUserGroup,deleteUserGroup,updateUser,findUsers} = require('../app/controllers/user')
 
 router.prefix('/users')
+
+router.get('/',findUsers)
 
 router.put('/:key',updateUser)
 

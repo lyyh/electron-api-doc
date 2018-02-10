@@ -191,12 +191,14 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "less": "^2.3.1",
     "antd": "^3.0.1",
+    "axios": "^0.17.1",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "less": "^2.3.1",
+    "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.13",
@@ -206,8 +208,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "source-map-support": "^0.5.0",
-    "lodash":"^4.17.5"
+    "source-map-support": "^0.5.0"
   },
   "devEngines": {
     "node": ">=7.x",

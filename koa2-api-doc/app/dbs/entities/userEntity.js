@@ -12,7 +12,12 @@ class UserEntity {
 
     // find all Users
     async findAllUsers(){
-        return await BaseEntity.findAll(this.model)
+        return await BaseEntity.find(this.model)
+    }
+
+    // find users by condition
+    async findUsers(condition){
+      return await BaseEntity.find(this.model,condition)
     }
 
     // find by key

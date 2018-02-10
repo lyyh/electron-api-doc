@@ -6,10 +6,12 @@
 import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Select,Menu,Tabs,Card,Dropdown } from 'antd';
 import {Link} from "react-router-dom";
+import { connect } from 'react-redux'
 import './UserGroup.less'
 import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry';
-import UserIcon from '../../components/UserIcon/UserIcon';
+import UserIcon from 'components/UserIcon/UserIcon';
 import NewUserGroupContainer from './NewUserGroup'
+import {LOADING_STATUS} from "mixins/statusMixins";
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
@@ -31,7 +33,7 @@ class UserGroupContainer extends Component {
   }
 
   render(){
-    const {location,history} = this.props
+    const {location,history,data,state,dispatch} = this.props
     const {selectedTab} = this.state
     const {key,name} = location.state.user
     const UserIconHtml = (
@@ -48,11 +50,25 @@ class UserGroupContainer extends Component {
               history={history}
             />
           </TabPane>
-          <TabPane tab="新建用户组" key="newUserGroup"><NewUserGroupContainer onReturn={this.handleBackAction}/></TabPane>
+          <TabPane tab="新建用户组" key="newUserGroup">
+            <NewUserGroupContainer
+              dispatch={dispatch}
+              onReturn={this.handleBackAction}
+            /></TabPane>
         </Tabs>
       </section>
       )
   }
 }
 
-export default UserGroupContainer
+export default connect((state) => {
+  const currentUserGroup = state['userGroup']
+  return currentUserGroup ? {
+    state: currentUserGroup['state'],
+    data: currentUserGroup['data'],
+    error: currentUserGroup['error']
+  }:{
+    state: LOADING_STATUS
+  }
+})(UserGroupContainer)
+// export default UserGroupContainer

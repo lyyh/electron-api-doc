@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Form, Icon, Input, Button, Checkbox,Select,Menu,message } from 'antd';
 import {doLogin} from "actions/login";
+import {LOADING_STATUS} from "mixins/statusMixins";
 const FormItem = Form.Item;
 
 class LoginForm extends Component {
@@ -68,5 +69,3 @@ export default connect((state)=> {
     state: LOADING_STATUS
   }
 })(Form.create()(LoginForm))
-// const LoginContainer = Form.create()(LoginForm);
-// export default LoginContainer

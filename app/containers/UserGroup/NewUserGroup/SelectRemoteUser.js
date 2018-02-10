@@ -5,7 +5,11 @@
  */
 import React,{PureComponent} from 'react'
 import { Select, Spin } from 'antd';
-// import debounce from 'lodash.debounce';
+import { connect } from 'react-redux'
+import {LOADING_STATUS} from "mixins/statusMixins";
+import {fetchSimilarUsers,fetchOver,FETCH_USERS_OVER_ACTION} from "actions/user";
+import {debounce} from 'lodash';
+import {SUCCESS_STATUS} from "../../../mixins/statusMixins";
 const Option = Select.Option;
 const dbDatas = ['asdf','qwer','zcxv']
 
@@ -13,14 +17,21 @@ class UserSelectContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.lastFetchId = 0;
-    // this.fetchUser = debounce(this.fetchUser, 800);
+    this.fetchUser = debounce(this.fetchUser, 800);
   }
   state = {
-    data: [],
-    value: [],
-    fetching: false,
+    value: []
   }
+  // componentWillMount(){
+  //   const {dispatch} = this.props
+  //   dispatch(fetchAllUsers())
+  // }
   fetchUser = (value) => {
+    const {dispatch} = this.props
+    const params = {
+      name: value
+    }
+    dispatch(fetchSimilarUsers(params))
     // console.log('fetching user', value);
     // this.lastFetchId += 1;
     // const fetchId = this.lastFetchId;
@@ -37,24 +48,29 @@ class UserSelectContainer extends PureComponent {
     //     }));
     //     this.setState({ data, fetching: false });
     //   });
-    if(dbDatas.indexOf(value)>=0)
-      this.setState({
-        data: [{
-          value: value,
-          text: value
-        }],
-        fetching: false
-    })
+    // if(dbDatas.indexOf(value)>=0)
+    //   this.setState({
+    //     data: [{
+    //       value: value,
+    //       text: value
+    //     }],
+    //     fetching: false
+    // })
   }
   handleChange = (value) => {
+    const {dispatch} = this.props
     this.setState({
-      value,
-      data: [],
-      fetching: false,
+      value
     });
+    dispatch({
+      type: FETCH_USERS_OVER_ACTION,
+      state: SUCCESS_STATUS
+    })
   }
   render() {
-    const { fetching, data, value } = this.state;
+    const { fetching, data} = this.props;
+    const {value} = this.state
+
     return (
       <Select
         mode="multiple"
@@ -67,10 +83,21 @@ class UserSelectContainer extends PureComponent {
         onChange={this.handleChange}
         style={{ width: '100%' }}
       >
-        {data.map(d => <Option key={d.value}>{d.text}</Option>)}
+        {data.map(d => <Option key={d.key}>{d.name}</Option>)}
       </Select>
     );
   }
 }
 
-export default UserSelectContainer
+export default connect((state) => {
+  const currentUser = state['user']
+  return currentUser ? {
+      state: currentUser['state'],
+      data: currentUser['data'] || [],
+      error: currentUser['error'],
+      fetching: currentUser['state'] == 'loading'?true:false
+  }:{
+    data: [],
+    fetching: false
+  }
+})(UserSelectContainer)

@@ -5,16 +5,32 @@
  */
 const {SUCCESS_STATUS,ERROR_STATUS} = require('../../configs/statusConfig')
 // find all user
-const findAll = (model) => {
+const find = (model,condition = {}) => {
     return new Promise((resolve,reject)=>{
-      const query = model.find({});
-      query.exec(function(err, docs) {
-            if(!err) {
-                console.log('findAllUsers completion!')
-                resolve(docs)
-            }else{
-                resolve(err.message)
-            }
+      const query = model.find(condition);
+      query.exec(function(err, doc) {
+          if(err){
+            resolve({
+              ...ERROR_STATUS,
+              err:{
+                errors: err.message,
+                message: ''
+              }
+            })
+          }else if(!doc){
+            resolve({
+              ...ERROR_STATUS,
+              err:{
+                errors: '',
+                message: `not found data by ${JSON.stringify(condition)}`
+              }
+            })
+          }else {
+            resolve({
+              ...SUCCESS_STATUS,
+              data: doc
+            })
+          }
         })
     })
 }
@@ -200,7 +216,7 @@ const updateUniqueOneWithFun = (model,condition,processDataFn,options = {new:tru
 
 class BaseEntity{
     constructor(){
-        this.findAll = findAll
+        this.find = find
         this.create = create
         this.findByKey = findByKey
         this.findUniqueOne = findUniqueOne

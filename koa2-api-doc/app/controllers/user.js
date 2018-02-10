@@ -56,3 +56,24 @@ exports.updateUser = async (ctx,next) => {
   ctx.body = result
   await next()
 }
+
+// find all user
+exports.findAllUsers = async (ctx,next) => {
+  const result = await UserEntity.findAllUsers()
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
+// find users by condition
+exports.findUsers = async (ctx,next) => {
+  let condition = {}
+  const query = ctx.query
+  for(let key of Object.keys(query)){
+    condition[key] = new RegExp(query[key],'i')
+  }
+  const result = await UserEntity.findUsers(condition)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
