@@ -7,7 +7,7 @@ import {SUCCESS_STATUS,ERROR_STATUS,LOADING_STATUS} from "mixins/statusMixins";
 import http from '../utils/http'
 import {message} from "antd";
 
-export const httpAction = (options,dispatch) => {
+export const httpAction = (options,dispatch,actionMaps) => {
   const {url,method,actionType,query,body} = options
   dispatch({
     type: actionType,
@@ -17,6 +17,7 @@ export const httpAction = (options,dispatch) => {
     .then((res)=>{
       const {data} = res
       if(data && data.success){
+        actionMaps && actionMaps.successAction()
         dispatch({
           type: actionType,
           state: SUCCESS_STATUS,

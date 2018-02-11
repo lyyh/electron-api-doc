@@ -19,5 +19,13 @@ export const createUserGroup = (params) => (dispatch) => {
     actionType: CREATE_USERGROUP_ACTION,
     body: params
   }
-  httpAction(httpOptions,dispatch)
+  const actionMaps = {
+    successAction: () => {
+      message.success('创建成功!')
+    },
+    errorAction: () => {
+
+    }
+  }
+  httpAction(httpOptions,dispatch,actionMaps)
 }

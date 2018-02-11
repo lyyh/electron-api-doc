@@ -3,6 +3,7 @@
  * @date 2018-02-07
  * @Description:
  */
+const {ERROR_STATUS} = require('../configs/statusConfig')
 const userGroupEntity = require('../dbs/entities/userGroupEntity')
 
 // create a user group
@@ -30,6 +31,24 @@ exports.findByKey = async (ctx,next) => {
   const result = await userGroupEntity.findByKey({key})
   ctx.body = result
   if(!result.success) return next
+  await next()
+}
+
+// find by name with create
+exports.findByNameWithCreate = async(ctx,next) => {
+  const {name} = ctx.request.body
+  const key = name
+  const result = await userGroupEntity.findByKey({key})
+  if(result.success){
+    ctx.body =  {
+      ...ERROR_STATUS,
+      err: {
+        errors: '',
+        message: '名称存在！'
+      }
+    }
+    return next
+  }
   await next()
 }
 
