@@ -91,7 +91,7 @@ class UserSelectContainer extends PureComponent {
 
 export default connect((state) => {
   const currentUser = state['user']
-  return currentUser ? {
+  return currentUser && currentUser['state']? {
       state: currentUser['state'],
       data: currentUser['data'] || [],
       error: currentUser['error'],

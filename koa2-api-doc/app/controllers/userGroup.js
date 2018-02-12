@@ -5,19 +5,14 @@
  */
 const {ERROR_STATUS} = require('../configs/statusConfig')
 const userGroupEntity = require('../dbs/entities/userGroupEntity')
-
+const userEntity = require('../dbs/entities/userEntity')
 // create a user group
 exports.create = async (ctx,next) => {
   const requestData = ctx.request.body
   const insertData = {
     ...requestData,
     key: requestData.name,
-    users: requestData.users.map((ele)=>{
-      return {
-        key: ele,
-        permission: '0'
-      }
-    })
+    users: JSON.parse(JSON.stringify(ctx.state.users))
   }
   const result = await userGroupEntity.create(insertData)
   ctx.body = result
@@ -34,8 +29,27 @@ exports.findByKey = async (ctx,next) => {
   await next()
 }
 
+exports.getUsers = async (ctx,next) => {
+  const {users} = ctx.request.body
+  ctx.state.users = []
+  for(let user of users){
+    let result = await userEntity.findByKey({key:user.name})
+    if(!result.success){
+      ctx.body = {
+        ...ERROR_STATUS,
+      }
+      return next
+    }
+    const userData = result.data
+    ctx.state.users.push({
+      ...result.data._doc,
+      permission: user.permission
+    })
+  }
+  await next()
+}
 // find by name with create
-exports.findByNameWithCreate = async(ctx,next) => {
+exports.verifyName = async(ctx,next) => {
   const {name} = ctx.request.body
   const key = name
   const result = await userGroupEntity.findByKey({key})

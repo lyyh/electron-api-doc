@@ -5,6 +5,8 @@
  */
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import {fetchUser} from "actions/userGroup";
 import { Menu, Icon, Button,Row, Col,Breadcrumb,Card,Avatar } from 'antd';
 import './index.less'
 const { Meta } = Card;
@@ -14,7 +16,13 @@ class MembersMannagerContainer extends Component{
     e.preventDefault()
     console.log('add')
   }
+  componentWillMount(){
+    const {dispatch} = this.props
+    dispatch(fetchUser({key:'123'}))
+  }
   render(){
+    const {data} = this.props
+    const {users} = data
     return(
       <section className='manageMembersManagerr-members-wrapper'>
         <div className='manager-members-head'>
@@ -70,4 +78,15 @@ class MembersMannagerContainer extends Component{
     )
   }
 }
-export default MembersMannagerContainer
+
+export default connect((state) => {
+  const currentMembers = state['userGroup']
+  return currentMembers && currentMembers['state']?{
+    state: currentMembers['state'],
+    data: currentMembers['data'] || [],
+    error: currentMembers['error'],
+  }:{
+    data: []
+  }
+})(MembersMannagerContainer)
+// export default MembersMannagerContainer

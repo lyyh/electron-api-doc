@@ -14,18 +14,9 @@ const Schema = mongoose.Schema
  * @type {mongoose}
  */
 const baseSchema = require('./BaseSchema')
-
+const userSchema = require('./UserSchema')
 module.exports = new Schema({
   ...baseSchema,
-  users: [{
-    key: {
-      type: String,
-      required: true
-    },
-    permission: {
-      type: String,
-      default: '0'
-    }
-  }],
+  users: [],
   apiDocs: [String]
 })

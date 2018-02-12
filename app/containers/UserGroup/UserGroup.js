@@ -54,6 +54,7 @@ class UserGroupContainer extends Component {
             <NewUserGroupContainer
               dispatch={dispatch}
               onReturn={this.handleBackAction}
+              user={location.state.user}
             /></TabPane>
         </Tabs>
       </section>

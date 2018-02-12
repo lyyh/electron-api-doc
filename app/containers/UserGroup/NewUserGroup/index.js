@@ -44,11 +44,15 @@ class RegistrationForm extends Component {
     selectedValue: []
   };
   handleSubmit = (e) => {
-    const {dispatch} = this.props
+    const {dispatch,user} = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        values.users.push({
+          name: user.name,
+          permission: '1'
+        })
         dispatch(createUserGroup(values))
       }
     });
@@ -91,15 +95,15 @@ class RegistrationForm extends Component {
 
   handleSelectChange = (selectedValue) => {
     const {dispatch,form} = this.props
-    const userKeys = selectedValue.map((ele,index) => {
+    const userNames = selectedValue.map((ele,index) => {
       return {
-        key: ele.key,
+        name: ele.key,
         permission: '0' // temporary code
       }
     })
 
     form.setFieldsValue({
-      users: [...userKeys]
+      users: [...userNames]
     })
     dispatch({
       type: FETCH_USERS_OVER_ACTION,
@@ -108,10 +112,9 @@ class RegistrationForm extends Component {
   }
 
   render() {
-    const {onReturn,dispatch} = this.props
+    const { onReturn,dispatch} = this.props
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult,submitLoading,selectedValue } = this.state;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },

@@ -18,7 +18,6 @@ UserGroupSchema.pre('save', function(next) {
 })
 
 UserGroupSchema.pre('update',(next) => {
-  console.log(123)
   this.meta.updateAt = Date.now()
   next()
 })

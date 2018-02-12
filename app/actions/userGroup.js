@@ -10,7 +10,7 @@ import {httpAction} from "./common";
 import {FETCH_SIMILAR_USERS_ACTION} from "./user";
 
 export const CREATE_USERGROUP_ACTION = 'REGISTER_ACTION'
-
+export const FETCH_USERS_ACTION = 'FETCH_USERS_ACTION'
 // executing register
 export const createUserGroup = (params) => (dispatch) => {
   const httpOptions = {
@@ -29,3 +29,15 @@ export const createUserGroup = (params) => (dispatch) => {
   }
   httpAction(httpOptions,dispatch,actionMaps)
 }
+
+// fetch users
+export const fetchUser = (params) => (dispatch) => {
+  const {key} = params
+  const httpOptions = {
+    url: `/userGroups/${key}`,
+    method: 'get',
+    actionType: FETCH_USERS_ACTION,
+  }
+  httpAction(httpOptions,dispatch)
+}
+
