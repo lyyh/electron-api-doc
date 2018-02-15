@@ -35,6 +35,11 @@ class UserEntity {
         return await BaseEntity.findUniqueOne(this.model,condition)
     }
 
+    // find user group by key
+    // async findUserGroupsByKey(condition){
+    //     return await BaseEntity.find
+    // }
+
     // update a userGroup
     async updateUserGroup(condition,data){
         return await BaseEntity.updateUniqueOne(this.model,condition,data)

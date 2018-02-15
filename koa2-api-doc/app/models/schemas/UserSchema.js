@@ -35,9 +35,7 @@ module.exports = new Schema({
             default: ''
         }
     },
-    userGroup: {
-        type: [String]
-    },
+    userGroups: [],
     age: {
         type: String,
         default: ''

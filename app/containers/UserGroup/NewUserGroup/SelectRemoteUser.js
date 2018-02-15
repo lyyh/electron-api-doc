@@ -27,9 +27,13 @@ class UserSelectContainer extends PureComponent {
   //   dispatch(fetchAllUsers())
   // }
   fetchUser = (value) => {
-    const {dispatch} = this.props
+    const {dispatch,user} = this.props
+    const {key,name} = user
     const params = {
-      name: value
+      queryParams:JSON.stringify({
+        name:value
+      }),
+      userName: user.name
     }
     dispatch(fetchSimilarUsers(params))
     // console.log('fetching user', value);

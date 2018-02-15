@@ -53,6 +53,7 @@ class RegistrationForm extends Component {
           name: user.name,
           permission: '1'
         })
+        values.creator = user.key
         dispatch(createUserGroup(values))
       }
     });
@@ -112,7 +113,7 @@ class RegistrationForm extends Component {
   }
 
   render() {
-    const { onReturn,dispatch} = this.props
+    const { onReturn,dispatch,user} = this.props
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult,submitLoading,selectedValue } = this.state;
     const formItemLayout = {
@@ -137,18 +138,7 @@ class RegistrationForm extends Component {
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
 
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
     return (
       <section className='ant-layout-content api-container'>
         <Form onSubmit={this.handleSubmit}>
@@ -186,6 +176,7 @@ class RegistrationForm extends Component {
           >
             {getFieldDecorator('users')(
               <SelectRemoteUser
+                user={user}
                 handleSelectChange={this.handleSelectChange}
               />
             )}

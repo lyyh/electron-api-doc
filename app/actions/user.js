@@ -11,14 +11,20 @@ export const FETCH_ALL_USERS_ACTION = 'FETCH_ALL_USERS_ACTION'
 export const FETCH_USER_ACTION = 'FETCH_USER_ACTION'
 export const FETCH_SIMILAR_USERS_ACTION = 'FETCH_SIMILAR_USERS_ACTION'
 export const FETCH_USERS_OVER_ACTION = 'FETCH_USERS_OVER_ACTION'
+export const FETCH_USER_GROUPS_ACTION = 'FETCH_USER_GROUPS_ACTION'
 
 export const fetchSimilarUsers = (params) => (dispatch) => {
+  const {queryParams,userName} = params
   const httpParams = {
     url: '/users',
     method: 'get',
     actionType: FETCH_SIMILAR_USERS_ACTION,
     query: {
-      params: params
+      params: {
+        queryParams,
+        userName,
+        select: '1'
+      }
     }
   }
   httpAction(httpParams,dispatch)

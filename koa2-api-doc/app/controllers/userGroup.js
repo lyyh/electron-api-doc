@@ -17,6 +17,13 @@ exports.create = async (ctx,next) => {
   const result = await userGroupEntity.create(insertData)
   ctx.body = result
   if(!result.success)return next
+
+  // ctx.request.body = {
+  //   userGroup: insertData,
+  // }
+  // ctx.params = {
+  //   key:
+  // }
   await next()
 }
 
@@ -30,7 +37,7 @@ exports.findByKey = async (ctx,next) => {
 }
 
 exports.getUsers = async (ctx,next) => {
-  const {users} = ctx.request.body
+  const {users,creator} = ctx.request.body
   ctx.state.users = []
   for(let user of users){
     let result = await userEntity.findByKey({key:user.name})

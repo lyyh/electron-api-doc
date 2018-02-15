@@ -9,14 +9,11 @@ import { Link } from 'react-router-dom';
 
 export default class UserGroupEntryContainer extends Component{
   handleClick = (e) =>{
-    const {history} = this.props
+    const {history,user} = this.props
     const newHistory = {
       pathname: '/manager',
       state:{
-        user: {
-          uName: '123',
-          uId: '123'
-        }
+        user: user
       }
     }
     history.push(newHistory)
