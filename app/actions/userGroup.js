@@ -32,7 +32,7 @@ export const createUserGroup = (params) => (dispatch) => {
 }
 
 // fetch users
-export const fetchUser = (params) => (dispatch) => {
+export const fetchUsers = (params) => (dispatch) => {
   const {key} = params
   const httpOptions = {
     url: `/userGroups/${key}`,
@@ -51,3 +51,11 @@ export const fetchUserGroups = (params) => (dispatch) => {
   httpAction(httpParams,dispatch)
 }
 
+// export const fetchUserGroup = (params) => (dispatch) => {
+//   const {key} = params
+//   const httpParams = {
+//     url: `/userGroups/${key}`,
+//     method: 'get',
+//     actionType: FETCH_USER_GROUP_ACTION
+//   }
+// }

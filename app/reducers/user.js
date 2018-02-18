@@ -5,10 +5,10 @@
  */
 import {FETCH_USERS_ACTION,FETCH_ALL_USERS_ACTION} from 'actions/user'
 import {SUCCESS_STATUS,ERROR_STATUS,LOADING_STATUS} from "../mixins/statusMixins";
-import {FETCH_SIMILAR_USERS_ACTION,FETCH_USERS_OVER_ACTION} from "../actions/user";
+import {FETCH_SIMILAR_USERS_ACTION,FETCH_USERS_OVER_ACTION,FETCH_USER_GROUPS_ACTION} from "../actions/user";
 import {commonReducer} from "./common";
 
-export default (initialState = null,action) => {
+export default (initialState = {},action) => {
   switch (action.type){
     case FETCH_ALL_USERS_ACTION: {
       return commonReducer(action,initialState)
@@ -27,6 +27,10 @@ export default (initialState = null,action) => {
         ...nextState
       }
     }
+    case FETCH_USER_GROUPS_ACTION: {
+      return commonReducer(action,initialState)
+    }
+
     default: {
       return initialState
     }

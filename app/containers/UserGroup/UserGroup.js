@@ -12,7 +12,7 @@ import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry';
 import UserIcon from 'components/UserIcon/UserIcon';
 import NewUserGroupContainer from './NewUserGroup'
 import {LOADING_STATUS} from "mixins/statusMixins";
-import {fetchUserGroups} from 'actions/userGroup'
+import {fetchUserGroups} from 'actions/user'
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
@@ -56,6 +56,7 @@ class UserGroupContainer extends Component {
             <UserGroupEntryContainer
               history={history}
               user={location.state.user}
+              data={data}
             />
           </TabPane>
           <TabPane tab="新建用户组" key="newUserGroup">
@@ -71,13 +72,14 @@ class UserGroupContainer extends Component {
 }
 
 export default connect((state) => {
-  const currentUserGroup = state['userGroup']
+  const currentUserGroup = state['user']
   return currentUserGroup ? {
     state: currentUserGroup['state'],
-    data: currentUserGroup['data'],
+    data: currentUserGroup['data'] || [],
     error: currentUserGroup['error']
   }:{
-    state: LOADING_STATUS
+    state: LOADING_STATUS,
+    data: [],
+    error: null
   }
 })(UserGroupContainer)
-// export default UserGroupContainer

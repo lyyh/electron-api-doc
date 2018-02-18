@@ -80,7 +80,8 @@ export default class ManagerContainer extends PureComponent{
 
   render() {
     const {location,match,menuKey} = this.props
-    const {uName,uId} = location.state.user
+    const {name,key} = location.state.user
+    const userGroupKey = location.state.userGroup.key
     const {rootMenuName,curMenuKey} = this.state
     const apiDocData = {
       name: 'react'
@@ -158,7 +159,9 @@ export default class ManagerContainer extends PureComponent{
               {/*<Route path={`${match.url}/apiOperation`} component={APIDocOperation}/>*/}
               {
               curMenuKey==='members'?
-              <MembersManager/>:
+              <MembersManager
+                userGroupKey={userGroupKey}
+              />:
               curMenuKey==='entryApiDoc'?
               <APIDocumentEntry
               data={apiDocData}

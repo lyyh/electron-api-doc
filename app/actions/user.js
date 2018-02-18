@@ -29,3 +29,13 @@ export const fetchSimilarUsers = (params) => (dispatch) => {
   }
   httpAction(httpParams,dispatch)
 }
+
+export const fetchUserGroups = (params) => (dispatch) => {
+  const {key} = params
+  const httpParams =  {
+    url: `/users/${key}/userGroups`,
+    method: 'get',
+    actionType: FETCH_USER_GROUPS_ACTION
+  }
+  httpAction(httpParams,dispatch)
+}

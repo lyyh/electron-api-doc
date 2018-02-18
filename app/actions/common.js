@@ -13,7 +13,7 @@ export const httpAction = (options,dispatch,actionMaps) => {
     type: actionType,
     state: LOADING_STATUS
   })
-  http[method](url,query || body)
+  http[method](url,query || body || undefined)
     .then((res)=>{
       const {data} = res
       if(data && data.success){
