@@ -3,15 +3,13 @@
  * @date 2018-02-01
  * @Description:
  */
-// export const a = 1
-// export default {
-//   b:1
-// }
-// exports.b = 1
+console.log('require B module')
+var b = 1
+var a = 1
 module.exports = {
-  b: 1,
+  b: b,
   foo: function(){
-    a++
     console.log(a)
+    a++
   }
 }
