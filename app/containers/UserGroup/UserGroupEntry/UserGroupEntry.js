@@ -6,7 +6,6 @@
 import React,{Component} from 'react'
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
 import {LOADING_STATUS} from "mixins/statusMixins";
 
 export default class UserGroupEntryContainer extends Component{
@@ -39,34 +38,7 @@ export default class UserGroupEntryContainer extends Component{
             )
           })
         }
-        {/*<Card hoverable className='ant-card-grid' title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}
-          onClick={this.handleClick}
-        >
-          <p>Card content</p>
-          <p>Card content</p>
-          <p>Card content</p>
-        </Card>
-        <Card hoverable className='ant-card-grid ant-card-grid-point' title="Card title" extra={<a href="#">More</a>} style={{ width: 300 }}
-          onClick={this.handleClick}
-        >
-          <p>Card content</p>
-          <p>Card content</p>
-          <p>Card content</p>
-        </Card>*/}
       </section>
     )
   }
 }
-//
-// export default connect((state) => {
-//   const currentUserGroup = state['user']
-//   return currentUserGroup ? {
-//     state: currentUserGroup['state'],
-//     data: currentUserGroup['data'] || [],
-//     error: currentUserGroup['error']
-//   }:{
-//     state: LOADING_STATUS,
-//     data: [],
-//     error: null
-//   }
-// })(UserGroupEntryContainer)

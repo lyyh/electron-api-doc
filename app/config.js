@@ -4,7 +4,7 @@
  * @Description:
  */
 const devBaseURL = 'http://127.0.0.1:3000'
-const prodBaseURL = ''
+const prodBaseURL = 'http://127.0.0.1:3000'
 export default {
   baseURL: process.env.NODE_ENV !== 'production'? devBaseURL:prodBaseURL,
 }

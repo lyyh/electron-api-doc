@@ -10,11 +10,19 @@ import {fetchUsers} from "actions/userGroup";
 import { Menu, Icon, Button,Row, Col,Breadcrumb,Card,Avatar } from 'antd';
 import './index.less'
 import {LOADING_STATUS} from "../../../mixins/statusMixins";
+import NewMember from './NewMember'
 const { Meta } = Card;
+const BreadcrumbItem = Breadcrumb.Item
 
 class MembersMannagerContainer extends Component{
+  state={
+    addFlag: false
+  }
   hanldeAddMember = (e) =>{
     e.preventDefault()
+    this.setState({
+      addFlag: true
+    })
     console.log('add')
   }
   componentWillMount(){
@@ -22,41 +30,52 @@ class MembersMannagerContainer extends Component{
     dispatch(fetchUsers({key:userGroupKey}))
   }
   render(){
-    const {data} = this.props
+    const {data,user} = this.props
+    const {addFlag} = this.state
     return(
       <section className='manageMembersManagerr-members-wrapper'>
         <div className='manager-members-head'>
           <Breadcrumb>
-            <Breadcrumb.Item>成员管理</Breadcrumb.Item>
-            <Breadcrumb.Item></Breadcrumb.Item>
+            <BreadcrumbItem>成员管理</BreadcrumbItem>
+            <BreadcrumbItem>{addFlag?'添加成员':''}</BreadcrumbItem>
           </Breadcrumb>
           <a className='manager-members-add' onClick={this.hanldeAddMember}>
             <Icon type='plus'/>
             <span>添加成员</span>
           </a>
-          {/*<Button type="primary" shape="circle" icon="plus" className='manager-members-add'/>*/}
         </div>
-        <Row gutter={16} className='manager-members-card-wrapper'>
-          {
-            data && data.users && data.users.map((item,index)=>{
-              return (
-                <Col span={8}>
-                  <Card
-                    hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-                  >
-                    <Meta
-                      title={item.name}
-                      description={item.permission=='0'?'成员':'管理员'}
-                    />
-                  </Card>
-                </Col>
-              )
-            })
-          }
-        </Row>
+        {
+          addFlag?<NewMember user={user}/>:<MembersContainer data={data}/>
+        }
       </section>
+    )
+  }
+}
+
+class MembersContainer extends Component{
+  render(){
+    const {data} = this.props
+    return (
+      <Row gutter={16} className='manager-members-card-wrapper'>
+        {
+          data && data.users && data.users.map((item,index)=>{
+            return (
+              <Col span={8} key={item.key}>
+                <Card
+                  hoverable
+                  style={{ width: 240 }}
+                  cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                >
+                  <Meta
+                    title={item.name}
+                    description={item.permission=='0'?'成员':'管理员'}
+                  />
+                </Card>
+              </Col>
+            )
+          })
+        }
+      </Row>
     )
   }
 }

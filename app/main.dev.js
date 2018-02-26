@@ -84,5 +84,5 @@ app.on('ready', async () => {
   menuBuilder.buildMenu();
 
   //DevTool 调试
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 });

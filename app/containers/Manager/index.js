@@ -3,7 +3,7 @@
  * @date 2018-01-27
  * @Description:
  */
-import React,{PureComponent} from 'react'
+import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
 import { Switch, Route } from 'react-router';
 import { Layout, Menu, Icon, Button,Row, Col } from 'antd';
@@ -11,11 +11,12 @@ import MembersManager from './MembersManager'
 import APIDocumentEntry from './DocumentsManager/APIDocumentEntry'
 import AddAPIDocument from './DocumentsManager/AddAPIDocument'
 import APIDocumentList from './DocumentsManager/APIDocumentList'
-import UserIcon from 'components/UserIcon/UserIcon'
+import UserIcon from '../../components/UserIcon/UserIcon'
 import './index.less'
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
-export default class ManagerContainer extends PureComponent{
+const MenuItem = Menu.Item
+class ManagerContainer extends Component{
   static defaultProps = {
     menuKey: 'members'
   }
@@ -100,37 +101,37 @@ export default class ManagerContainer extends PureComponent{
             mode="inline"
             // onClick={this.handleMenuClick}
             onClick={this.handleSwitchMenu}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['0']}
           >
-            <Menu.Item key="members" >
+            <MenuItem key="members" >
               <Icon type="user" />
               <span>成员管理</span>
-            </Menu.Item>
-            <Menu.Item key="addApiDoc">
+            </MenuItem>
+            <MenuItem key="addApiDoc">
               <Icon type="new" />
               <span>新建API文档</span>
-            </Menu.Item>
-            <Menu.Item key="listApiDoc">
+            </MenuItem>
+            <MenuItem key="listApiDoc">
               <Icon type="new" />
               <span>管理API文档</span>
-            </Menu.Item>
-            <Menu.Item key="entryApiDoc">
+            </MenuItem>
+            <MenuItem key="entryApiDoc">
               <Icon type="new" />
               <span>查看API文档</span>
-            </Menu.Item>
+            </MenuItem>
             <SubMenu key="APIDocuments" title={<span><Icon type="appstore" /><span>API 文档管理</span></span>}>
-              <Menu.Item key="react">react</Menu.Item>
-              <Menu.Item key="vue">vue</Menu.Item>
+              <MenuItem key="react">react</MenuItem>
+              <MenuItem key="vue">vue</MenuItem>
               <SubMenu key="sub1-2" title="Submenu">
-                <Menu.Item key="5">Option 5</Menu.Item>
-                <Menu.Item key="6">Option 6</Menu.Item>
+                <MenuItem key="5">Option 5</MenuItem>
+                <MenuItem key="6">Option 6</MenuItem>
               </SubMenu>
             </SubMenu>
             <SubMenu key="sub2" title={<span><Icon type="setting" /><span>Navigation Four</span></span>}>
-              <Menu.Item key="7">Option 7</Menu.Item>
-              <Menu.Item key="8">Option 8</Menu.Item>
-              <Menu.Item key="9">Option 9</Menu.Item>
-              <Menu.Item key="10">Option 10</Menu.Item>
+              <MenuItem key="7">Option 7</MenuItem>
+              <MenuItem key="8">Option 8</MenuItem>
+              <MenuItem key="9">Option 9</MenuItem>
+              <MenuItem key="10">Option 10</MenuItem>
             </SubMenu>
           </Menu>
         </Sider>
@@ -161,6 +162,7 @@ export default class ManagerContainer extends PureComponent{
               curMenuKey==='members'?
               <MembersManager
                 userGroupKey={userGroupKey}
+                user={location.state.user}
               />:
               curMenuKey==='entryApiDoc'?
               <APIDocumentEntry
@@ -182,3 +184,4 @@ export default class ManagerContainer extends PureComponent{
     );
   }
 }
+export default ManagerContainer
