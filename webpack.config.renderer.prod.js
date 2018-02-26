@@ -11,7 +11,8 @@ import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import CheckNodeEnv from './internals/scripts/CheckNodeEnv';
 
-CheckNodeEnv('production');
+// CheckNodeEnv('production');
+CheckNodeEnv('development');
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
@@ -161,13 +162,14 @@ export default merge.smart(baseConfig, {
      * development checks
      */
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production'
+      // NODE_ENV: 'production'
+      NODE_ENV: 'development'
     }),
 
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true
-    }),
+    // new UglifyJSPlugin({
+    //   parallel: true,
+    //   sourceMap: true
+    // }),
 
     new ExtractTextPlugin('style.css'),
 
