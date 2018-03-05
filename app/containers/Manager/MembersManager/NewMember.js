@@ -5,20 +5,27 @@
  */
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import {fetchUsers} from "actions/userGroup";
-import {LOADING_STATUS, SUCCESS_STATUS} from "../../../mixins/statusMixins";
+import {fetchSimilarUsers} from 'actions/user'
+import {FETCH_USERS_OVER_ACTION} from 'actions/user'
 import SelectRemoteUser from 'components/User/SelectRemoteUser'
+import {debounce} from 'lodash';
 import './index.less'
 
 const FormItem = Form.Item;
 
 class NewMemberContainer extends Component {
+  constructor(props){
+    super(props)
+    this.fetchUser = debounce(this.fetchUser, 800);
+  }
+
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -27,22 +34,29 @@ class NewMemberContainer extends Component {
       }
     });
   }
-  handleSelectChange = (selectedValue) => {
-    const {dispatch,form} = this.props
-    const userNames = selectedValue.map((ele,index) => {
-      return {
-        name: ele.key,
-        permission: '0' // temporary code
-      }
-    })
 
+  fetchUser = (value,dispatch) => {
+    const {user} = this.props
+    const params = {
+      queryParams:JSON.stringify({
+        name:value.key
+      }),
+      userName: user.name
+    }
+    dispatch(fetchSimilarUsers(params))
+  }
+
+  // set form user value when select a user
+  setUserValue = (value) => {
+    const {form} = this.props
     form.setFieldsValue({
-      users: [...userNames]
+      user: value
     })
-    dispatch({
-      type: FETCH_USERS_OVER_ACTION,
-      state: SUCCESS_STATUS
-    })
+  }
+
+  fetchUserAndSelect = (value,dispatch) => {
+    this.fetchUser(value,dispatch)
+    this.setUserValue(value)
   }
 
   render() {
@@ -66,14 +80,11 @@ class NewMemberContainer extends Component {
           {...formItemLayout}
           label="用户名"
         >
-          {getFieldDecorator('user', {
-            rules: [{
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
+          {getFieldDecorator('user')(
             <SelectRemoteUser
               user={user}
-              handleSelectChange={this.handleSelectChange}
+              fetchUserAndSelect={this.fetchUserAndSelect}
+              mode='combobox'
             />
           )}
         </FormItem>
@@ -85,10 +96,22 @@ class NewMemberContainer extends Component {
             rules: [{
               required: true, message: 'Please input your password!',
             }],
+            initialValue: '0'
           })(
-            <Input/>
+            <Select style={{ width: 120 }}>
+              <Option value="0">普通权限</Option>
+              <Option value="1">管理员权限</Option>
+            </Select>
           )}
         </FormItem>
+        <Row>
+          <Col offset={4} span={20}>
+            <Button type="primary" htmlType="submit">
+              确定
+            </Button>
+            {/*<Button style={{marginLeft:'10px'}} onClick={onReturn}>返回上一层</Button>*/}
+          </Col>
+        </Row>
       </Form>
     );
   }

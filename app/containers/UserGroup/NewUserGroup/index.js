@@ -103,9 +103,11 @@ class RegistrationForm extends Component {
       }
     })
 
+    // set field value by manual operation
     form.setFieldsValue({
       users: [...userNames]
     })
+
     dispatch({
       type: FETCH_USERS_OVER_ACTION,
       state: SUCCESS_STATUS

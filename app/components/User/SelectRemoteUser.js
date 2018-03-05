@@ -9,53 +9,33 @@ import { connect } from 'react-redux'
 import {LOADING_STATUS} from "mixins/statusMixins";
 import {fetchSimilarUsers,fetchOver,FETCH_USERS_OVER_ACTION} from "actions/user";
 import {debounce} from 'lodash';
-import {SUCCESS_STATUS} from "../../mixins/statusMixins";
 const Option = Select.Option;
 
 class UserSelectContainer extends PureComponent {
   constructor(props) {
     super(props);
-    this.lastFetchId = 0;
-    this.fetchUser = debounce(this.fetchUser, 800);
   }
+
   state = {
     value: []
   }
-  fetchUser = (value) => {
-    const {dispatch,user} = this.props
-    const {key,name} = user
-    const params = {
-      queryParams:JSON.stringify({
-        name:value
-      }),
-      userName: user.name
-    }
-    dispatch(fetchSimilarUsers(params))
-  }
+
   handleChange = (value) => {
-    const {dispatch} = this.props
-    this.setState({
-      value
-    });
-    dispatch({
-      type: FETCH_USERS_OVER_ACTION,
-      state: SUCCESS_STATUS
-    })
+    const {dispatch,fetchUserAndSelect} = this.props
+    fetchUserAndSelect(value,dispatch)
   }
+
   render() {
-    const { fetching, data,handleSelectChange} = this.props;
-    const {value} = this.state
+    const { fetching, data,mode} = this.props;
 
     return (
       <Select
-        mode="multiple"
+        mode={mode || 'combobox'}
         labelInValue
-        /*value={value}*/
         placeholder="Select users"
         notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
-        onSearch={this.fetchUser}
-        onChange={handleSelectChange}
+        onChange={this.handleChange}
         style={{ width: '100%' }}
       >
         {data.map(d => <Option key={d.key}>{d.name}</Option>)}
