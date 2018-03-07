@@ -7,6 +7,7 @@ import login from './login'
 import register from './register'
 import userGroup from './userGroup'
 import user from './user'
+import selectUser from './selectUser'
 
 const rootReducer = combineReducers({
   home,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   login,
   register,
   userGroup,
-  user
+  user,
+  selectUser
 });
 
 export default rootReducer;

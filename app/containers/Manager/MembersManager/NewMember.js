@@ -10,6 +10,7 @@ import {fetchUsers} from "actions/userGroup";
 import {fetchSimilarUsers} from 'actions/user'
 import {FETCH_USERS_OVER_ACTION} from 'actions/user'
 import SelectRemoteUser from 'components/User/SelectRemoteUser'
+import SelectUser from 'containers/User/selectUser'
 import {debounce} from 'lodash';
 import './index.less'
 
@@ -81,7 +82,7 @@ class NewMemberContainer extends Component {
           label="用户名"
         >
           {getFieldDecorator('user')(
-            <SelectRemoteUser
+            <SelectUser
               user={user}
               fetchUserAndSelect={this.fetchUserAndSelect}
               mode='combobox'

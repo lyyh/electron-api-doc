@@ -55,6 +55,7 @@ class UserGroupContainer extends Component {
           <TabPane tab="用户组" key="userGroup">
             <UserGroupEntryContainer
               history={history}
+              dispatch={dispatch}
               user={location.state.user}
               data={data}
             />
