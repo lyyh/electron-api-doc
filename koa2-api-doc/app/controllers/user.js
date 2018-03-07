@@ -150,3 +150,27 @@ exports.getUserGroups = async(ctx,next) => {
   }
   await next()
 }
+
+// get complete user infomation
+exports.getUserInfoWithUserGroup = async(ctx,next) => {
+  const {key} = ctx.params
+  const {userGroupKey} = ctx.query
+  let result = await UserEntity.findByKey({key})
+  if(!result.success){
+    ctx.body = result
+    return next
+  }
+  const docData = result.data._doc
+  const userGroups = docData.userGroups
+  for(let userGroup of userGroups){
+    if(userGroup.key == userGroupKey){
+       for(let user of userGroup.users){
+          if(user.key == key){
+            docData['permission'] = user.permission
+          }
+       }
+    }
+  }
+  ctx.body = result
+  await next()
+}

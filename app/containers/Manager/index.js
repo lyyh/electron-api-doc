@@ -184,4 +184,6 @@ class ManagerContainer extends Component{
     );
   }
 }
+
+
 export default ManagerContainer

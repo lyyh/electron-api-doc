@@ -12,7 +12,7 @@ export const FETCH_USER_ACTION = 'FETCH_USER_ACTION'
 export const FETCH_SIMILAR_USERS_ACTION = 'FETCH_SIMILAR_USERS_ACTION'
 export const FETCH_USERS_OVER_ACTION = 'FETCH_USERS_OVER_ACTION'
 export const FETCH_USER_GROUPS_ACTION = 'FETCH_USER_GROUPS_ACTION'
-
+export const FETCH_USER_INFORMATION_ACTION = 'FETCH_USER_INFORMATION_ACTION'
 export const fetchSimilarUsers = (params) => (dispatch) => {
   const {queryParams,userName} = params
   const httpParams = {
@@ -36,6 +36,21 @@ export const fetchUserGroups = (params) => (dispatch) => {
     url: `/users/${key}/userGroups`,
     method: 'get',
     actionType: FETCH_USER_GROUPS_ACTION
+  }
+  httpAction(httpParams,dispatch)
+}
+
+export const fetchUserInfo = (params) => (dispatch) => {
+  const {key,userGroupKey} = params
+  const httpParams = {
+    url: `/users/${key}`,
+    method: 'get',
+    query: {
+      params: {
+        userGroupKey
+      }
+    },
+    actionType: FETCH_USER_INFORMATION_ACTION
   }
   httpAction(httpParams,dispatch)
 }

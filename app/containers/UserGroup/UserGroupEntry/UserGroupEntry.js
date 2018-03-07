@@ -4,24 +4,31 @@
  * @Description:
  */
 import React,{Component} from 'react'
+import { connect } from 'react-redux'
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 import {LOADING_STATUS} from "mixins/statusMixins";
+import {fetchUserInfo} from "actions/user";
 
-export default class UserGroupEntryContainer extends Component{
+class UserGroupEntryContainer extends Component{
   handleClick = (e) =>{
     const targetKey = e.currentTarget.getAttribute('data-key')
-    const {history,user} = this.props
-    const newHistory = {
-      pathname: '/manager',
-      state:{
-        user: user,
-        userGroup: {
-          key: targetKey
-        }
-      }
-    }
-    history.push(newHistory)
+    const {user,dispatch} = this.props
+    dispatch(fetchUserInfo({
+      key: user.key,
+      userGroupKey: targetKey
+    }))
+    // const {history,user} = this.props
+    // const nextHistory = {
+    //   pathname: '/manager',
+    //   state:{
+    //     user: user,
+    //     userGroup: {
+    //       key: targetKey
+    //     }
+    //   }
+    // }
+    // history.push(nextHistory)
   }
   render(){
     const {data} = this.props
@@ -42,3 +49,14 @@ export default class UserGroupEntryContainer extends Component{
     )
   }
 }
+
+export default connect((state) => {
+  const currentUser = state['user']
+  return currentUser && currentUser['state']? {
+    state: currentUser['state'],
+    data: currentUser['data'] || [],
+    error: currentUser['error'],
+  }:{
+    data: []
+  }
+})(UserGroupEntryContainer)
