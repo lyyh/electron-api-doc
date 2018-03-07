@@ -30,7 +30,7 @@ class MembersMannagerContainer extends Component{
     dispatch(fetchUsers({key:userGroupKey}))
   }
   render(){
-    const {data,user} = this.props
+    const {data,userData} = this.props
     const {addFlag} = this.state
     return(
       <section className='manageMembersManagerr-members-wrapper'>
@@ -45,7 +45,7 @@ class MembersMannagerContainer extends Component{
           </a>
         </div>
         {
-          addFlag?<NewMember user={user}/>:<MembersContainer data={data}/>
+          addFlag?<NewMember user={userData}/>:<MembersContainer data={data}/>
         }
       </section>
     )
@@ -82,9 +82,11 @@ class MembersContainer extends Component{
 
 export default connect((state) => {
   const currentMembers = state['userGroup']
-  return currentMembers && currentMembers['state']?{
+  const currentUser = state['user']
+  return currentMembers && currentUser && currentMembers['state']?{
     state: currentMembers['state'],
     data: currentMembers['data'],
+    userData: currentUser['data'] || null,
     error: currentMembers['error'],
   }:{
     data: null,

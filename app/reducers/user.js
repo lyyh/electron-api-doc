@@ -17,9 +17,9 @@ export default (initialState = {},action) => {
     case FETCH_ALL_USERS_ACTION: {
       return commonReducer(action,initialState)
     }
-    case FETCH_SIMILAR_USERS_ACTION: {
-      return commonReducer(action,initialState)
-    }
+    // case FETCH_SIMILAR_USERS_ACTION: {
+    //   return commonReducer(action,initialState)
+    // }
     case FETCH_USERS_OVER_ACTION: {
       const nextState = {
         state: SUCCESS_STATUS,

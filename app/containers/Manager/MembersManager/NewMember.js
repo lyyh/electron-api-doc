@@ -5,11 +5,9 @@
  */
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
-import {fetchUsers} from "actions/userGroup";
-import {fetchSimilarUsers} from 'actions/user'
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,message } from 'antd';
+import {fetchSimilarUsers} from 'actions/selectUser'
 import {FETCH_USERS_OVER_ACTION} from 'actions/user'
-import SelectRemoteUser from 'components/User/SelectRemoteUser'
 import SelectUser from 'containers/User/selectUser'
 import {debounce} from 'lodash';
 import './index.less'
@@ -29,8 +27,14 @@ class NewMemberContainer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const {user} = this.props
+    const self = this
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        if(!self.isAdministrator(user)){
+          message.error('没有操作权限!')
+          return
+        }
         console.log('Received values of form: ', values);
       }
     });
@@ -53,6 +57,12 @@ class NewMemberContainer extends Component {
     form.setFieldsValue({
       user: value
     })
+  }
+
+  // judge user's operation permission
+  isAdministrator = ({permission}) => {
+    if(permission == '1')return true
+    else return false
   }
 
   fetchUserAndSelect = (value,dispatch) => {

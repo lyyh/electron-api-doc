@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import SelectRemoteUser from 'components/User/SelectRemoteUser'
 class SelectUserContainer extends Component{
-
   handleChange = (value) => {
     const {dispatch,fetchUserAndSelect} = this.props
     fetchUserAndSelect(value,dispatch)
@@ -28,12 +27,12 @@ class SelectUserContainer extends Component{
 }
 
 export default connect((state) => {
-  const currentUser = state['selectUser']
-  return currentUser && currentUser['state']? {
-    state: currentUser['state'],
-    data: currentUser['data'] || [],
-    error: currentUser['error'],
-    fetching: currentUser['state'] == 'loading'?true:false
+  const currentSelectUser = state['selectUser']
+  return currentSelectUser && currentSelectUser['state']? {
+    state: currentSelectUser['state'],
+    data: currentSelectUser['data'] || [],
+    error: currentSelectUser['error'],
+    fetching: currentSelectUser['state'] == 'loading'?true:false
   }:{
     data: [],
     fetching: false
