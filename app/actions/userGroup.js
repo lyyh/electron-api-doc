@@ -12,6 +12,8 @@ import {FETCH_SIMILAR_USERS_ACTION, FETCH_USER_GROUPS_ACTION} from "./user";
 export const CREATE_USERGROUP_ACTION = 'REGISTER_ACTION'
 export const FETCH_USERGROUPS_ACTION = 'FETCH_USERGROUPS_ACTION'
 export const FETCH_USERS_ACTION = 'FETCH_USERS_ACTION'
+export const ADD_USERS_ACTION = 'ADD_USERS_ACTION'
+
 // executing register
 export const createUserGroup = (params) => (dispatch) => {
   const httpOptions = {
@@ -25,10 +27,21 @@ export const createUserGroup = (params) => (dispatch) => {
       message.success('创建成功!')
     },
     errorAction: () => {
-
+      message.error('创建失败!')
     }
   }
   httpAction(httpOptions,dispatch,actionMaps)
+}
+
+// add user in user group
+export const addUser = (params,key) => (dispatch) => {
+  const httpOptions = {
+    url: `/userGroups/${key}`,
+    method: 'post',
+    actionType: ADD_USERS_ACTION,
+    body: params
+  }
+  httpAction(httpOptions,dispatch)
 }
 
 // fetch users

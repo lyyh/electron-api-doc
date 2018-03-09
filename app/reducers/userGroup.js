@@ -3,7 +3,7 @@
  * @date 2018-02-09
  * @Description:
  */
-import {CREATE_USERGROUP_ACTION,FETCH_USERGROUPS_ACTION,FETCH_USERS_ACTION} from 'actions/userGroup'
+import {CREATE_USERGROUP_ACTION,FETCH_USERGROUPS_ACTION,FETCH_USERS_ACTION,ADD_USERS_ACTION} from 'actions/userGroup'
 import {commonReducer} from './common'
 
 export default (initialState = {},action) => {
@@ -15,6 +15,9 @@ export default (initialState = {},action) => {
       return commonReducer(action,initialState)
     }
     case FETCH_USERGROUPS_ACTION: { // fetch user groups
+      return commonReducer(action,initialState)
+    }
+    case ADD_USERS_ACTION: { // add users
       return commonReducer(action,initialState)
     }
     default: {

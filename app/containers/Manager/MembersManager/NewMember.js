@@ -7,8 +7,8 @@ import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,message } from 'antd';
 import {fetchSimilarUsers} from 'actions/selectUser'
-import {FETCH_USERS_OVER_ACTION} from 'actions/user'
 import SelectUser from 'containers/User/selectUser'
+import {addUser} from "actions/userGroup";
 import {debounce} from 'lodash';
 import './index.less'
 
@@ -27,7 +27,7 @@ class NewMemberContainer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {user} = this.props
+    const {user,dispatch,userGroup} = this.props
     const self = this
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -35,7 +35,11 @@ class NewMemberContainer extends Component {
           message.error('没有操作权限!')
           return
         }
+        const params = {
+          userKeys: Array.of(user.key)
+        }
         console.log('Received values of form: ', values);
+        dispatch(addUser(params,userGroup.key))
       }
     });
   }
