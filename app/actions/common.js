@@ -24,7 +24,10 @@ export const httpAction = (options,dispatch,actionMaps) => {
           data: data.data
         })
       }else{
-        message.error(data.err.errors || data.err.message)
+        if(data.statusCode == 3){
+          message.error('用户已存在!')
+        }
+        // message.error(data.err.errors || data.err.message)
         dispatch({
           type: actionType,
           state: ERROR_STATUS,

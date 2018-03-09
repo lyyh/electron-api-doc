@@ -3,7 +3,7 @@
  * @date 2018-02-07
  * @Description:
  */
-const {ERROR_STATUS} = require('../configs/statusConfig')
+const {ERROR_STATUS,ERROR_EXISTED_STATUS} = require('../configs/statusConfig')
 const userGroupEntity = require('../dbs/entities/userGroupEntity')
 const userEntity = require('../dbs/entities/userEntity')
 // create a user group
@@ -88,16 +88,22 @@ exports.addUser = async (ctx,next) => {
   const {key} = ctx.params
   const {users} = ctx.request.body
   const processDataFn = doc => {
-    const filteredUsers = doc.users.filter((item)=>{
-      for(let user of users){
-        if(user.key==item.key){
-          return false
+    for(let docUser of doc.users){
+      for(let userItem of users){
+        if(docUser.key==userItem.key){
+          return {
+            ...ERROR_EXISTED_STATUS,
+            err:{
+              errors: 'user existed!',
+              message: 'user existed!'
+            }
+          }
         }
       }
-      return true
-    })
+    }
 
-    return doc.users = [...filteredUsers,...users]
+    doc.users = [...doc.users,...users]
+    return false
   }
   const result = await userGroupEntity.updateWithFun({key},processDataFn)
   ctx.body = result

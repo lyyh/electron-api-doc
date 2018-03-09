@@ -30,7 +30,7 @@ class MembersMannagerContainer extends Component{
     dispatch(fetchUsers({key:userGroupKey}))
   }
   render(){
-    const {data,userData,dispatch} = this.props
+    const {data,userData,dispatch,userGroupKey} = this.props
     const {addFlag} = this.state
     return(
       <section className='manageMembersManagerr-members-wrapper'>
@@ -45,7 +45,7 @@ class MembersMannagerContainer extends Component{
           </a>
         </div>
         {
-          addFlag?<NewMember userGroup={data} user={userData} dispatch={dispatch}/>:<MembersContainer data={data}/>
+          addFlag?<NewMember userGroupKey={userGroupKey} user={userData} dispatch={dispatch}/>:<MembersContainer data={data}/>
         }
       </section>
     )

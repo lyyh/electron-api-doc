@@ -17,5 +17,9 @@ module.exports = {
   ERROR_STATUS: {
     success: false,
     statusCode: 2
+  },
+  ERROR_EXISTED_STATUS:{
+    success: false,
+    statusCode: 3
   }
 }

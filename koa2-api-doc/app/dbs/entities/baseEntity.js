@@ -3,7 +3,7 @@
  * @date 2018-01-31
  * @Description:
  */
-const {SUCCESS_STATUS,ERROR_STATUS} = require('../../configs/statusConfig')
+const {SUCCESS_STATUS,ERROR_STATUS,ERROR_EXISTED_STATUS} = require('../../configs/statusConfig')
 // find all user
 const find = (model,condition = {}) => {
     return new Promise((resolve,reject)=>{
@@ -184,7 +184,11 @@ const updateUniqueOneWithFun = (model,condition,processDataFn,options = {new:tru
       }
 
       // process data with self-defining function
-      processDataFn(doc)
+      const flagOrStatus = processDataFn(doc)
+      if(flagOrStatus){
+        resolve(flagOrStatus)
+        return
+      }
 
       doc.save((err,doc)=>{
         if(err){

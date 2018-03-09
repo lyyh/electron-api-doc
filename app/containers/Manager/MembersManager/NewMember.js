@@ -27,7 +27,7 @@ class NewMemberContainer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {user,dispatch,userGroup} = this.props
+    const {user,dispatch,userGroupKey} = this.props
     const self = this
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -40,7 +40,7 @@ class NewMemberContainer extends Component {
           users: Array.of(usersParams)
         }
         console.log('Received values of form: ', values);
-        dispatch(addUser(params,userGroup.key))
+        dispatch(addUser(params,userGroupKey))
       }
     });
   }
