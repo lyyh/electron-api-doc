@@ -11,8 +11,7 @@ import SelectUser from 'containers/User/selectUser'
 import {addUser} from "actions/userGroup";
 import {debounce} from 'lodash';
 import './index.less'
-
-const FormItem = Form.Item;
+const FormItem = Form.Item
 
 class NewMemberContainer extends Component {
   constructor(props){

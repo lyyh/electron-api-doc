@@ -18,13 +18,19 @@ class MembersMannagerContainer extends Component{
   state={
     addFlag: false
   }
-  hanldeAddMember = (e) =>{
-    e.preventDefault()
+
+  clickAddMember = (e) =>{
     this.setState({
       addFlag: true
     })
-    console.log('add')
   }
+
+  clickMemberManage = (e) => {
+    this.setState({
+      addFlag: false
+    })
+  }
+
   componentWillMount(){
     const {dispatch,userGroupKey} = this.props
     dispatch(fetchUsers({key:userGroupKey}))
@@ -36,10 +42,10 @@ class MembersMannagerContainer extends Component{
       <section className='manageMembersManagerr-members-wrapper'>
         <div className='manager-members-head'>
           <Breadcrumb>
-            <BreadcrumbItem>成员管理</BreadcrumbItem>
+            <BreadcrumbItem><a onClick={this.clickMemberManage}>成员管理</a></BreadcrumbItem>
             <BreadcrumbItem>{addFlag?'添加成员':''}</BreadcrumbItem>
           </Breadcrumb>
-          <a className='manager-members-add' onClick={this.hanldeAddMember}>
+          <a className='manager-members-add' onClick={this.clickAddMember}>
             <Icon type='plus'/>
             <span>添加成员</span>
           </a>
