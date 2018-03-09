@@ -11,19 +11,6 @@ import {fetchSimilarUsers,fetchOver,FETCH_USERS_OVER_ACTION} from "actions/user"
 const Option = Select.Option;
 
 export default class UserSelectContainer extends PureComponent {
-  // constructor(props) {
-  //   super(props);
-  // }
-  //
-  // state = {
-  //   value: []
-  // }
-
-  // handleChange = (value) => {
-  //   const {dispatch,fetchUserAndSelect} = this.props
-  //   fetchUserAndSelect(value,dispatch)
-  // }
-
   render() {
     const { fetching, data,mode,onChange} = this.props;
 
@@ -42,16 +29,3 @@ export default class UserSelectContainer extends PureComponent {
     );
   }
 }
-
-// export default connect((state) => {
-//   const currentUser = state['user']
-//   return currentUser && currentUser['state']? {
-//     state: currentUser['state'],
-//     data: currentUser['data'] || [],
-//     error: currentUser['error'],
-//     fetching: currentUser['state'] == 'loading'?true:false
-//   }:{
-//     data: [],
-//     fetching: false
-//   }
-// })(UserSelectContainer)

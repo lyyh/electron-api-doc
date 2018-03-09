@@ -8,9 +8,10 @@ import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
 import SelectRemoteUser from 'components/User/SelectRemoteUser'
 class SelectUserContainer extends Component{
+  // fetch and select
   handleChange = (value) => {
-    const {dispatch,fetchUserAndSelect} = this.props
-    fetchUserAndSelect(value,dispatch)
+    const {dispatch,fetchUserAndSelect,data} = this.props
+    fetchUserAndSelect(value.key,dispatch,data)
   }
 
   render(){

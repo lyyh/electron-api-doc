@@ -35,8 +35,9 @@ class NewMemberContainer extends Component {
           message.error('没有操作权限!')
           return
         }
+        const usersParams = {...values.user,permission:values.permission}
         const params = {
-          userKeys: Array.of(user.key)
+          users: Array.of(usersParams)
         }
         console.log('Received values of form: ', values);
         dispatch(addUser(params,userGroup.key))
@@ -69,9 +70,19 @@ class NewMemberContainer extends Component {
     else return false
   }
 
-  fetchUserAndSelect = (value,dispatch) => {
-    this.fetchUser(value,dispatch)
-    this.setUserValue(value)
+  fetchUserAndSelect = (key,dispatch,selectUsers) => {
+    // const fetchUserKey = value
+    this.fetchUser(key,dispatch)
+    if(selectUsers && selectUsers.length!=0){
+      let value
+      for(let el of selectUsers){
+         if(el.key==key){
+           value=el
+         }
+      }
+      // const value = selectUsers
+      this.setUserValue(value)
+    }
   }
 
   render() {

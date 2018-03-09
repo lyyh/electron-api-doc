@@ -36,12 +36,20 @@ export const createUserGroup = (params) => (dispatch) => {
 // add user in user group
 export const addUser = (params,key) => (dispatch) => {
   const httpOptions = {
-    url: `/userGroups/${key}`,
+    url: `/userGroups/${key}/users`,
     method: 'post',
     actionType: ADD_USERS_ACTION,
     body: params
   }
-  httpAction(httpOptions,dispatch)
+  const actionMaps = {
+    successAction: () => {
+      message.success('添加成功!')
+    },
+    errorAction: () => {
+      message.error('添加失败!')
+    }
+  }
+  httpAction(httpOptions,dispatch,actionMaps)
 }
 
 // fetch users

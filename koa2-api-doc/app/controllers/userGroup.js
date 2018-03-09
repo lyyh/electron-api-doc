@@ -86,10 +86,18 @@ exports.update = async (ctx,next) => {
 // add user
 exports.addUser = async (ctx,next) => {
   const {key} = ctx.params
-  const reqData = ctx.request.body
-  const users = JSON.parse(reqData.users)
+  const {users} = ctx.request.body
   const processDataFn = doc => {
-    return doc.users = [...doc.users,...users]
+    const filteredUsers = doc.users.filter((item)=>{
+      for(let user of users){
+        if(user.key==item.key){
+          return false
+        }
+      }
+      return true
+    })
+
+    return doc.users = [...filteredUsers,...users]
   }
   const result = await userGroupEntity.updateWithFun({key},processDataFn)
   ctx.body = result
