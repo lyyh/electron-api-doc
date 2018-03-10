@@ -16,38 +16,48 @@ class UserGroupEntryContainer extends Component{
 
   handleClick = (e) =>{
     this.params.userGroupKey = e.currentTarget.getAttribute('data-key')
-    const {user,dispatch} = this.props
-    dispatch(fetchUserInfo({
-      key: user.key,
-      userGroupKey: this.params.userGroupKey
-    }))
-  }
-
-  componentWillReceiveProps(nextProps){
-    const {data} = nextProps
-    const {history,user} = this.props
-    let nextHistory = null
-    if(data && !Array.isArray(data)){
-      nextHistory = {
-        pathname: '/manager',
-        state:{
-          user: data,
-          userGroup: {
-            key: this.params.userGroupKey
-          }
+    const {user,dispatch,history} = this.props
+    // dispatch(fetchUserInfo({
+    //   key: user.key,
+    //   userGroupKey: this.params.userGroupKey
+    // }))
+    const nextHistory = {
+      pathname: '/manager',
+      state:{
+        user: user,
+        userGroup: {
+          key: this.params.userGroupKey
         }
       }
-      history.push(nextHistory)
     }
+    history.push(nextHistory)
   }
 
-  shouldComponentUpdate(nextProps,nextState){
-    const {data} = nextProps
-    if(data && !Array.isArray(data)){
-      return false
-    }
-    return true
-  }
+  // componentWillReceiveProps(nextProps){
+  //   const {data} = nextProps
+  //   const {history,user} = this.props
+  //   // let nextHistory = null
+  //   // if(data && !Array.isArray(data)){
+  //   const nextHistory = {
+  //       pathname: '/manager',
+  //       state:{
+  //         user: data,
+  //         userGroup: {
+  //           key: this.params.userGroupKey
+  //         }
+  //       }
+  //     }
+  //     history.push(nextHistory)
+  //   // }
+  // }
+
+  // shouldComponentUpdate(nextProps,nextState){
+  //   const {data} = nextProps
+  //   if(data && !Array.isArray(data)){
+  //     return false
+  //   }
+  //   return true
+  // }
 
   render(){
     const {data} = this.props

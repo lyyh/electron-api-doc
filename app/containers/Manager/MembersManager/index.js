@@ -6,7 +6,7 @@
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import {fetchUsers} from "actions/userGroup";
+import {fetchUserInfo} from "actions/user";
 import { Menu, Icon, Button,Row, Col,Breadcrumb,Card,Avatar } from 'antd';
 import './index.less'
 import {LOADING_STATUS} from "../../../mixins/statusMixins";
@@ -30,16 +30,19 @@ class MembersMannagerContainer extends Component{
       addFlag: false
     })
   }
-
   componentWillMount(){
-    const {dispatch,userGroupKey} = this.props
-    dispatch(fetchUsers({key:userGroupKey}))
+    const {user,userGroupKey,dispatch} = this.props
+    dispatch(fetchUserInfo({
+      key: user.key,
+      userGroupKey: userGroupKey
+    }))
   }
+
   render(){
-    const {data,userData,dispatch,userGroupKey} = this.props
     const {addFlag} = this.state
+    const {data,dispatch,userGroupKey} = this.props
     return(
-      <section className='manageMembersManagerr-members-wrapper'>
+      <section className='manage-members-wrapper'>
         <div className='manager-members-head'>
           <Breadcrumb>
             <BreadcrumbItem><a onClick={this.clickMemberManage}>成员管理</a></BreadcrumbItem>
@@ -51,7 +54,7 @@ class MembersMannagerContainer extends Component{
           </a>
         </div>
         {
-          addFlag?<NewMember userGroupKey={userGroupKey} user={userData} dispatch={dispatch}/>:<MembersContainer data={data}/>
+          addFlag?<NewMember userGroupKey={userGroupKey} user={userData} dispatch={dispatch}/>:<MembersContainer data={data} userGroupKey={userGroupKey}/>
         }
       </section>
     )
@@ -59,12 +62,22 @@ class MembersMannagerContainer extends Component{
 }
 
 class MembersContainer extends Component{
+  getMembersFromUserGroup = (data,userGroupKey) => {
+    if(!data)return data
+    for(let userItem of data.userGroups){
+      if(userItem.key==userGroupKey){
+        return userItem.users
+      }
+    }
+  }
+
   render(){
-    const {data} = this.props
+    const {data,userGroupKey} = this.props
+    let members = this.getMembersFromUserGroup(data,userGroupKey)
     return (
       <Row gutter={16} className='manager-members-card-wrapper'>
         {
-          data && data.users && data.users.map((item,index)=>{
+          members && members.map((item,index)=>{
             return (
               <Col span={8} key={item.key}>
                 <Card
@@ -87,13 +100,13 @@ class MembersContainer extends Component{
 }
 
 export default connect((state) => {
-  const currentMembers = state['userGroup']
+  // const currentMembers = state['userGroup']
   const currentUser = state['user']
-  return currentMembers && currentUser && currentMembers['state']?{
-    state: currentMembers['state'],
-    data: currentMembers['data'],
-    userData: currentUser['data'] || null,
-    error: currentMembers['error'],
+  return currentUser && currentUser['state']?{
+    state: currentUser['state'],
+    data: currentUser['data'],
+    // userData: currentUser['data'] || null,
+    error: currentUser['error']
   }:{
     data: null,
     state: LOADING_STATUS,

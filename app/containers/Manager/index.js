@@ -35,7 +35,7 @@ class ManagerContainer extends Component{
       collapsed: !this.state.collapsed,
     });
   }
-  toUserGroup = () => {
+  toUserGroupEntry = () => {
     const {history,location} = this.props
     const newHistory = {
       pathname: '/userGroup',
@@ -143,7 +143,7 @@ class ManagerContainer extends Component{
             />
             <Button
               style={{float:'right',marginTop:'18px'}}
-              onClick={this.toUserGroup}>
+              onClick={this.toUserGroupEntry}>
               切换用户组
             </Button>
             <Icon

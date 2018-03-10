@@ -12,7 +12,7 @@ import UserGroupEntryContainer from './UserGroupEntry/UserGroupEntry';
 import UserIcon from 'components/UserIcon/UserIcon';
 import NewUserGroupContainer from './NewUserGroup'
 import {LOADING_STATUS} from "mixins/statusMixins";
-import {fetchUserGroups} from 'actions/user'
+import {fetchUserGroups} from 'actions/userGroup'
 const TabPane = Tabs.TabPane;
 
 class UserGroupContainer extends Component {
@@ -38,6 +38,10 @@ class UserGroupContainer extends Component {
     const {key,name} = location.state.user
     dispatch(fetchUserGroups({key}))
   }
+
+  // shouldComponentUpdate(nextProps,nextState){
+  //   return false
+  // }
 
   render(){
     const {location,history,data,state,dispatch} = this.props
@@ -74,7 +78,7 @@ class UserGroupContainer extends Component {
 }
 
 export default connect((state) => {
-  const currentUserGroup = state['user']
+  const currentUserGroup = state['userGroup']
   return currentUserGroup ? {
     state: currentUserGroup['state'],
     data: currentUserGroup['data'] || [],

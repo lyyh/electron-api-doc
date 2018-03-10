@@ -64,13 +64,15 @@ export const fetchUsers = (params) => (dispatch) => {
 }
 
 export const fetchUserGroups = (params) => (dispatch) => {
-  const httpParams = {
-    url: `/users/${params.key}/userGroups`,
-    method:'get',
-    actionType:FETCH_USERGROUPS_ACTION
+  const {key} = params
+  const httpParams =  {
+    url: `/users/${key}/userGroups`,
+    method: 'get',
+    actionType: FETCH_USERGROUPS_ACTION
   }
   httpAction(httpParams,dispatch)
 }
+
 
 // export const fetchUserGroup = (params) => (dispatch) => {
 //   const {key} = params

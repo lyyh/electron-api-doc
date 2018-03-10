@@ -31,9 +31,6 @@ export default (initialState = {},action) => {
         ...nextState
       }
     }
-    case FETCH_USER_GROUPS_ACTION: {
-      return commonReducer(action,initialState)
-    }
     case FETCH_USER_INFORMATION_ACTION: {
       return commonReducer(action,initialState)
     }
