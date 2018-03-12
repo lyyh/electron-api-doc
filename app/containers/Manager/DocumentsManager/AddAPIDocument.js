@@ -5,11 +5,14 @@
  */
 import React,{PureComponent} from 'react'
 import { Form, Input, Icon, Button, Select } from 'antd';
+import { connect } from 'react-redux'
 import './index.less'
+import {LOADING_STATUS} from "mixins/statusMixins";
+import {createApiDoc} from "actions/apiDoc";
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-let uuid = 0;
 class DynamicFieldSet extends PureComponent {
   state = {
     formItemKeys:[0]
@@ -39,9 +42,11 @@ class DynamicFieldSet extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const {dispatch} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        dispatch(createApiDoc(values))
       }
     });
   }
@@ -84,7 +89,7 @@ class DynamicFieldSet extends PureComponent {
             required={true}
             key='apiName'
           >
-            {getFieldDecorator(`apiName`, {
+            {getFieldDecorator(`name`, {
               validateTrigger: ['onChange', 'onBlur'],
               rules: [{
                 required: true,
@@ -95,14 +100,6 @@ class DynamicFieldSet extends PureComponent {
             })(
               <Input placeholder="接口名称" style={{ width: '60%', marginRight: 8 }} />
             )}
-            {/*{formItemKeys.length > 1 ? (*/}
-            {/*<Icon*/}
-            {/*className="dynamic-delete-button"*/}
-            {/*type="minus-circle-o"*/}
-            {/*disabled={formItemKeys.length === 1}*/}
-            {/*onClick={() => this.remove(k)}*/}
-            {/*/>*/}
-            {/*) : null}*/}
           </FormItem>
           <FormItem
             {...formItemLayoutLg}
@@ -122,30 +119,30 @@ class DynamicFieldSet extends PureComponent {
               <Input placeholder="接口描述" style={{ width: '60%', marginRight: 8 }} />
             )}
           </FormItem>
-          <FormItem
-          {...formItemLayout}
-          label='请求方法'
-          required={true}
-          key='apiMethod'
-        >
-          {getFieldDecorator(`apiMethod`, {
-            validateTrigger: ['onChange', 'onBlur'],
-            rules: [{
-              whitespace: true,
-              required: true,
-              // message: "Please input passenger's name or delete this field.",
-            }],
-            initialValue: 'get'
-          })(
-            <Select style={{ width: 120 }}>
-              <Option value="get" key='get'>get</Option>
-              <Option value="post" key='post'>post</Option>
-              <Option value="put" key='put'>put</Option>
-              <Option value="delete" key='delete'>delete</Option>
-              <Option value="option" key='option'>option</Option>
-            </Select>
-          )}
-        </FormItem>
+          {/*<FormItem*/}
+          {/*{...formItemLayout}*/}
+          {/*label='请求方法'*/}
+          {/*required={true}*/}
+          {/*key='apiMethod'*/}
+        {/*>*/}
+          {/*{getFieldDecorator(`apiMethod`, {*/}
+            {/*validateTrigger: ['onChange', 'onBlur'],*/}
+            {/*rules: [{*/}
+              {/*whitespace: true,*/}
+              {/*required: true,*/}
+              {/*// message: "Please input passenger's name or delete this field.",*/}
+            {/*}],*/}
+            {/*initialValue: 'get'*/}
+          {/*})(*/}
+            {/*<Select style={{ width: 120 }}>*/}
+              {/*<Option value="get" key='get'>get</Option>*/}
+              {/*<Option value="post" key='post'>post</Option>*/}
+              {/*<Option value="put" key='put'>put</Option>*/}
+              {/*<Option value="delete" key='delete'>delete</Option>*/}
+              {/*<Option value="option" key='option'>option</Option>*/}
+            {/*</Select>*/}
+          {/*)}*/}
+        {/*</FormItem>*/}
         <FormItem
           {...formItemLayoutLg}
           label='请求URL'
@@ -183,4 +180,17 @@ class DynamicFieldSet extends PureComponent {
   }
 }
 
-export default Form.create()(DynamicFieldSet);
+// export default Form.create()(DynamicFieldSet);
+
+export default connect((state) => {
+  const currentApiDoc = state['apiDoc']
+  return currentApiDoc && currentApiDoc['state']?{
+    state: currentApiDoc['state'],
+    data: currentApiDoc['data'],
+    error: currentApiDoc['error']
+  }:{
+    data: null,
+    state: LOADING_STATUS,
+    error: null
+  }
+})(Form.create()(DynamicFieldSet))

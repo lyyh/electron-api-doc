@@ -8,6 +8,7 @@ import register from './register'
 import userGroup from './userGroup'
 import user from './user'
 import selectUser from './selectUser'
+import apiDoc from './apiDoc'
 
 const rootReducer = combineReducers({
   home,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   register,
   userGroup,
   user,
-  selectUser
+  selectUser,
+  apiDoc
 });
 
 export default rootReducer;

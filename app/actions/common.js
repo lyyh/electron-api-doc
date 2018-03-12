@@ -25,9 +25,9 @@ export const httpAction = (options,dispatch,actionMaps) => {
         })
       }else{
         if(data.statusCode == 3){
-          message.error('用户已存在!')
+          message.error('已存在!')
         }
-        // message.error(data.err.errors || data.err.message)
+        message.error(data.err.errors || data.err.message)
         dispatch({
           type: actionType,
           state: ERROR_STATUS,

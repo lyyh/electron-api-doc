@@ -100,12 +100,10 @@ class MembersContainer extends Component{
 }
 
 export default connect((state) => {
-  // const currentMembers = state['userGroup']
   const currentUser = state['user']
   return currentUser && currentUser['state']?{
     state: currentUser['state'],
     data: currentUser['data'],
-    // userData: currentUser['data'] || null,
     error: currentUser['error']
   }:{
     data: null,
@@ -113,4 +111,3 @@ export default connect((state) => {
     error: null
   }
 })(MembersMannagerContainer)
-// export default MembersMannagerContainer

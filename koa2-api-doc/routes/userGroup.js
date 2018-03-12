@@ -14,7 +14,7 @@ router.get('/:key',findByKey)
 router.put('/:key',update)
 
 // users
-router.post('/:key/users',addUser)
+router.put('/:key/users',addUser)
 router.delete('/:key/users',deleteUser)
 
 // apidocs

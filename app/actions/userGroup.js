@@ -4,7 +4,6 @@
  * @Description:
  */
 import {SUCCESS_STATUS,ERROR_STATUS,LOADING_STATUS} from "mixins/statusMixins";
-import http from '../utils/http'
 import {message} from "antd";
 import {httpAction} from "./common";
 import {FETCH_SIMILAR_USERS_ACTION, FETCH_USER_GROUPS_ACTION} from "./user";
@@ -37,7 +36,7 @@ export const createUserGroup = (params) => (dispatch) => {
 export const addUser = (params,key) => (dispatch) => {
   const httpOptions = {
     url: `/userGroups/${key}/users`,
-    method: 'post',
+    method: 'put',
     actionType: ADD_USERS_ACTION,
     body: params
   }
