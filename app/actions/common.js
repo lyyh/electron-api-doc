@@ -24,10 +24,11 @@ export const httpAction = (options,dispatch,actionMaps) => {
           data: data.data
         })
       }else{
-        if(data.statusCode == 3){
-          message.error('已存在!')
+        if(actionMaps && actionMaps.errorAction){
+          actionMaps.errorAction()
+        }else{
+          message.error(data.err.errors || data.err.message)
         }
-        message.error(data.err.errors || data.err.message)
         dispatch({
           type: actionType,
           state: ERROR_STATUS,

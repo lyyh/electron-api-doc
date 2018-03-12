@@ -17,5 +17,13 @@ export const createApiDoc = (params) => (dispatch) =>{
     actionType: CREATE_APIDOC_ACTION,
     body: params
   }
-  httpAction(httpOptions,dispatch)
+  const actionMaps = {
+    successAction: () => {
+      message.success('创建成功!')
+    },
+    errorAction: () => {
+      message.error('创建失败!')
+    }
+  }
+  httpAction(httpOptions,dispatch,actionMaps)
 }

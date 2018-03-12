@@ -15,13 +15,12 @@ exports.findByKey = async (ctx,next) => {
 }
 
 // create a apidoc
-exports.create = async (ctx,next) => {
+exports.createApiDoc = async (ctx,next) => {
   const requestData = ctx.request.body
   const insertData = {
     ...requestData,
     key: requestData.name,
-    owners: JSON.parse(requestData.owners),
-    apis: JSON.parse(requestData.apis)
+    owners: [requestData.owner]
   }
   const result = await apiDocEntity.create(insertData)
   ctx.body = result

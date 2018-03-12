@@ -25,42 +25,46 @@ module.exports = new Schema({
     },
     permission: String
   }],
+  description:{
+    type: String
+  },
   apis: [{
     key: {
       type: String,
       required: true,
       unique: true
     },
-    method: {
-      type: String,
-      required: true
-    },
-    url: {
-      type:String,
-      required: true
-    },
-    params: [{
-      key: {
-        type: String,
-        required: true,
-        unique: true
+    details:[{
+      url: {
+        type:String,
+        required: true
       },
-      name: {
+      method: {
         type: String,
         required: true
       },
-      isRequire: {
-        type: String,
-        required: true
-      },
-      fieldType: {
-        type: String,
-        required: true
-      },
-      description: {
-        type: String,
-        required: true
-      }
-    }]
+      params: [{
+        key: {
+          type: String,
+          required: true
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        isRequire: {
+          type: String,
+          required: true
+        },
+        fieldType: {
+          type: String,
+          required: true
+        },
+        description: {
+          type: String,
+          required: true
+        }
+      }]
+    }],
   }]
 })

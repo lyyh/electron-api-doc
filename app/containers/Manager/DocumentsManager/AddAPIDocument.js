@@ -42,10 +42,18 @@ class DynamicFieldSet extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {dispatch} = this.props
+    const {dispatch,data} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+
+        values={
+          ...values,
+          owner:{
+            key: data.key,
+            permission: data.permission
+          }
+        }
         dispatch(createApiDoc(values))
       }
     });
@@ -85,7 +93,7 @@ class DynamicFieldSet extends PureComponent {
         <div>
           <FormItem
             {...formItemLayoutLg}
-            label='接口名称'
+            label='文档名称'
             required={true}
             key='apiName'
           >
@@ -98,16 +106,16 @@ class DynamicFieldSet extends PureComponent {
               }],
               initialValue: ''
             })(
-              <Input placeholder="接口名称" style={{ width: '60%', marginRight: 8 }} />
+              <Input placeholder="文档名称" style={{ width: '60%', marginRight: 8 }} />
             )}
           </FormItem>
           <FormItem
             {...formItemLayoutLg}
-            label='接口描述'
+            label='文档描述'
             required={true}
             key='apiDetail'
           >
-            {getFieldDecorator(`apiDetail`, {
+            {getFieldDecorator(`description`, {
               validateTrigger: ['onChange', 'onBlur'],
               rules: [{
                 required: true,
@@ -116,7 +124,7 @@ class DynamicFieldSet extends PureComponent {
               }],
               initialValue: ''
             })(
-              <Input placeholder="接口描述" style={{ width: '60%', marginRight: 8 }} />
+              <Input placeholder="文档描述" style={{ width: '60%', marginRight: 8 }} />
             )}
           </FormItem>
           {/*<FormItem*/}
@@ -143,24 +151,24 @@ class DynamicFieldSet extends PureComponent {
             {/*</Select>*/}
           {/*)}*/}
         {/*</FormItem>*/}
-        <FormItem
-          {...formItemLayoutLg}
-          label='请求URL'
-          required={true}
-          key='apiURL'
-        >
-          {getFieldDecorator(`apiURL`, {
-            validateTrigger: ['onChange', 'onBlur'],
-            rules: [{
-              whitespace: true,
-              required: true,
-              // message: "Please input passenger's name or delete this field.",
-            }],
-            initialValue: ''
-          })(
-            <Input placeholder="请求URL" style={{ width: '60%', marginRight: 8 }} />
-          )}
-        </FormItem>
+        {/*<FormItem*/}
+          {/*{...formItemLayoutLg}*/}
+          {/*label='请求URL'*/}
+          {/*required={true}*/}
+          {/*key='apiURL'*/}
+        {/*>*/}
+          {/*{getFieldDecorator(`apiURL`, {*/}
+            {/*validateTrigger: ['onChange', 'onBlur'],*/}
+            {/*rules: [{*/}
+              {/*whitespace: true,*/}
+              {/*required: true,*/}
+              {/*// message: "Please input passenger's name or delete this field.",*/}
+            {/*}],*/}
+            {/*initialValue: ''*/}
+          {/*})(*/}
+            {/*<Input placeholder="请求URL" style={{ width: '60%', marginRight: 8 }} />*/}
+          {/*)}*/}
+        {/*</FormItem>*/}
         </div>
       );
     });
@@ -183,11 +191,11 @@ class DynamicFieldSet extends PureComponent {
 // export default Form.create()(DynamicFieldSet);
 
 export default connect((state) => {
-  const currentApiDoc = state['apiDoc']
-  return currentApiDoc && currentApiDoc['state']?{
-    state: currentApiDoc['state'],
-    data: currentApiDoc['data'],
-    error: currentApiDoc['error']
+  const currentUser = state['user']
+  return currentUser && currentUser['state']?{
+    state: currentUser['state'],
+    data: currentUser['data'],
+    error: currentUser['error']
   }:{
     data: null,
     state: LOADING_STATUS,
