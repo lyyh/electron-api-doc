@@ -20,7 +20,6 @@ module.exports = new Schema({
   owners: [{
     key: {
       type: String,
-      unique: true,
       required: true
     },
     permission: String
@@ -30,40 +29,40 @@ module.exports = new Schema({
   },
   apis: [{
     key: {
-      type: String,
-      required: true,
-      unique: true
+      type: String
     },
     details:[{
       url: {
         type:String,
         required: true
       },
-      method: {
-        type: String,
-        required: true
-      },
-      params: [{
-        key: {
-          type: String,
-          required: true
+      infos:[{
+        method:{
+          type:String,
+          required:true
         },
-        name: {
-          type: String,
-          required: true
-        },
-        isRequire: {
-          type: String,
-          required: true
-        },
-        fieldType: {
-          type: String,
-          required: true
-        },
-        description: {
-          type: String,
-          required: true
-        }
+        params: [{
+          key: {
+            type: String,
+            required: true
+          },
+          name: {
+            type: String,
+            required: true
+          },
+          isRequire: {
+            type: Boolean,
+            required: true
+          },
+          fieldType: {
+            type: String,
+            required: true
+          },
+          description: {
+            type: String,
+            required: true
+          }
+        }]
       }]
     }],
   }]

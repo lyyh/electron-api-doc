@@ -9,10 +9,12 @@ import RegisterContainer from './containers/Register'
 import UserGroupContainer from './containers/UserGroup/UserGroup';
 import ManagerContainer from './containers/Manager'
 import APIDocOperaContainer from './containers/Manager/DocumentsManager/APIDocumentOperation'
+import EditAPIDocument from './containers/Document/EditAPIDocument'
 
 export default () => (
   <App>
     <Switch>
+      <Route path='/editApiDocument' component={EditAPIDocument} />
       <Route path="/apiDocOperation" component={APIDocOperaContainer} />
       <Route path="/counter" component={CounterPage} />
       <Route path="/manager" component={ManagerContainer}/>

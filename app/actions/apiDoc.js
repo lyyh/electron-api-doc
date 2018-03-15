@@ -8,9 +8,10 @@ import {message} from "antd";
 import {httpAction} from "./common";
 
 export const CREATE_APIDOC_ACTION = 'CREATE_APIDOC_ACTION'
+export const ADD_APIDOC_API_ACTION = 'ADD_APIDOC_API_ACTION'
 
 // create apidoc
-export const createApiDoc = (params) => (dispatch) =>{
+export const createApiDoc = (params,history) => (dispatch) =>{
   const httpOptions = {
     url: '/apiDocs',
     method: 'post',
@@ -19,10 +20,39 @@ export const createApiDoc = (params) => (dispatch) =>{
   }
   const actionMaps = {
     successAction: () => {
-      message.success('创建成功!')
+      // message.success('创建成功!')
+      // const nextLocation = {
+      //   pathname: '/editApiDocument',
+      //   state: {
+      //     apiDoc:{
+      //       key: params.name
+      //     }
+      //   }
+      // }
+      //
+      // history.push(nextLocation)
     },
     errorAction: () => {
       message.error('创建失败!')
+    }
+  }
+  httpAction(httpOptions,dispatch,actionMaps)
+}
+
+// add apis
+export const addApis = (params,key) => (dispatch) => {
+  const httpOptions = {
+    url: `/apiDocs/${key}/apis`,
+    method: 'post',
+    actionType: ADD_APIDOC_API_ACTION,
+    body: params
+  }
+  const actionMaps = {
+    successAction: () => {
+      message.success('添加成功!')
+    },
+    errorAction: () => {
+      message.error('添加失败!')
     }
   }
   httpAction(httpOptions,dispatch,actionMaps)

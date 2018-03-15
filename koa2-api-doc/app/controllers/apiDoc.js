@@ -18,8 +18,10 @@ exports.findByKey = async (ctx,next) => {
 exports.createApiDoc = async (ctx,next) => {
   const requestData = ctx.request.body
   const insertData = {
-    ...requestData,
+    // ...requestData,
+    name: requestData.name,
     key: requestData.name,
+    description: requestData.description,
     owners: [requestData.owner]
   }
   const result = await apiDocEntity.create(insertData)
@@ -59,10 +61,9 @@ exports.deleteOwners = async(ctx,next)=>{
 // add apis
 exports.addApis = async(ctx,next) => {
   const {key} = ctx.params
-  const reqData = ctx.request.body
-  const apis = JSON.parse(reqData.apis)
+  const apis = ctx.request.body
   const processDataFn = doc => {
-    return doc.apis = [...doc.apis,...apis]
+    doc.apis = [...doc.apis,...[apis]]
   }
   const result = await apiDocEntity.updateWithFun({key},processDataFn)
   ctx.body = result
@@ -88,11 +89,10 @@ exports.deleteApis = async(ctx,next)=>{
 // only supporting to modify single data
 exports.modifyApis = async(ctx,next) => {
   const {key} = ctx.params
-  const reqData = ctx.request.body
-  const api = JSON.parse(reqData.api)
+  const apis = ctx.request.body
   const processDataFn = doc => {
-    return doc.apis = doc.apis.map(ele => {
-      if(ele.key == api.key)return api
+    doc.apis = doc.apis.map(ele => {
+      if(ele.key == apis.key)return apis
       return ele
     })
   }

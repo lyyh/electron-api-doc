@@ -80,7 +80,7 @@ class ManagerContainer extends Component{
   }
 
   render() {
-    const {location,match,menuKey} = this.props
+    const {location,match,menuKey,history} = this.props
     const {name,key} = location.state.user
     const userGroupKey = location.state.userGroup.key
     const {rootMenuName,curMenuKey} = this.state
@@ -169,7 +169,9 @@ class ManagerContainer extends Component{
               data={apiDocData}
               />:
               curMenuKey==='addApiDoc'?
-              <AddAPIDocument/>:
+              <AddAPIDocument
+                history={history}
+              />:
               curMenuKey==='listApiDoc'?
               <APIDocumentList/>:
               null

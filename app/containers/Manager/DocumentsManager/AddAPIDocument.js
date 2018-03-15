@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import './index.less'
 import {LOADING_STATUS} from "mixins/statusMixins";
 import {createApiDoc} from "actions/apiDoc";
+import apiDoc from "../../../reducers/apiDoc";
+import EditAPIDocument from '../../Document/EditAPIDocument'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -42,7 +44,7 @@ class DynamicFieldSet extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {dispatch,data} = this.props
+    const {dispatch,data,history} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -54,14 +56,15 @@ class DynamicFieldSet extends PureComponent {
             permission: data.permission
           }
         }
-        dispatch(createApiDoc(values))
+        dispatch(createApiDoc(values,history))
       }
     });
   }
 
   render() {
+    const {apiDocState,apiDocData } = this.props
     const {formItemKeys} = this.state
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator, getFieldValue} = this.props.form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -172,7 +175,9 @@ class DynamicFieldSet extends PureComponent {
         </div>
       );
     });
-    return (
+
+
+    return apiDocState=='success'? <EditAPIDocument data={apiDocData}/>:(
       <Form onSubmit={this.handleSubmit}>
         {formItems}
         <FormItem {...formItemLayoutWithOutLabel}>
@@ -181,24 +186,27 @@ class DynamicFieldSet extends PureComponent {
           </Button>
         </FormItem>
         <FormItem {...formItemLayoutWithOutLabel}>
-          <Button type="primary" htmlType="submit">Submit</Button>
+          <Button type="primary" htmlType="submit">创建并编辑详情</Button>
         </FormItem>
       </Form>
     );
   }
 }
 
-// export default Form.create()(DynamicFieldSet);
-
 export default connect((state) => {
   const currentUser = state['user']
+  const currentApiDoc = state['apiDoc']
   return currentUser && currentUser['state']?{
     state: currentUser['state'],
     data: currentUser['data'],
+    apiDocState: currentApiDoc['state'],
+    apiDocData: currentApiDoc['data'],
     error: currentUser['error']
   }:{
     data: null,
     state: LOADING_STATUS,
+    apiDocState: null,
+    apiDocData: null,
     error: null
   }
 })(Form.create()(DynamicFieldSet))
