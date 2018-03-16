@@ -15,7 +15,7 @@ const FormItem = Form.Item
 class EditAPIDocumentContainer extends Component{
   state={
     formItemKeys:[0],
-    requestFormItemKeys:[0],
+    requestFormItemKeys:[[0]],
     responseFormItemKeys:[0]
   }
 
@@ -25,7 +25,6 @@ class EditAPIDocumentContainer extends Component{
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        console.log(values)
         const infos = values.method.map((mValue,mIndex)=>{
           const params = values.parameters[mIndex].map((pValue,pIndex)=>{
             return {
@@ -49,71 +48,38 @@ class EditAPIDocumentContainer extends Component{
             infos: infos
           }]
         }
-        // const reqParams = values.parameters.map((value,index)=>{
-        //   return {
-        //     name: value,
-        //     key: value,
-        //     isRequire: true,
-        //     fieldType: 'string',
-        //     description: values.paramDescriptions[index]
-        //   }
-        // })
-        // const infos = values.method.map((value,index)=>{
-        //   return {
-        //     method: value,
-        //     params: reqParams
-        //   }
-        // })
-
-        // values={
-        //   key:values.name,
-        //   details:[{
-        //     url: values.url,
-        //     infos:infos
-        //   }]
-        // }
 
         dispatch(addApis(api,data.key))
       }
     });
   }
 
-  addUrlItems = () => {
-    const {urlFormItemKeys} = this.state
-    const {form} = this.props
-    const nextKeys = [...urlFormItemKeys,urlFormItemKeys.length]
-    form.setFieldsValue({
-      urlFormItemKeys: nextKeys
-    })
-
-    this.setState({
-      urlFormItemKeys: nextKeys
-    })
-  }
-
   addItems = () => {
-    const {formItemKeys} = this.state
+    let {formItemKeys,requestFormItemKeys} = this.state
     const {form} = this.props
     const nextKeys = [...formItemKeys,formItemKeys.length]
     form.setFieldsValue({
       formItemKeys: nextKeys
     })
 
+    requestFormItemKeys[nextKeys.length-1]=[0]
     this.setState({
-      formItemKeys: nextKeys
+      formItemKeys: nextKeys,
+      requestFormItemKeys:requestFormItemKeys
     })
   }
 
-  addRequestParams = () => {
+  addRequestParams = (e) => {
+    const itemKey = e.target.getAttribute('data-itemKey')
     const {form} = this.props
-    const {requestFormItemKeys} = this.state
-    const nextKeys = [...requestFormItemKeys,requestFormItemKeys.length]
+    let {requestFormItemKeys} = this.state
+    requestFormItemKeys[itemKey] = [...requestFormItemKeys[itemKey],requestFormItemKeys[itemKey].length]
     form.setFieldsValue({
-      requestParamsKeys: nextKeys
+      requestParamsKeys: requestFormItemKeys
     })
 
     this.setState({
-      requestFormItemKeys:nextKeys
+      requestFormItemKeys:requestFormItemKeys
     })
   }
 
@@ -149,7 +115,7 @@ class EditAPIDocumentContainer extends Component{
     };
 
     const requestFormItems = (itemKey) => {
-      return requestFormItemKeys.map((value,index)=>{
+      return requestFormItemKeys[itemKey].map((value,index)=>{
         return(
           <Row key={value}>
             <Col span={8}>
@@ -173,7 +139,7 @@ class EditAPIDocumentContainer extends Component{
               </FormItem>
             </Col>
             <Col span={8}>
-              <Button onClick={this.addRequestParams}>
+              <Button onClick={this.addRequestParams} data-itemKey={itemKey}>
                 <Icon type="plus" />增加请求参数栏
               </Button>
             </Col>
@@ -239,11 +205,6 @@ class EditAPIDocumentContainer extends Component{
           <FormItem {...formItemLayoutWithOutLabel}>
             <Button type="dashed" onClick={this.addItems} style={{ width: '60%' }}>
               <Icon type="plus" /> 新增请求方法
-            </Button>
-          </FormItem>
-          <FormItem {...formItemLayoutWithOutLabel}>
-            <Button type="dashed" onClick={this.addUrlItems} style={{ width: '60%' }}>
-              <Icon type="plus" /> 新增接口
             </Button>
           </FormItem>
           <FormItem {...formItemLayoutWithOutLabel}>
