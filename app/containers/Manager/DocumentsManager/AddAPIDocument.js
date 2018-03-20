@@ -44,7 +44,7 @@ class DynamicFieldSet extends PureComponent {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {dispatch,data,history} = this.props
+    const {dispatch,data,history,userGroupKey} = this.props
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
@@ -54,7 +54,8 @@ class DynamicFieldSet extends PureComponent {
           owner:{
             key: data.key,
             permission: data.permission
-          }
+          },
+          userGroupKey:userGroupKey
         }
         dispatch(createApiDoc(values,history))
       }
@@ -62,7 +63,7 @@ class DynamicFieldSet extends PureComponent {
   }
 
   render() {
-    const {apiDocState,apiDocData } = this.props
+    const {apiDocState,apiDocData,userGroupKey } = this.props
     const {formItemKeys} = this.state
     const { getFieldDecorator, getFieldValue} = this.props.form;
     const formItemLayout = {
@@ -177,14 +178,9 @@ class DynamicFieldSet extends PureComponent {
     });
 
 
-    return apiDocState=='success'? <EditAPIDocument data={apiDocData}/>:(
+    return apiDocState=='success'? <EditAPIDocument data={apiDocData} userGroupKey={userGroupKey}/>:(
       <Form onSubmit={this.handleSubmit}>
         {formItems}
-        <FormItem {...formItemLayoutWithOutLabel}>
-          <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-            <Icon type="plus" /> 新增接口
-          </Button>
-        </FormItem>
         <FormItem {...formItemLayoutWithOutLabel}>
           <Button type="primary" htmlType="submit">创建并编辑详情</Button>
         </FormItem>

@@ -6,17 +6,19 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { Menu, Icon, Button,Row, Col,Breadcrumb,Table,Form,Input,Select } from 'antd';
+import { Menu, Icon, Button,Row, Col,Breadcrumb,Table,Form,Input,Select,Checkbox } from 'antd';
 import {addApis} from "actions/apiDoc";
 import {LOADING_STATUS} from "mixins/statusMixins";
 
 const FormItem = Form.Item
+const {Option} = Select
 
 class EditAPIDocumentContainer extends Component{
   state={
     formItemKeys:[0],
     requestFormItemKeys:[[0]],
-    responseFormItemKeys:[0]
+    responseFormItemKeys:[0],
+    requiredCheck:false
   }
 
   handleSubmit = (e) => {
@@ -30,8 +32,8 @@ class EditAPIDocumentContainer extends Component{
             return {
               key: pValue,
               name: pValue,
-              isRequire: true,
-              fieldType: 'string',
+              isRequire: values.required[mIndex][pIndex],
+              fieldType: values.type[mIndex][pIndex],
               description: values.paramDescriptions[mIndex][pIndex]
             }
           })
@@ -54,6 +56,13 @@ class EditAPIDocumentContainer extends Component{
     });
   }
 
+  // handle checkbox changed
+  handleCheckBox = (e) => {
+    const {form} = this.props
+    const {checked} = e.target
+
+  }
+
   addItems = () => {
     let {formItemKeys,requestFormItemKeys} = this.state
     const {form} = this.props
@@ -70,7 +79,7 @@ class EditAPIDocumentContainer extends Component{
   }
 
   addRequestParams = (e) => {
-    const itemKey = e.target.getAttribute('data-itemKey')
+    const itemKey = e.target.getAttribute('data-itemkey')
     const {form} = this.props
     let {requestFormItemKeys} = this.state
     requestFormItemKeys[itemKey] = [...requestFormItemKeys[itemKey],requestFormItemKeys[itemKey].length]
@@ -92,11 +101,21 @@ class EditAPIDocumentContainer extends Component{
   }
 
   render() {
-    const {data,form} = this.props
+    const {data,form,userGroupKey} = this.props
     const {getFieldDecorator} = form
-    const {formItemKeys,requestFormItemKeys} = this.state
+    const {formItemKeys,requestFormItemKeys,requiredCheck} = this.state
 
     const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+    const interfaceItemLayout = {
       labelCol: {
         xs: { span: 24 },
         sm: { span: 4 },
@@ -105,7 +124,7 @@ class EditAPIDocumentContainer extends Component{
         xs: { span: 24 },
         sm: { span: 8 },
       },
-    };
+    }
 
     const formItemLayoutWithOutLabel = {
       wrapperCol: {
@@ -114,11 +133,22 @@ class EditAPIDocumentContainer extends Component{
       },
     };
 
+    const topFormItemLayout={
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 2 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+    }
+
     const requestFormItems = (itemKey) => {
       return requestFormItemKeys[itemKey].map((value,index)=>{
         return(
           <Row key={value}>
-            <Col span={8}>
+            <Col span={5}>
               <FormItem
                 {...formItemLayout}
                 label="请求参数"
@@ -128,7 +158,7 @@ class EditAPIDocumentContainer extends Component{
                 )}
               </FormItem>
             </Col>
-            <Col span={8}>
+            <Col span={5}>
               <FormItem
                 {...formItemLayout}
                 label="参数描述"
@@ -138,8 +168,44 @@ class EditAPIDocumentContainer extends Component{
                 )}
               </FormItem>
             </Col>
-            <Col span={8}>
-              <Button onClick={this.addRequestParams} data-itemKey={itemKey}>
+            <Col span={5}>
+              <FormItem
+                {...formItemLayout}
+                label='参数类型'
+              >
+                {getFieldDecorator(`type[${itemKey}][${value}]`, {
+                  rules: [{
+                    required: true, message: 'Please input param type',
+                  }],
+                  initialValue: 'string'
+                })(
+                  <Select style={{ width: 120 }}>
+                    <Option value="string">string</Option>
+                    <Option value="number">number</Option>
+                    <Option value="array">array</Option>
+                    <Option value="object">object</Option>
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+            <Col span={5}>
+              <FormItem
+                {...formItemLayout}
+              >
+                {
+                  getFieldDecorator(`required[${itemKey}][${value}]`,{
+                    rules:[{
+                      required: true,message:'please check required!'
+                    }],
+                    initialValue: requiredCheck
+                  })(
+                    <Checkbox onChange={this.handleCheckBox}>required</Checkbox>
+                  )
+                }
+              </FormItem>
+            </Col>
+            <Col span={4}>
+              <Button onClick={this.addRequestParams} data-itemkey={itemKey}>
                 <Icon type="plus" />增加请求参数栏
               </Button>
             </Col>
@@ -152,20 +218,20 @@ class EditAPIDocumentContainer extends Component{
       return (
         <div key={value}>
           <FormItem
-            {...formItemLayout}
+            {...topFormItemLayout}
             label="请求方法"
           >
             {getFieldDecorator(`method[${value}]`, {
               rules: [{
                 required: true, message: 'Please input your password!',
               }],
-              initialValue: '0'
+              initialValue: 'get'
             })(
               <Select style={{ width: 120 }}>
-                <Option value="0">get</Option>
-                <Option value="1">post</Option>
-                <Option value="2">put</Option>
-                <Option value="3">delete</Option>
+                <Option value="get">get</Option>
+                <Option value="post">post</Option>
+                <Option value="put">put</Option>
+                <Option value="delete">delete</Option>
               </Select>
             )}
           </FormItem>
@@ -175,10 +241,10 @@ class EditAPIDocumentContainer extends Component{
     })
 
     return (
-      <div class="apidoc-scroll-wrapper">
+      <div className="apidoc-scroll-wrapper">
         <Form onSubmit={this.handleSubmit}>
           <FormItem
-            {...formItemLayout}
+            {...interfaceItemLayout}
             label="接口名称"
           >
             {getFieldDecorator(`name`)(
@@ -186,7 +252,7 @@ class EditAPIDocumentContainer extends Component{
             )}
           </FormItem>
           <FormItem
-            {...formItemLayout}
+            {...interfaceItemLayout}
             label="接口URL"
           >
             {getFieldDecorator(`url`)(
@@ -194,7 +260,7 @@ class EditAPIDocumentContainer extends Component{
             )}
           </FormItem>
           <FormItem
-            {...formItemLayout}
+            {...interfaceItemLayout}
             label="接口地址描述"
           >
             {getFieldDecorator('urlDescription')(
@@ -208,7 +274,7 @@ class EditAPIDocumentContainer extends Component{
             </Button>
           </FormItem>
           <FormItem {...formItemLayoutWithOutLabel}>
-            <Button type="primary" htmlType="submit">创建并编辑详情</Button>
+            <Button type="primary" htmlType="submit">保存</Button>
           </FormItem>
         </Form>
       </div>

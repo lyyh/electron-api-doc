@@ -171,6 +171,7 @@ class ManagerContainer extends Component{
               curMenuKey==='addApiDoc'?
               <AddAPIDocument
                 history={history}
+                userGroupKey={userGroupKey}
               />:
               curMenuKey==='listApiDoc'?
               <APIDocumentList/>:

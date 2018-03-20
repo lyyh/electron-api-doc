@@ -27,6 +27,10 @@ module.exports = new Schema({
   description:{
     type: String
   },
+  userGroupKey: {
+    type: String,
+    require: true
+  },
   apis: [{
     key: {
       type: String

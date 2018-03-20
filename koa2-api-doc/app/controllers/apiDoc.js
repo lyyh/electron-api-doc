@@ -22,7 +22,8 @@ exports.createApiDoc = async (ctx,next) => {
     name: requestData.name,
     key: requestData.name,
     description: requestData.description,
-    owners: [requestData.owner]
+    owners: [requestData.owner],
+    userGroupKey: requestData.userGroupKey
   }
   const result = await apiDocEntity.create(insertData)
   ctx.body = result

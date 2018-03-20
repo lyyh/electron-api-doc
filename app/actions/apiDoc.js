@@ -9,6 +9,7 @@ import {httpAction} from "./common";
 
 export const CREATE_APIDOC_ACTION = 'CREATE_APIDOC_ACTION'
 export const ADD_APIDOC_API_ACTION = 'ADD_APIDOC_API_ACTION'
+export const FETCH_APIDOC_API_ACTION = 'FETCH_APIDOC_API_ACTION'
 
 // create apidoc
 export const createApiDoc = (params,history) => (dispatch) =>{
@@ -56,4 +57,23 @@ export const addApis = (params,key) => (dispatch) => {
     }
   }
   httpAction(httpOptions,dispatch,actionMaps)
+}
+
+//get api doc list
+export const fetchApiDocs = (params) => (dispatch) => {
+  const httpOptions = {
+    url: '/apiDocs',
+    method: 'get',
+    actionType: FETCH_APIDOC_API_ACTION,
+    body: params
+  }
+  // const actionMaps = {
+  //   successAction: () => {
+  //     message.success('添加成功!')
+  //   },
+  //   errorAction: () => {
+  //     message.error('添加失败!')
+  //   }
+  // }
+  httpAction(httpOptions,dispatch)
 }

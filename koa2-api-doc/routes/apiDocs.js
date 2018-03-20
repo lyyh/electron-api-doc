@@ -9,6 +9,7 @@ const {createApiDoc,findByKey,addOwners,addApis,deleteOwners,deleteApis,modifyAp
 router.prefix('/apiDocs')
 
 // api docs
+// router.get('/',getApiDocs)
 router.post('/',createApiDoc)
 router.get('/:key',findByKey)
 // router.put('/:key',update)

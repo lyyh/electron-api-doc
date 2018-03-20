@@ -5,8 +5,11 @@
  */
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
-import { Menu, Icon, Button,Row, Col,Breadcrumb,Table } from 'antd';
+import { connect } from 'react-redux'
+import {Menu, Icon, Button, Row, Col, Breadcrumb, Table, Form} from 'antd';
 import APIDocOperaiton from './APIDocumentOperation'
+import {LOADING_STATUS} from "mixins/statusMixins";
+
 
 const data = [];
 for (let i = 0; i < 46; i++) {
@@ -66,6 +69,9 @@ class APIDocumentContainer extends Component{
     e.preventDefault()
 
   }
+  componentWillMount(){
+
+  }
   render() {
     const { loading, selectedRowKeys,apiOperation,columns,data } = this.state;
     // const {columns, data} = this.props
@@ -94,4 +100,19 @@ class APIDocumentContainer extends Component{
     ):<APIDocOperaiton/>
   }
 }
-export default APIDocumentContainer
+
+
+export default connect((state) => {
+  const currentApiDoc = state['apiDoc']
+  return currentApiDoc && currentApiDoc['state']?{
+    state: currentApiDoc['state'],
+    data: currentApiDoc['data'],
+    error: currentApiDoc['error']
+  }:{
+    data: null,
+    state: LOADING_STATUS,
+    error: null
+  }
+})(APIDocumentContainer)
+
+// export default APIDocumentContainer
