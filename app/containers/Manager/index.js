@@ -174,7 +174,9 @@ class ManagerContainer extends Component{
                 userGroupKey={userGroupKey}
               />:
               curMenuKey==='listApiDoc'?
-              <APIDocumentList/>:
+              <APIDocumentList
+                userGroupKey={userGroupKey}
+              />:
               null
               }
             </div>

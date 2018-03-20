@@ -20,6 +20,11 @@ class apiDocEntity {
     return await BaseEntity.findUniqueOne(this.model,condition)
   }
 
+  // find api doc by condition
+  async find(condition){
+    return await BaseEntity.find(this.model,condition)
+  }
+
   // update user group with something data
   async update(condition,data){
     return await BaseEntity.updateUniqueOne(this.model,condition,data)

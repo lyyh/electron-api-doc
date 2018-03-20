@@ -8,8 +8,8 @@ import {message} from "antd";
 import {httpAction} from "./common";
 
 export const CREATE_APIDOC_ACTION = 'CREATE_APIDOC_ACTION'
-export const ADD_APIDOC_API_ACTION = 'ADD_APIDOC_API_ACTION'
-export const FETCH_APIDOC_API_ACTION = 'FETCH_APIDOC_API_ACTION'
+export const ADD_APIDOC_ACTION = 'ADD_APIDOC_ACTION'
+export const FETCH_APIDOC_ACTION = 'FETCH_APIDOC_ACTION'
 
 // create apidoc
 export const createApiDoc = (params,history) => (dispatch) =>{
@@ -45,7 +45,7 @@ export const addApis = (params,key) => (dispatch) => {
   const httpOptions = {
     url: `/apiDocs/${key}/apis`,
     method: 'post',
-    actionType: ADD_APIDOC_API_ACTION,
+    actionType: ADD_APIDOC_ACTION,
     body: params
   }
   const actionMaps = {
@@ -60,20 +60,11 @@ export const addApis = (params,key) => (dispatch) => {
 }
 
 //get api doc list
-export const fetchApiDocs = (params) => (dispatch) => {
+export const fetchApiDocs = (params,key) => (dispatch) => {
   const httpOptions = {
-    url: '/apiDocs',
+    url: `/apiDocs/userGroup/${key}`,
     method: 'get',
-    actionType: FETCH_APIDOC_API_ACTION,
-    body: params
+    actionType: FETCH_APIDOC_ACTION
   }
-  // const actionMaps = {
-  //   successAction: () => {
-  //     message.success('添加成功!')
-  //   },
-  //   errorAction: () => {
-  //     message.error('添加失败!')
-  //   }
-  // }
   httpAction(httpOptions,dispatch)
 }

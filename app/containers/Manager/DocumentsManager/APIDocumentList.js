@@ -9,17 +9,18 @@ import { connect } from 'react-redux'
 import {Menu, Icon, Button, Row, Col, Breadcrumb, Table, Form} from 'antd';
 import APIDocOperaiton from './APIDocumentOperation'
 import {LOADING_STATUS} from "mixins/statusMixins";
+import {fetchApiDocs} from 'actions/apiDoc'
 
 
-const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
+// const data = [];
+// for (let i = 0; i < 46; i++) {
+//   data.push({
+//     key: i,
+//     name: `Edward King ${i}`,
+//     age: 32,
+//     address: `London, Park Lane no. ${i}`,
+//   });
+// }
 
 class APIDocumentContainer extends Component{
   state = {
@@ -33,12 +34,9 @@ class APIDocumentContainer extends Component{
           })
         }}>{text}</a>
       }
-    }, {
-      title: 'id',
-      dataIndex: 'age',
-    }, {
-      title: 'Address',
-      dataIndex: 'address',
+    },{
+      title: 'description',
+      dataIndex: 'description',
     }, {
       title: 'Action',
       dataIndex: 'action',
@@ -46,7 +44,7 @@ class APIDocumentContainer extends Component{
         return <a href='#'>编辑</a>
       }
     }],
-    data: data,
+    // data: [],
     selectedRowKeys: [], // Check here to configure the default column
     loading: false,
     apiOperation: false
@@ -67,13 +65,14 @@ class APIDocumentContainer extends Component{
   }
   handleAction = (e)=>{
     e.preventDefault()
-
   }
   componentWillMount(){
-
+    const {dispatch,userGroupKey} = this.props
+    dispatch(fetchApiDocs(null,userGroupKey))
   }
   render() {
-    const { loading, selectedRowKeys,apiOperation,columns,data } = this.state;
+    const { loading, selectedRowKeys,apiOperation,columns } = this.state;
+    const { data} = this.props
     // const {columns, data} = this.props
     const rowSelection = {
       selectedRowKeys,
@@ -106,10 +105,10 @@ export default connect((state) => {
   const currentApiDoc = state['apiDoc']
   return currentApiDoc && currentApiDoc['state']?{
     state: currentApiDoc['state'],
-    data: currentApiDoc['data'],
+    data: currentApiDoc['data'] || [],
     error: currentApiDoc['error']
   }:{
-    data: null,
+    data: [],
     state: LOADING_STATUS,
     error: null
   }

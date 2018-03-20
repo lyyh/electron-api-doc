@@ -14,6 +14,15 @@ exports.findByKey = async (ctx,next) => {
   await next()
 }
 
+// get all apidocs
+exports.getApiDocs = async (ctx,next) => {
+  const {userGroupKey} = ctx.params
+  const result = await apiDocEntity.find({userGroupKey})
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
 // create a apidoc
 exports.createApiDoc = async (ctx,next) => {
   const requestData = ctx.request.body
