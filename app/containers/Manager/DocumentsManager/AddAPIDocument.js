@@ -8,9 +8,10 @@ import { Form, Input, Icon, Button, Select } from 'antd';
 import { connect } from 'react-redux'
 import './index.less'
 import {LOADING_STATUS} from "mixins/statusMixins";
-import {createApiDoc} from "actions/apiDoc";
+import {createApiDoc,resetApiDocState} from "actions/apiDoc";
 import apiDoc from "../../../reducers/apiDoc";
 import EditAPIDocument from '../../Document/EditAPIDocument'
+import {OPERATION_SUCCESS_STATUS} from "mixins/statusMixins";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -60,6 +61,11 @@ class DynamicFieldSet extends PureComponent {
         dispatch(createApiDoc(values,history))
       }
     });
+  }
+
+  componentWillUnmount(){
+    const {dispatch} = this.props
+    dispatch(resetApiDocState())
   }
 
   render() {
@@ -178,7 +184,7 @@ class DynamicFieldSet extends PureComponent {
     });
 
 
-    return apiDocState=='success'? <EditAPIDocument data={apiDocData} userGroupKey={userGroupKey}/>:(
+    return apiDocState==OPERATION_SUCCESS_STATUS? <EditAPIDocument data={apiDocData} userGroupKey={userGroupKey}/>:(
       <Form onSubmit={this.handleSubmit}>
         {formItems}
         <FormItem {...formItemLayoutWithOutLabel}>

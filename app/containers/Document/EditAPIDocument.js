@@ -45,6 +45,7 @@ class EditAPIDocumentContainer extends Component{
 
         const api = {
           key: values.name,
+          name: values.name,
           details:[{
             url: values.url,
             infos: infos

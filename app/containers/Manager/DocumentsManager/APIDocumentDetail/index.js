@@ -3,12 +3,14 @@
  * @date 2018-01-29
  * @Description:
  */
-import React,{PureComponent} from 'react'
-import { Card,Button,Table, Row,Form,Input,Icon,Tooltip,Col } from 'antd';
+import React,{Component,PureComponent} from 'react'
+import { Card,Button,Table, Row,Form,Input,Icon,Tooltip,Col,Menu,Dropdown } from 'antd';
 import './APIDocumentDetail.less'
 import '../index.less'
 const { TextArea } = Input;
 const ButtonGroup = Button.Group;
+const MenuItem = Menu.Item
+
 const tabList = [{
   key: 'get',
   tab: 'get'
@@ -33,6 +35,41 @@ const contentListNoTitle = {
   app: <p>app content</p>,
   project: <p>project content</p>,
 };
+
+class UrlDropDown extends Component{
+  render(){
+    const {data} = this.props
+    const menu = (
+      <Menu>
+      {
+        data.map((url,index)=>{
+          return (
+            <MenuItem key={url}>{url}</MenuItem>
+          )
+        })
+      }
+      </Menu>
+      /*<Menu>
+        <MenuItem>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+        </MenuItem>
+        <MenuItem>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
+        </MenuItem>
+        <MenuItem>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
+        </MenuItem>
+      </Menu>*/
+    )
+    return (
+      <Dropdown overlay={menu}>
+        <a className="ant-dropdown-link" href="#">
+          {data[0]}<Icon type="down" />
+        </a>
+      </Dropdown>
+    )
+  }
+}
 
 class APIDocDetailForm extends PureComponent {
   state = {
@@ -139,10 +176,21 @@ class APIDocDetailForm extends PureComponent {
   }
   render() {
     const {reqColumns,resColumns,reqData,resData,actionable,executable} = this.state
+    const {data} = this.props
+    // const urls = data.map((item,index)=>{
+    //   return item.url
+    // })
+    // const {infos} = data
+    // const tabList = data.map((item,index)=>{
+    //   return {
+    //     tab: item.method,
+    //     key: item.method
+    //   }
+    // })
     return (
       <section>
         <Card
-          title={<p>dbs<span className='api-detail-description'>this is a db</span></p>}
+          title={<div>abd<span className='api-detail-description'>this is a db</span></div>}
           extra={<Button onClick={this.hanldeAction}>{actionable?'cancel':'Try it'}</Button>}
           tabList={tabList}
           onTabChange={(key) => { this.onTabChange(key, 'key'); }}

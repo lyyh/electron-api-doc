@@ -11,26 +11,17 @@ import APIDocOperaiton from './APIDocumentOperation'
 import {LOADING_STATUS} from "mixins/statusMixins";
 import {fetchApiDocs} from 'actions/apiDoc'
 
-
-// const data = [];
-// for (let i = 0; i < 46; i++) {
-//   data.push({
-//     key: i,
-//     name: `Edward King ${i}`,
-//     age: 32,
-//     address: `London, Park Lane no. ${i}`,
-//   });
-// }
-
 class APIDocumentContainer extends Component{
   state = {
+    apisData: null,
     columns:[{
       title: 'name',
       dataIndex: 'name',
       render: (text,record,index) => {
         return <a href='#' onClick={() => {
           this.setState({
-            apiOperation: true
+            apiOperation: true,
+            apisData: record.apis
           })
         }}>{text}</a>
       }
@@ -44,7 +35,6 @@ class APIDocumentContainer extends Component{
         return <a href='#'>编辑</a>
       }
     }],
-    // data: [],
     selectedRowKeys: [], // Check here to configure the default column
     loading: false,
     apiOperation: false
@@ -71,9 +61,8 @@ class APIDocumentContainer extends Component{
     dispatch(fetchApiDocs(null,userGroupKey))
   }
   render() {
-    const { loading, selectedRowKeys,apiOperation,columns } = this.state;
+    const { loading, selectedRowKeys,apiOperation,columns,apisData } = this.state;
     const { data} = this.props
-    // const {columns, data} = this.props
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -96,7 +85,7 @@ class APIDocumentContainer extends Component{
             </div>
             <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
         </div>
-    ):<APIDocOperaiton/>
+    ):<APIDocOperaiton data={apisData}/>
   }
 }
 
@@ -114,4 +103,3 @@ export default connect((state) => {
   }
 })(APIDocumentContainer)
 
-// export default APIDocumentContainer

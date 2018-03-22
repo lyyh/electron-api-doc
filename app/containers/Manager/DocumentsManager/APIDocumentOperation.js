@@ -17,27 +17,27 @@ class APIDocumentOperation extends Component{
   }
   render() {
     const { mode } = this.state;
-    // const {data} = this.props
-    const data = [{
-      name: 'biz',
-      key: 'biz',
-      list: 'adfdfs'
-    },{
-      name: 'category',
-      key: 'category',
-      list: 'adfdfs'
-    },
-      {
-      name: 'user',
-      key: 'user',
-      list: 'adfdfs'
-    },
+    const {data} = this.props
+    // const data = [{
+    //   name: 'biz',
+    //   key: 'biz',
+    //   list: 'adfdfs'
+    // },{
+    //   name: 'category',
+    //   key: 'category',
+    //   list: 'adfdfs'
+    // },
+    //   {
+    //   name: 'user',
+    //   key: 'user',
+    //   list: 'adfdfs'
+    // },
       // {
     //   name: 'aaa',
     //   key: 'aaa',
     //   list: 'adfdfs'
     // }
-    ]
+    // ]
     return (
       <section style={{height:'100%'}}>
         <Tabs
@@ -46,9 +46,23 @@ class APIDocumentOperation extends Component{
           className='apidoc-scroll-wrapper apidoc-tabcard-wrapper'
         >
           {
-            data.map((item,index)=>
-              <TabPane tab={item.name} key={item.key}>
-                <APIDocDetail/>
+            data.map((api,index)=>
+              <TabPane tab={api.key} key={api.key}>
+                <Tabs
+                  defaultActiveKey={api.details[0].url}
+                  tabPosition='top'
+                  className='apidoc-scroll-wrapper apidoc-tabcard-wrapper'
+                >
+                  {
+                    api.details.map((item,index)=>{
+                      return (
+                        <TabPane tab={item.url} key={item.url}>
+                          <APIDocDetail data={item.infos}/>
+                        </TabPane>
+                      )
+                    })
+                  }
+                </Tabs>
               </TabPane>
             )
           }

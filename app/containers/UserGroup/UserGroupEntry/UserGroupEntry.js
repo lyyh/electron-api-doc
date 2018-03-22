@@ -17,10 +17,6 @@ class UserGroupEntryContainer extends Component{
   handleClick = (e) =>{
     this.params.userGroupKey = e.currentTarget.getAttribute('data-key')
     const {user,dispatch,history} = this.props
-    // dispatch(fetchUserInfo({
-    //   key: user.key,
-    //   userGroupKey: this.params.userGroupKey
-    // }))
     const nextHistory = {
       pathname: '/manager',
       state:{

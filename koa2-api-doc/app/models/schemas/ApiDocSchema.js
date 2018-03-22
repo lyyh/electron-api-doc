@@ -35,6 +35,9 @@ module.exports = new Schema({
     key: {
       type: String
     },
+    name: {
+      type: String
+    },
     details:[{
       url: {
         type:String,
