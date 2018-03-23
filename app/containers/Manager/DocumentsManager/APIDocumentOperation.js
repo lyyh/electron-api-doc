@@ -38,6 +38,8 @@ class APIDocumentOperation extends Component{
     //   list: 'adfdfs'
     // }
     // ]
+    // const tData = [...data,...data]
+
     return (
       <section style={{height:'100%'}}>
         <Tabs
@@ -57,7 +59,7 @@ class APIDocumentOperation extends Component{
                     api.details.map((item,index)=>{
                       return (
                         <TabPane tab={item.url} key={item.url}>
-                          <APIDocDetail data={item.infos}/>
+                          <APIDocDetail data={item}/>
                         </TabPane>
                       )
                     })
