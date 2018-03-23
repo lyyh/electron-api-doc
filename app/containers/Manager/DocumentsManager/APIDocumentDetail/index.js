@@ -4,9 +4,12 @@
  * @Description:
  */
 import React,{Component,PureComponent} from 'react'
+import { connect } from 'react-redux'
 import { Card,Button,Table, Row,Form,Input,Icon,Tooltip,Col,Menu,Dropdown } from 'antd';
+import {LOADING_STATUS} from "mixins/statusMixins";
 import './APIDocumentDetail.less'
 import '../index.less'
+import {apiPost} from 'actions/api'
 const { TextArea } = Input;
 const ButtonGroup = Button.Group;
 const MenuItem = Menu.Item
@@ -20,6 +23,16 @@ class APIDocDetailForm extends PureComponent {
     reqColumns:[{
       title: 'Name',
       dataIndex: 'name',
+      render: (text,record,index) => {
+        const {getFieldDecorator} = this.props.form
+        return (
+          getFieldDecorator(`names[${index}]`,{
+            initialValue: text
+          })(
+            <div>{text}</div>
+          )
+        )
+      }
     }, {
       title: 'Description',
       dataIndex: 'description',
@@ -30,7 +43,7 @@ class APIDocDetailForm extends PureComponent {
           <div>
             <span className={actionable?'api-invisible': ''}>{text}</span>
             <div className={!actionable?'api-invisible': ''}>
-              {getFieldDecorator('userName', {
+              {getFieldDecorator(`values[${index}]`, {
                 rules: [{ required: true, message: 'Please input your username!' }],
               })(
                 <Input prefix={<Tooltip title="prompt text">
@@ -117,8 +130,32 @@ class APIDocDetailForm extends PureComponent {
       executable: false
     })
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, formValues) => {
+      const {url,data,dispatch} = this.props
+      const {infos} = data
+      const method = this.state.key?this.state.key:infos[0]['method']
+
+      let params = {}
+      if (!err) {
+        console.log('Received values of form: ', formValues);
+        const {values,names} = formValues
+        names.forEach((item,index)=>{
+          params[item]=values[index]
+        })
+        dispatch(apiPost({
+          url: url,
+          method: method,
+          body: params
+        }))
+      }
+    });
+  }
+
   render() {
-    const {reqColumns,resColumns,reqData,resData,actionable,executable,key} = this.state
+    const {reqColumns,actionable,executable,key} = this.state
     const {data} = this.props
     const {infos,url} = data
 
@@ -137,12 +174,12 @@ class APIDocDetailForm extends PureComponent {
         <Table columns={reqColumns} dataSource={info.params} pagination={false}/>
       )
       cardPaneList[info.method] = (
-        <div>
+        <Form onSubmit={this.handleSubmit}>
           <h4>Parameters</h4>
           {tableList}
           <Row className={!actionable?'api-invisible': ''} >
             <Col span={executable?12:24}>
-              <Button type="primary" style={{width:'100%'}} onClick={this.handleExecutor}>Execute</Button>
+              <Button type="primary" style={{width:'100%'}} htmlType='submit' onClick={this.handleExecutor}>Execute</Button>
             </Col>
             <Col span={12} className={!executable?'api-invisible': ''}>
               <Button style={{width:'100%'}} onClick={this.handleClear}>Clear</Button>
@@ -158,7 +195,7 @@ class APIDocDetailForm extends PureComponent {
               <Col><TextArea placeholder="Autosize height based on content lines" autosize /></Col>
             </Row>
           </div>
-        </div>
+        </Form>
       )
     }
 
@@ -177,4 +214,19 @@ class APIDocDetailForm extends PureComponent {
   }
 }
 
-export default Form.create()(APIDocDetailForm)
+
+export default connect((state) => {
+  const currentApiDoc = state['api']
+  return currentApiDoc && currentApiDoc['api']?{
+    state: currentApiDoc['api'],
+    data: currentApiDoc['api'],
+    error: currentApiDoc['api']
+  }:{
+    data: null,
+    state: LOADING_STATUS,
+    error: null
+  }
+})(APIDocDetailForm)
+
+
+// export default Form.create()(APIDocDetailForm)

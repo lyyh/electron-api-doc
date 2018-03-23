@@ -18,27 +18,6 @@ class APIDocumentOperation extends Component{
   render() {
     const { mode } = this.state;
     const {data} = this.props
-    // const data = [{
-    //   name: 'biz',
-    //   key: 'biz',
-    //   list: 'adfdfs'
-    // },{
-    //   name: 'category',
-    //   key: 'category',
-    //   list: 'adfdfs'
-    // },
-    //   {
-    //   name: 'user',
-    //   key: 'user',
-    //   list: 'adfdfs'
-    // },
-      // {
-    //   name: 'aaa',
-    //   key: 'aaa',
-    //   list: 'adfdfs'
-    // }
-    // ]
-    // const tData = [...data,...data]
 
     return (
       <section style={{height:'100%'}}>
@@ -59,7 +38,7 @@ class APIDocumentOperation extends Component{
                     api.details.map((item,index)=>{
                       return (
                         <TabPane tab={item.url} key={item.url}>
-                          <APIDocDetail data={item}/>
+                          <APIDocDetail data={item} url={item.url}/>
                         </TabPane>
                       )
                     })

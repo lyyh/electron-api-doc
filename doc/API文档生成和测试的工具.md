@@ -53,3 +53,6 @@
     - 响应数据
 ![resData](http://upload-images.jianshu.io/upload_images/9193234-0a5f1bbc59ca6488.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+### 请求命令
+- get请求  
+![request commend](https://upload-images.jianshu.io/upload_images/2037714-543ce4f49eaa8be3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
