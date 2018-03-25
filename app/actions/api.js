@@ -10,10 +10,12 @@ import {httpAction} from "./common";
 export const API_POST_ACTION = 'API_POST_ACTION'
 
 // api post action
-export const apiPost = (options) => (dispatch) => {
+export const apiPost = (params) => (dispatch) => {
   const httpOptions = {
-    ...options,
-    actionType: API_POST_ACTION
+    url: '/api',
+    method: 'post',
+    actionType: API_POST_ACTION,
+    body: params
   }
   // const actionMaps = {
   //   successAction: () => {

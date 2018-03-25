@@ -4,11 +4,21 @@
  * @Description:
  */
 const {apiHttp} = require('../../utils/api')
+const {filterUrlAndParams} = require('../../utils/url')
+
+exports.processUrlParam = async (ctx,next) => {
+  const {url,params} = ctx.request.body
+    // const urlTplString = '`'+ ctx.request.body.url+'`'
+  const filterdObj = filterUrlAndParams(url,params)
+  ctx.state = filterdObj
+  await next()
+}
 
 exports.apiRequest = async(ctx,next) => {
-  const {url,method,params} = ctx.request.body
+  const {uri,params} = ctx.state
+  const {method} = ctx.request.body
   const httpOptions = {
-    url
+    uri:uri
   }
   const result = await apiHttp(httpOptions,method,params)
   ctx.body = result

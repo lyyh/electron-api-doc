@@ -62,7 +62,7 @@ class APIDocumentContainer extends Component{
   }
   render() {
     const { loading, selectedRowKeys,apiOperation,columns,apisData } = this.state;
-    const { data} = this.props
+    const { data } = this.props
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -83,13 +83,13 @@ class APIDocumentContainer extends Component{
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
             </div>
-            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+            <Table rowSelection={rowSelection} columns={columns} dataSource={data?data:[]} />
         </div>
     ):<APIDocOperaiton data={apisData}/>
   }
 }
 
-
+// FIXME: throw exception after add api doc
 export default connect((state) => {
   const currentApiDoc = state['apiDoc']
   return currentApiDoc && currentApiDoc['state']?{

@@ -134,8 +134,8 @@ class APIDocDetailForm extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, formValues) => {
-      const {url,data,dispatch} = this.props
-      const {infos} = data
+      const {detailData,dispatch} = this.props
+      const {infos,url} = detailData
       const method = this.state.key?this.state.key:infos[0]['method']
 
       let params = {}
@@ -146,9 +146,9 @@ class APIDocDetailForm extends PureComponent {
           params[item]=values[index]
         })
         dispatch(apiPost({
-          url: url,
-          method: method,
-          body: params
+          url,
+          method,
+          params
         }))
       }
     });
@@ -156,8 +156,8 @@ class APIDocDetailForm extends PureComponent {
 
   render() {
     const {reqColumns,actionable,executable,key} = this.state
-    const {data} = this.props
-    const {infos,url} = data
+    const {detailData} = this.props
+    const {infos,url} = detailData
 
     // card tab title
     const tabList = infos.map((item,index)=>{
@@ -226,7 +226,7 @@ export default connect((state) => {
     state: LOADING_STATUS,
     error: null
   }
-})(APIDocDetailForm)
+})(Form.create()(APIDocDetailForm))
 
 
 // export default Form.create()(APIDocDetailForm)

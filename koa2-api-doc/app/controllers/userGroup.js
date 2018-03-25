@@ -18,12 +18,6 @@ exports.create = async (ctx,next) => {
   ctx.body = result
   if(!result.success)return next
 
-  // ctx.request.body = {
-  //   userGroup: insertData,
-  // }
-  // ctx.params = {
-  //   key:
-  // }
   await next()
 }
 

@@ -5,7 +5,7 @@
  */
 const rp = require('request-promise')
 const request = require('request')
-const {SUCCESS_STATUS,ERROR_STATUS} = require('../../configs/statusConfig')
+const {SUCCESS_STATUS,ERROR_STATUS} = require('../app/configs/statusConfig')
 // handle request params by method
 const methodMapper = {
   get: (params) =>{
@@ -22,7 +22,7 @@ const methodMapper = {
 
 const apiHttpCore = (options) => {
   return new Promise((resolve, reject) => {
-    request({options}, (error, response, body) => {
+    request(options.uri,{options}, (error, response, body) => {
       if (!error && response.statusCode == 200) {
         resolve({
           ...SUCCESS_STATUS,

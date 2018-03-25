@@ -38,7 +38,7 @@ class APIDocumentOperation extends Component{
                     api.details.map((item,index)=>{
                       return (
                         <TabPane tab={item.url} key={item.url}>
-                          <APIDocDetail data={item} url={item.url}/>
+                          <APIDocDetail detailData={item}/>
                         </TabPane>
                       )
                     })
