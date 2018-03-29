@@ -32,7 +32,8 @@
     "xss": "^0.3.7"
   },
   "devDependencies": {
+    "node-inspector": "^1.1.2",
     "nodemon": "^1.8.1",
-    "node-inspector": "^1.1.2"
+    "should": "^13.2.1"
   }
 }
