@@ -39,17 +39,24 @@ class APIDocDetailForm extends PureComponent {
       render: (text,record,index) => {
         const {actionable} = this.state
         const {getFieldDecorator} = this.props.form
+        const {isRequire} = record
         return (
           <div>
             <span className={actionable?'api-invisible': ''}>{text}</span>
             <div className={!actionable?'api-invisible': ''}>
-              {getFieldDecorator(`values[${index}]`, {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(
-                <Input prefix={<Tooltip title="prompt text">
-                  <Icon type="question-circle" />
-                </Tooltip>} placeholder="Username" />
-              )}
+              {
+                isRequire?getFieldDecorator(`values[${index}]`, {
+                    rules: [{ required: true, message: 'Please input your username!' }],
+                  })(
+                  <Input prefix={<Tooltip title="prompt text">
+                    <Icon type="question-circle" />
+                  </Tooltip>} placeholder="Username" />
+                  ) :getFieldDecorator(`values[${index}]`)(
+                  <Input prefix={<Tooltip title="prompt text">
+                    <Icon type="question-circle" />
+                  </Tooltip>} placeholder="Username" />
+                )
+              }
             </div>
           </div>
         )
@@ -156,7 +163,7 @@ class APIDocDetailForm extends PureComponent {
 
   render() {
     const {reqColumns,actionable,executable,key} = this.state
-    const {detailData} = this.props
+    const {detailData,data} = this.props
     const {infos,url} = detailData
 
     // card tab title
@@ -187,12 +194,8 @@ class APIDocDetailForm extends PureComponent {
           </Row>
           <div className={!executable?'api-invisible': ''}>
             <Row>
-              <Col><h4>Curl</h4></Col>
-              <Col><TextArea placeholder="Autosize height based on content lines" autosize /></Col>
-            </Row>
-            <Row>
-              <Col><h4>Request Url</h4></Col>
-              <Col><TextArea placeholder="Autosize height based on content lines" autosize /></Col>
+              <Col><h4>Response</h4></Col>
+              <Col><TextArea placeholder="Autosize height based on content lines" autosize value={actionable?data:''}/></Col>
             </Row>
           </div>
         </Form>
@@ -217,10 +220,10 @@ class APIDocDetailForm extends PureComponent {
 
 export default connect((state) => {
   const currentApiDoc = state['api']
-  return currentApiDoc && currentApiDoc['api']?{
-    state: currentApiDoc['api'],
-    data: currentApiDoc['api'],
-    error: currentApiDoc['api']
+  return currentApiDoc && currentApiDoc['state']?{
+    state: currentApiDoc['state'],
+    data: currentApiDoc['data'],
+    error: currentApiDoc['error']
   }:{
     data: null,
     state: LOADING_STATUS,
