@@ -6,14 +6,15 @@
 const {apiHttp} = require('../../utils/api')
 const {filterUrlAndParams} = require('../../utils/url')
 
+// process url and param
 exports.processUrlParam = async (ctx,next) => {
   const {url,params} = ctx.request.body
-    // const urlTplString = '`'+ ctx.request.body.url+'`'
   const filterdObj = filterUrlAndParams(url,params)
   ctx.state = filterdObj
   await next()
 }
 
+// do api request
 exports.apiRequest = async(ctx,next) => {
   const {uri,params} = ctx.state
   const {method} = ctx.request.body

@@ -34,6 +34,10 @@ class apiDocEntity {
   async updateWithFun(condition,processDataFn){
     return await BaseEntity.updateUniqueOneWithFun(this.model,condition,processDataFn)
   }
+
+  async deleteOne(condition){
+    return await BaseEntity.deleteUniqueOne(this.model,condition)
+  }
 }
 
 module.exports = new apiDocEntity

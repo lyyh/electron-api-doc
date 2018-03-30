@@ -3,6 +3,7 @@
  * @date 2018-02-07
  * @Description:
  */
+const {ERROR_STATUS} = require( "../configs/statusConfig");
 const apiDocEntity = require('../dbs/entities/apiDocEntity')
 
 // find a apidoc by key
@@ -21,6 +22,34 @@ exports.getApiDocs = async (ctx,next) => {
   ctx.body = result
   if(!result.success)return next
   await next()
+}
+
+// verify permission
+exports.verifyPermission = async(ctx,next)=>{
+  const {key} = ctx.params
+  const {userKey} = ctx.body.request
+  const result = await apiDocEntity.findByKey({key})
+  if(!result.success){
+    ctx.body = {
+      ...ERROR_STATUS,
+      err: {
+        errors: '',
+        message: '名称存在'
+      }
+    }
+    return next
+  }
+
+  // if(result.success){
+  //   ctx.body =  {
+  //     ...ERROR_STATUS,
+  //     err: {
+  //       errors: '',
+  //       message: '名称存在！'
+  //     }
+  //   }
+  //   return next
+  // }
 }
 
 // create a apidoc
@@ -84,12 +113,20 @@ exports.addApis = async(ctx,next) => {
 // delete apis
 exports.deleteApis = async(ctx,next)=>{
   const {key} = ctx.params
-  const reqData = ctx.request.body
-  const apis = JSON.parse(reqData.apis)
+  const apis = ctx.request.body
   const processDataFn = doc => {
     return doc.apis = doc.apis.filter(ele => !(apis.indexOf(ele.key) >= 0))
   }
   const result = await apiDocEntity.updateWithFun({key},processDataFn)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
+// delete api doc
+exports.deleteApiDoc = async (ctx,next)=>{
+  const {key} = ctx.params
+  const result = await apiDocEntity.deleteOne({key})
   ctx.body = result
   if(!result.success)return next
   await next()

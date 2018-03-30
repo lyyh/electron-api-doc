@@ -218,6 +218,37 @@ const updateUniqueOneWithFun = (model,condition,processDataFn,options = {new:tru
   })
 }
 
+// delete unique one
+const deleteUniqueOne = (model,condition,options={new:true}) => {
+  const query = model.deleteOne(condition)
+  return new Promise((resolve,reject)=>{
+    query.exec((err,doc)=>{
+      if(err){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: err.message,
+            message: ''
+          }
+        })
+      }else if(!doc){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: '',
+            message: `invalid operation!`
+          }
+        })
+      }else{
+        resolve({
+          ...SUCCESS_STATUS,
+          data: doc
+        })
+      }
+    })
+  })
+}
+
 class BaseEntity{
     constructor(){
         this.find = find
@@ -226,6 +257,7 @@ class BaseEntity{
         this.findUniqueOne = findUniqueOne
         this.updateUniqueOne = updateUniqueOne
         this.updateUniqueOneWithFun = updateUniqueOneWithFun
+        this.deleteUniqueOne = deleteUniqueOne
     }
 }
 

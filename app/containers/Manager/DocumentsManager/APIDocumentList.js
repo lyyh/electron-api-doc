@@ -32,7 +32,7 @@ class APIDocumentContainer extends Component{
       title: 'Action',
       dataIndex: 'action',
       render: (item,record,index) => {
-        return <a href='#'>编辑</a>
+        return <div><a className='apidoc-list-action'>编辑</a><a onClick={()=>{}}>删除</a></div>
       }
     }],
     selectedRowKeys: [], // Check here to configure the default column
