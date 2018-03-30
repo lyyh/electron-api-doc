@@ -5,7 +5,7 @@
  */
 
 // TODO: unit testing
-exports.filterUrlAndParams = (url,params) => {
+exports.initUrlAndParams = (url,params) => {
   let reg = null
   let filteredParams = {}
   let tmpUrl = ''

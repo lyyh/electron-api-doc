@@ -14,6 +14,10 @@ export const commonReducer = (action,initialState,State) => {
     if(State && State.success) replaceState = {
       state: State.success
     }
+    if(State && State.data) replaceState = {
+      ...replaceState,
+      data: State.data
+    }
 
     nextState = {
       state: SUCCESS_STATUS,
@@ -25,6 +29,10 @@ export const commonReducer = (action,initialState,State) => {
     if(State && State.error) replaceState = {
       state: State.error
     }
+    if(State && State.data) replaceState = {
+      ...replaceState,
+      data: State.data
+    }
 
     nextState = {
       state: ERROR_STATUS,
@@ -34,9 +42,10 @@ export const commonReducer = (action,initialState,State) => {
     }
   }else {
     nextState = {
+      ...initialState,
       state: LOADING_STATUS,
-      data: null,
-      error: null
+      // data: null,
+      // error: null
     }
   }
   return {

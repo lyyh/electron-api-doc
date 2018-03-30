@@ -242,7 +242,7 @@ const deleteUniqueOne = (model,condition,options={new:true}) => {
       }else{
         resolve({
           ...SUCCESS_STATUS,
-          data: doc
+          data: condition
         })
       }
     })

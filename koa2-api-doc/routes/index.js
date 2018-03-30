@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const AuthController = require('../app/controllers/auth')
+const {signIn,signup} = require('../app/controllers/auth')
 const {apiRequest,processUrlParam} = require('../app/controllers/api')
 
 router.get('/', async (ctx, next) => {
@@ -8,10 +8,8 @@ router.get('/', async (ctx, next) => {
   })
 })
 
-router.post('/signup',AuthController.signup)
-router.post('/signIn',AuthController.signIn)
-
-// router.prefix('/api/')
+router.post('/signup',signup)
+router.post('/signIn',signIn)
 router.post('/api',processUrlParam,apiRequest)
 
 module.exports = router

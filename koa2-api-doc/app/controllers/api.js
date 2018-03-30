@@ -4,12 +4,12 @@
  * @Description:
  */
 const {apiHttp} = require('../../utils/api')
-const {filterUrlAndParams} = require('../../utils/url')
+const {initUrlAndParams} = require('../../utils/url')
 
 // process url and param
 exports.processUrlParam = async (ctx,next) => {
   const {url,params} = ctx.request.body
-  const filterdObj = filterUrlAndParams(url,params)
+  const filterdObj = initUrlAndParams(url,params)
   ctx.state = filterdObj
   await next()
 }

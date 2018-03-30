@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import {Menu, Icon, Button, Row, Col, Breadcrumb, Table, Form} from 'antd';
 import APIDocOperaiton from './APIDocumentOperation'
 import {LOADING_STATUS} from "mixins/statusMixins";
-import {fetchApiDocs} from 'actions/apiDoc'
+import {fetchApiDocs,deleteApiDoc} from 'actions/apiDoc'
 
 class APIDocumentContainer extends Component{
   state = {
@@ -31,8 +31,10 @@ class APIDocumentContainer extends Component{
     }, {
       title: 'Action',
       dataIndex: 'action',
-      render: (item,record,index) => {
-        return <div><a className='apidoc-list-action'>编辑</a><a onClick={()=>{}}>删除</a></div>
+      render: (text,record,index) => {
+        const {dispatch} = this.props
+        const {key} = record
+        return <div><a className='apidoc-list-action'>编辑</a><a onClick={()=>{dispatch(deleteApiDoc({key}))}}>删除</a></div>
       }
     }],
     selectedRowKeys: [], // Check here to configure the default column
@@ -62,7 +64,10 @@ class APIDocumentContainer extends Component{
   }
   render() {
     const { loading, selectedRowKeys,apiOperation,columns,apisData } = this.state;
-    const { data } = this.props
+    let { data } = this.props
+    // prevent throw TypeError for table
+    if(!Array.isArray(data))data = []
+
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,

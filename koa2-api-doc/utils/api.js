@@ -3,26 +3,26 @@
  * @date 2018-03-23
  * @Description:
  */
-const rp = require('request-promise')
 const request = require('request')
 const {SUCCESS_STATUS,ERROR_STATUS} = require('../app/configs/statusConfig')
 
+const requestParamsHelper = (params) => {
+  return {qs:params}
+}
+const requestBodyHelper = (params) => {
+  return {body:params,json:true}
+}
+
 // handle request params by method
+// make method mapping request params or request body
 const methodMapper = {
-  get: (params) =>{
-    return {
-      qs: params
-    }
-  },
-  post: (params) =>{
-    return {
-      body: params,
-      json: true
-      // headers: {
-      //   "content-type": "application/json",
-      // }
-    }
-  }
+  get: requestParamsHelper,
+  head: requestParamsHelper,
+  options: requestParamsHelper,
+  patch: requestParamsHelper,
+  delete: requestParamsHelper,
+  post: requestBodyHelper,
+  put: requestBodyHelper
 }
 
 const apiHttpCore = (options) => {

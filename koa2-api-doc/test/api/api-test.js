@@ -6,8 +6,6 @@
 const request = require('supertest')
 const expect = require('chai').expect
 const global = require('../global-test')
-const {apiRequest} = require('../../app/controllers/api')
-
 
 describe('api test',()=>{
   it('post api request',(done)=> {
@@ -25,9 +23,8 @@ describe('api test',()=>{
       .expect(200)
       .end((err,res)=>{
         if(err)throw err
-        console.log(res)
         console.log(res.body)
-        // console.log(res.data)
+        // expect(res.body).to.be.an('object')
         done()
       })
   })

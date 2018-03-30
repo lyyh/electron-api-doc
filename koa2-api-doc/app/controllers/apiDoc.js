@@ -3,7 +3,7 @@
  * @date 2018-02-07
  * @Description:
  */
-const {ERROR_STATUS} = require( "../configs/statusConfig");
+const {ERROR_STATUS,SUCCESS_STATUS} = require( "../configs/statusConfig");
 const apiDocEntity = require('../dbs/entities/apiDocEntity')
 
 // find a apidoc by key
@@ -39,17 +39,6 @@ exports.verifyPermission = async(ctx,next)=>{
     }
     return next
   }
-
-  // if(result.success){
-  //   ctx.body =  {
-  //     ...ERROR_STATUS,
-  //     err: {
-  //       errors: '',
-  //       message: '名称存在！'
-  //     }
-  //   }
-  //   return next
-  // }
 }
 
 // create a apidoc
