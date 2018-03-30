@@ -32,8 +32,10 @@
     "xss": "^0.3.7"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "node-inspector": "^1.1.2",
     "nodemon": "^1.8.1",
-    "should": "^13.2.1"
+    "should": "^13.2.1",
+    "supertest": "^3.0.0"
   }
 }

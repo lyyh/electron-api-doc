@@ -6,6 +6,7 @@
 const rp = require('request-promise')
 const request = require('request')
 const {SUCCESS_STATUS,ERROR_STATUS} = require('../app/configs/statusConfig')
+
 // handle request params by method
 const methodMapper = {
   get: (params) =>{
@@ -15,14 +16,18 @@ const methodMapper = {
   },
   post: (params) =>{
     return {
-      form: params
+      body: params,
+      json: true
+      // headers: {
+      //   "content-type": "application/json",
+      // }
     }
   }
 }
 
 const apiHttpCore = (options) => {
   return new Promise((resolve, reject) => {
-    request(options.uri,{options}, (error, response, body) => {
+    request[options.method](options.uri,{...options}, (error, response, body) => {
       if (!error && response.statusCode == 200) {
         resolve({
           ...SUCCESS_STATUS,
@@ -37,7 +42,7 @@ const apiHttpCore = (options) => {
           }
         })
       } else {
-        response({
+        resolve({
           ...ERROR_STATUS,
           err: {
             errors: response.statusCode,
@@ -53,7 +58,8 @@ exports.apiHttp = async (requestOptions,method,params) => {
   const apiParams = methodMapper[method](params)
   const apiResponse = await apiHttpCore({
     ...requestOptions,
-    ...apiParams
+    ...apiParams,
+    method
   })
   return apiResponse
 }
