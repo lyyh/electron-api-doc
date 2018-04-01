@@ -38,6 +38,10 @@ class apiDocEntity {
   async deleteOne(condition){
     return await BaseEntity.deleteUniqueOne(this.model,condition)
   }
+
+  async deleteBatch(condition,record){
+    return await BaseEntity.deleteBatch(this.model,condition,record)
+  }
 }
 
 module.exports = new apiDocEntity

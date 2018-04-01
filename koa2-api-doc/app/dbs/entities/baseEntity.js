@@ -249,6 +249,37 @@ const deleteUniqueOne = (model,condition,options={new:true}) => {
   })
 }
 
+// delete in batch
+const deleteBatch = (model,condition,record) => {
+  const query = model.deleteMany(condition)
+  return new Promise((resolve,reject)=>{
+    query.exec((err,doc)=>{
+      if(err){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: err.message,
+            message: ''
+          }
+        })
+      }else if(!doc){
+        resolve({
+          ...ERROR_STATUS,
+          err:{
+            errors: '',
+            message: `invalid operation!`
+          }
+        })
+      }else{
+        resolve({
+          ...SUCCESS_STATUS,
+          data: record
+        })
+      }
+    })
+  })
+}
+
 class BaseEntity{
     constructor(){
         this.find = find
@@ -258,6 +289,7 @@ class BaseEntity{
         this.updateUniqueOne = updateUniqueOne
         this.updateUniqueOneWithFun = updateUniqueOneWithFun
         this.deleteUniqueOne = deleteUniqueOne
+        this.deleteBatch = deleteBatch
     }
 }
 

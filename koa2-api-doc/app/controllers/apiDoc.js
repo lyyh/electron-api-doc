@@ -121,6 +121,21 @@ exports.deleteApiDoc = async (ctx,next)=>{
   await next()
 }
 
+// delete api docs batchly
+exports.deleteApiDocsWithBatch = async (ctx,next) => {
+  const keys = Array.isArray(ctx.query['keys[]'])?ctx.query['keys[]']:Array.of(ctx.query['keys[]'])
+  let regArray = []
+  for(let el of keys){
+    regArray.push(el)
+  }
+  const regStr = regArray.join('|')
+  const regInstance = new RegExp(regStr,'g')
+  const result = await apiDocEntity.deleteBatch({key:regInstance},keys)
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
+
 // modify apis
 // only supporting to modify single data
 exports.modifyApis = async(ctx,next) => {

@@ -6,10 +6,10 @@
 import React,{Component} from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import {Menu, Icon, Button, Row, Col, Breadcrumb, Table, Form} from 'antd';
+import {Menu, Icon, Button, Row, Col, Breadcrumb, Table, Form,message} from 'antd';
 import APIDocOperaiton from './APIDocumentOperation'
 import {LOADING_STATUS} from "mixins/statusMixins";
-import {fetchApiDocs,deleteApiDoc} from 'actions/apiDoc'
+import {fetchApiDocs,deleteApiDoc,deleteApiDocsBatch} from 'actions/apiDoc'
 
 class APIDocumentContainer extends Component{
   state = {
@@ -41,15 +41,12 @@ class APIDocumentContainer extends Component{
     loading: false,
     apiOperation: false
   };
-  start = () => {
-    this.setState({ loading: true });
-    // ajax request after empty completing
-    setTimeout(() => {
-      this.setState({
-        selectedRowKeys: [],
-        loading: false,
-      });
-    }, 1000);
+  deleteBatch = () => {
+    const {selectedRowKeys} = this.state
+    const {dispatch} = this.props
+    dispatch(deleteApiDocsBatch({
+      keys: selectedRowKeys
+    }))
   }
   onSelectChange = (selectedRowKeys) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -78,11 +75,11 @@ class APIDocumentContainer extends Component{
             <div style={{ marginBottom: 16 }}>
               <Button
                 type="primary"
-                onClick={this.start}
+                onClick={this.deleteBatch}
                 disabled={!hasSelected}
                 loading={loading}
               >
-                Reload
+                批量删除
               </Button>
               <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
