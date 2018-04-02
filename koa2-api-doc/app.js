@@ -37,26 +37,34 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+// error hanlder
+app.use(async (ctx,next)=>{
+  try{
+    await next()
+  }catch(err){
+    ctx.status = err.statusCode || err.status || 500
+    ctx.body = {
+      ...ERROR_STATUS,
+      err: {
+        errors: err.message,
+        message: (err.statusCode || err.status)?err.errMsg:'系统错误'
+      }
+    }
+    ctx.app.emit('error',err,ctx)
+  }
+})
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(userGroups.routes(), users.allowedMethods())
 app.use(apiDocs.routes(),apiDocs.allowedMethods())
 
-// handle error event
-// onerror(app)
-
-// // error-handling
-app.on('error', (err, ctx,next) => {
-  // ctx.body = {
-  //   ERROR_STATUS,
-  //   err: {
-  //     errors: err.message,
-  //     message: ''
-  //   }
-  // }
-  ctx.message = err
-  console.error('server error', err, ctx)
+// onerror
+app.on('error', (err, ctx) => {
+  console.error('app.js onError,error:', err.message)
+  console.error('-----------------------------------')
+  console.error(err)
 });
 
 module.exports = app

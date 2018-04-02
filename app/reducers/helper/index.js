@@ -6,7 +6,7 @@
 import Immutable from 'immutable'
 
 // support delete element for single or batch
-export const deleteArrayElement = (dataSource,target) => {
+export const removeArrayElement = (dataSource,target) => {
   let elements = !Array.isArray(target)?Array.of(target):target
   let $$ds = Immutable.fromJS(dataSource)
   const size = $$ds.size
@@ -18,4 +18,12 @@ export const deleteArrayElement = (dataSource,target) => {
     }
   }
   return $$ds.toJS()
+}
+
+// push elements to array
+export const pushArrayElement = (dataSource,target) => {
+  let elements = !Array.isArray(target)?Array.of(target):target
+  let $$ds = Immutable.fromJS(dataSource)
+  let $$el = Immutable.fromJS(elements)
+  return $$ds.concat($$el).toJS()
 }

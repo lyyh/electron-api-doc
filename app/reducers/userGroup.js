@@ -5,6 +5,7 @@
  */
 import {CREATE_USERGROUP_ACTION,FETCH_USERGROUPS_ACTION,FETCH_USERS_ACTION,ADD_USERS_ACTION} from 'actions/userGroup'
 import {commonReducer} from './common'
+import {pushArrayElement} from "./helper";
 
 export default (initialState = {},action) => {
   switch (action.type){
@@ -18,6 +19,11 @@ export default (initialState = {},action) => {
       return commonReducer(action,initialState)
     }
     case ADD_USERS_ACTION: { // add users
+      const {data} = action
+      let State = {}
+      if(data){
+        State['data'] = pushArrayElement(initialState.data,data)
+      }
       return commonReducer(action,initialState)
     }
     default: {

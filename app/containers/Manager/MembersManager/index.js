@@ -54,7 +54,8 @@ class MembersMannagerContainer extends Component{
           </a>
         </div>
         {
-          addFlag?<NewMember userGroupKey={userGroupKey} user={userData} dispatch={dispatch}/>:<MembersContainer data={data} userGroupKey={userGroupKey}/>
+          addFlag?<NewMember userGroupKey={userGroupKey} user={data} dispatch={dispatch}/>
+            :<MembersContainer data={data} userGroupKey={userGroupKey}/>
         }
       </section>
     )

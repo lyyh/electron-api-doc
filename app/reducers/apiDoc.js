@@ -5,10 +5,8 @@
  */
 import {CREATE_APIDOC_ACTION,FETCH_APIDOC_ACTION,ADD_APIDOC_ACTION,RESET_APIDOC_STATE_ACTION,DELETE_APIDOC_ACTION,DELETE_APIDOC_BATCH_ACTION} from "actions/apiDoc";
 import {OPERATION_SUCCESS_STATUS} from '../mixins/statusMixins'
-// import Immutable from 'immutable'
 import {commonReducer} from './common'
-import {deleteArrayElement} from "./helper";
-// import {DELETE_APIDOC_ACTION} from "../actions/apiDoc";
+import {removeArrayElement} from "./helper";
 
 // initialState is the state of current apiDoc
 export default (initialState = {},action) => {
@@ -32,7 +30,7 @@ export default (initialState = {},action) => {
       const {data} = action
       let State = {}
       if(data){
-        State['data'] = deleteArrayElement(initialState.data,data.key)
+        State['data'] = removeArrayElement(initialState.data,data.key)
       }
       return commonReducer(action,initialState,State)
     }
@@ -40,7 +38,7 @@ export default (initialState = {},action) => {
       const {data} = action
       let State = {}
       if(data){
-        State['data'] = deleteArrayElement(initialState.data,data)
+        State['data'] = removeArrayElement(initialState.data,data)
       }
       return commonReducer(action,initialState,State)
     }
