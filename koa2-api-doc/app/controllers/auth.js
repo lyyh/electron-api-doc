@@ -34,7 +34,6 @@ exports.signup = async (ctx,next) => {
 // signIn user account
 exports.signIn = async (ctx,next) => {
   const {account,password,accessToken} = ctx.request.body
-  console.log(account.a.a)
   if(account && password) {
     const result = await UserEntity.findByAccount({'auth.account': account})
     if (result.data && result.data.auth && result.data.auth.password == password) {

@@ -36,7 +36,7 @@ export const createUserGroup = (params) => (dispatch) => {
 export const addUser = (params,key) => (dispatch) => {
   const httpOptions = {
     url: `/userGroups/${key}/users`,
-    method: 'put',
+    method: 'post',
     actionType: ADD_USERS_ACTION,
     body: params
   }

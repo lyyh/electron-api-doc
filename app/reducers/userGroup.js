@@ -21,9 +21,9 @@ export default (initialState = {},action) => {
     case ADD_USERS_ACTION: { // add users
       const {data} = action
       let State = {}
-      if(data){
-        State['data'] = pushArrayElement(initialState.data,data)
-      }
+      // if(data){
+      //   State['data'] = pushArrayElement(initialState.data,data)
+      // }
       return commonReducer(action,initialState)
     }
     default: {

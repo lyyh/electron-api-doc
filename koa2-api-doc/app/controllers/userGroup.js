@@ -100,8 +100,11 @@ exports.addUser = async (ctx,next) => {
     return false
   }
   const result = await userGroupEntity.updateWithFun({key},processDataFn)
-  ctx.body = result
-  if(!result.success)return next
+  if(!result.success){
+    ctx.body = result
+    return next
+  }
+  ctx.state.users = result.data.users
   await next()
 }
 

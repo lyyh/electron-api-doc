@@ -5,7 +5,7 @@
  */
 const router = require('koa-router')()
 const {create,findByKey,getUsers,verifyName,update,addUser,deleteUser,addApiDoc,deleteApiDoc} = require('../app/controllers/userGroup')
-const {createUserGroup,preCreateUserGroup} = require('../app/controllers/user')
+const {createUserGroup,preCreateUserGroup,updateUserGroupInUser} = require('../app/controllers/user')
 router.prefix('/userGroups')
 
 // user group
@@ -14,7 +14,7 @@ router.get('/:key',findByKey)
 router.put('/:key',update)
 
 // users
-router.put('/:key/users',addUser)
+router.post('/:key/users',addUser,updateUserGroupInUser)
 router.delete('/:key/users',deleteUser)
 
 // apidocs

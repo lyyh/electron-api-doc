@@ -36,7 +36,8 @@ class NewMemberContainer extends Component {
         }
         const usersParams = {...values.user,permission:values.permission}
         const params = {
-          users: Array.of(usersParams)
+          users: Array.of(usersParams),
+          currentUser: user
         }
         console.log('Received values of form: ', values);
         dispatch(addUser(params,userGroupKey))

@@ -174,3 +174,21 @@ exports.getUserInfoWithUserGroup = async(ctx,next) => {
   ctx.body = result
   await next()
 }
+
+exports.updateUserGroupInUser = async(ctx,next) => {
+  const {users} = ctx.state
+  const {key} = ctx.params
+  const {currentUser} = ctx.request.body
+  let user = await UserEntity.findByKey({key:currentUser.key})
+  const targets = user.data.userGroups
+  const processedUserGroups = targets.map((item,index)=>{
+    if(item.key == key){
+      item.users = users
+    }
+    return item
+  })
+  const result = await UserEntity.updateUserGroup({key:currentUser.key},{userGroups:processedUserGroups})
+  ctx.body = result
+  if(!result.success)return next
+  await next()
+}
