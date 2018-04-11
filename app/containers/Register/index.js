@@ -11,30 +11,6 @@ import {LOADING_STATUS} from "../../mixins/statusMixins";
 
 const FormItem = Form.Item;
 
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
-
 class RegistrationForm extends PureComponent {
   state = {
     confirmDirty: false,
@@ -69,9 +45,6 @@ class RegistrationForm extends PureComponent {
     callback();
   }
 
-  // componentWillUpdate(){
-  //
-  // }
   handleMessage(data){
     if(data.success){
       message.success('注册成功!')
@@ -79,6 +52,16 @@ class RegistrationForm extends PureComponent {
       message.error(data.err.errors || data.err.message)
     }
   }
+
+  goBackToLogin = () => {
+    const {history} = this.props
+    const nextLocation = {
+      pathname: '/login',
+      state:{}
+    }
+    history.push(nextLocation)
+  }
+
   render() {
     const {data,state} = this.props
     // data && this.handleMessage(data)
@@ -136,20 +119,6 @@ class RegistrationForm extends PureComponent {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="E-mail"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
           label="Password"
         >
           {getFieldDecorator('password', {
@@ -184,7 +153,8 @@ class RegistrationForm extends PureComponent {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
+          <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>注册</Button>
+          <Button type="default" htmlType="button" onClick={this.goBackToLogin}>返回登录页</Button>
         </FormItem>
       </Form>
     );
@@ -202,5 +172,3 @@ export default connect((state)=> {
     state: LOADING_STATUS
   }
 })(WrappedRegistrationForm)
-
-// export default WrappedRegistrationForm
