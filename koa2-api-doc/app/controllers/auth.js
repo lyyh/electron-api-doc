@@ -7,7 +7,7 @@ const UserEntity = require('../dbs/entities/userEntity')
 const uuid = require('uuid')
 const {ERROR_STATUS,SUCCESS_STATUS} = require('../configs/statusConfig')
 
-// signup user account
+// register user account
 exports.signup = async (ctx,next) => {
   const {name,account,password} = ctx.request.body
   const key = name
@@ -31,7 +31,7 @@ exports.signup = async (ctx,next) => {
   await next()
 }
 
-// signIn user account
+// login user account
 exports.signIn = async (ctx,next) => {
   const {account,password,accessToken} = ctx.request.body
   if(account && password) {
@@ -51,4 +51,17 @@ exports.signIn = async (ctx,next) => {
     }
   }
   await next()
+}
+
+exports.checkToken = async (ctx,next) => {
+  if(!ctx.session.isLogin){
+    ctx.body = {
+      ERROR_STATUS,
+      err: {
+        errors: '',
+        message: 'token 过期，请登录!'
+      }
+    }
+  }
+  return next
 }

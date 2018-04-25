@@ -5,13 +5,16 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const session = require('koa-session2')
 const dbServer = require('./app/dbs/dbServer')
+const {checkToken} = require('./app/controllers/auth')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const userGroups = require('./routes/userGroup')
 const apiDocs = require('./routes/apiDocs')
 const {ERROR_STATUS} = require('./app/configs/statusConfig')
-
+const {domainUrl} = require('./configs/app')
+// const RedisStore = require('./store')
 // 连接数据库
 dbServer.connect()
 
@@ -54,8 +57,30 @@ app.use(async (ctx,next)=>{
   }
 })
 
+app.use(session({
+  key: 'tokenId',
+  secure: false,
+  httpOnly: false,
+  domain: "localhost"
+}))
+
+
+// Accsess-Control-Allow
+app.use(async (ctx,next) => {
+  ctx.set("Access-Control-Allow-Origin", domainUrl);
+  ctx.set("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
+  ctx.set("Access-Control-Allow-Headers", "x-requested-with, accept, origin, content-type");
+  ctx.set("Access-Control-Allow-Credentials", true);
+  ctx.set("Access-Control-Allow-Max-Age",86400)
+  if(ctx.request.method == 'OPTIONS'){
+    ctx.status = 200
+  }
+  await next()
+})
+
 // routes
 app.use(index.routes(), index.allowedMethods())
+// app.use(checkToken)
 app.use(users.routes(), users.allowedMethods())
 app.use(userGroups.routes(), users.allowedMethods())
 app.use(apiDocs.routes(),apiDocs.allowedMethods())

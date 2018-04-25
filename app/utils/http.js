@@ -8,5 +8,6 @@ import config from '../config'
 const token = '123'
 export default axios.create({
   baseURL: config.baseURL,
-  Authorization: `Bearer ${token}`
+  Authorization: `Bearer ${token}`,
+  withCredentials: true
 })

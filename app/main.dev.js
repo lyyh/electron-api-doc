@@ -61,11 +61,13 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({ // 渲染进程
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
+    title: 'API文档综合管理系统'
   });
 
-  mainWindow.loadURL(`file://${__dirname}/app.html`);
-
+  // mainWindow.loadURL(`file://${__dirname}/app.html`);
+  mainWindow.loadURL('http://localhost:1212/')
+  // mainWindow.loadURL("https://juejin.im/")
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {

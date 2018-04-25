@@ -3,8 +3,18 @@
  * @date 2018-02-01
  * @Description:
  */
-var  B = require('./b')
-B.foo()
-// var B = require('./b')
-const Main = require('./main')
-console.log(B === Main)
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require("fs"));
+const fsReadFile = Promise.promisify(fs.readFile)
+
+async function main(){
+  let contents
+  try{
+    contents = await fsReadFile("main.js", "utf8")
+  }catch (e) {
+    console.log(e.message)
+  }
+  console.log(contents)
+}
+
+main()
