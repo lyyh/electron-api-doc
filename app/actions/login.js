@@ -36,7 +36,7 @@ export const doLogin = (params,history) => (dispatch) => {
 
         history.push(location)
       }else{
-        message.error(data.err.errors || data.err.message)
+        message.error(data.err.message || data.err.errors)
         dispatch({
           type: LOGIN_ACTION,
           state: ERROR_STATUS,
@@ -45,7 +45,8 @@ export const doLogin = (params,history) => (dispatch) => {
       }
     })
     .catch((res) => {
-      message.error(res.message || res.stack)
+      // console.log(res)
+      message.error('账号或密码错误！')
       dispatch({
         type:LOGIN_ACTION,
         state:ERROR_STATUS,

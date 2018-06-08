@@ -63,7 +63,7 @@ class UserSelectContainer extends PureComponent {
         style={{ width: '100%' }}
       >
         <Option key={'123'}>123</Option>
-        <Option key={'321'}>321</Option>
+        <Option key={'test'}>test</Option>
         <Option key={'liuyanhao'}>liuyanhao</Option>
         <Option key={'admin'}>admin</Option>
       </Select>

@@ -102,7 +102,7 @@ class RegistrationForm extends PureComponent {
           >
             {getFieldDecorator('name', {
               rules: [{
-                required: true, message: 'Please input your name!',
+                required: true, message: '请输入名称！',
               }]
             })(
               <Input />
@@ -114,7 +114,7 @@ class RegistrationForm extends PureComponent {
           >
             {getFieldDecorator('account', {
               rules: [{
-                required: true, message: 'Please input your account!',
+                required: true, message: '请输入账号！',
               }]
             })(
               <Input />
@@ -126,7 +126,7 @@ class RegistrationForm extends PureComponent {
           >
             {getFieldDecorator('password', {
               rules: [{
-                required: true, message: 'Please input your password!',
+                required: true, message: '请输入密码！',
               }, {
                 validator: this.checkConfirm,
               }],
@@ -140,7 +140,7 @@ class RegistrationForm extends PureComponent {
           >
             {getFieldDecorator('confirm', {
               rules: [{
-                required: true, message: 'Please confirm your password!',
+                required: true, message: '请确认密码！',
               }, {
                 validator: this.checkPassword,
               }],

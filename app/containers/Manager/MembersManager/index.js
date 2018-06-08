@@ -11,12 +11,14 @@ import { Menu, Icon, Button,Row, Col,Breadcrumb,Card,Avatar } from 'antd';
 import './index.less'
 import {LOADING_STATUS} from "../../../mixins/statusMixins";
 import NewMember from './NewMember'
+import DeleteMember from './DeleteMember'
 const { Meta } = Card;
 const BreadcrumbItem = Breadcrumb.Item
 
 class MembersMannagerContainer extends Component{
   state={
-    addFlag: false
+    addFlag: false,
+    deleteFlag: false
   }
 
   clickAddMember = (e) =>{
@@ -24,12 +26,19 @@ class MembersMannagerContainer extends Component{
       addFlag: true
     })
   }
+  clickDeleteMember = (e) => {
+    this.state({
+      deleteFlag: true
+    })
+  }
 
   clickMemberManage = (e) => {
     this.setState({
-      addFlag: false
+      addFlag: false,
+      deleteFlag: false
     })
   }
+
   componentWillMount(){
     const {user,userGroupKey,dispatch} = this.props
     dispatch(fetchUserInfo({
@@ -39,7 +48,7 @@ class MembersMannagerContainer extends Component{
   }
 
   render(){
-    const {addFlag} = this.state
+    const {addFlag,deleteFlag} = this.state
     const {data,dispatch,userGroupKey} = this.props
     return(
       <section className='manage-members-wrapper'>
@@ -47,15 +56,23 @@ class MembersMannagerContainer extends Component{
           <Breadcrumb>
             <BreadcrumbItem><a onClick={this.clickMemberManage}>成员管理</a></BreadcrumbItem>
             <BreadcrumbItem>{addFlag?'添加成员':''}</BreadcrumbItem>
+            <BreadcrumbItem>{deleteFlag?"删除成员":""}</BreadcrumbItem>
           </Breadcrumb>
-          <a className='manager-members-add' onClick={this.clickAddMember}>
+          {addFlag||deleteFlag?"":<a className='manager-members-add' onClick={this.clickAddMember}>
             <Icon type='plus'/>
             <span>添加成员</span>
-          </a>
+          </a>}
+          {deleteFlag||addFlag?"":<a className='manager-members-delete' onClick={this.clickDeleteMember}>
+            <Icon type='minus'/>
+            <span>删除成员</span>
+          </a>}
         </div>
         {
-          addFlag?<NewMember userGroupKey={userGroupKey} user={data} dispatch={dispatch}/>
-            :<MembersContainer data={data} userGroupKey={userGroupKey}/>
+            addFlag?
+              <NewMember userGroupKey={userGroupKey} user={data} dispatch={dispatch}/>:
+              deleteFlag?
+                <DeleteMember userGroupKey={userGroupKey} user={data} dispathc={dispatch}/>:
+                  <MembersContainer data={data} userGroupKey={userGroupKey}/>
         }
       </section>
     )
@@ -64,7 +81,7 @@ class MembersMannagerContainer extends Component{
 
 class MembersContainer extends Component{
   getMembersFromUserGroup = (data,userGroupKey) => {
-    if(!data)return data
+    if(!data||!data.userGroups)return data
     for(let userItem of data.userGroups){
       if(userItem.key==userGroupKey){
         return userItem.users

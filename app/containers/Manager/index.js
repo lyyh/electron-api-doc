@@ -124,6 +124,7 @@ class ManagerContainer extends Component{
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <UserIcon
+              history={history}
               style={{float:'right'}}
               user={location.state.user}
             />

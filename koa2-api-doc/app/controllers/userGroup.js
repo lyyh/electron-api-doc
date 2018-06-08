@@ -17,7 +17,6 @@ exports.create = async (ctx,next) => {
   const result = await userGroupEntity.create(insertData)
   ctx.body = result
   if(!result.success)return next
-
   await next()
 }
 

@@ -44,7 +44,14 @@ exports.createUserGroup = async(ctx,next) => {
     ctx.body = ERROR_STATUS
     return next
   }
-  ctx.body = result
+  // 根据用户Key获取用户数据
+  const newUserData = await UserEntity.findByKey({key:creator})
+  // 从用户数据中获取userGroups
+  const userGroups = newUserData.data.get('userGroups')
+  ctx.body = {
+    ...SUCCESS_STATUS,
+    data: userGroups
+  }
   await next()
 }
 
