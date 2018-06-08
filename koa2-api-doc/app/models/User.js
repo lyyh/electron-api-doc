@@ -19,7 +19,7 @@ UserSchema.statics = {
     }
 }
 
-// Defines a pre hook for the document.
+// 定义用户schema的pre钩子函数
 UserSchema.pre('save', function(next) {
     if (this.isNew) {
         this.meta.createAt = this.meta.updateAt = Date.now()
@@ -31,7 +31,6 @@ UserSchema.pre('save', function(next) {
 })
 
 UserSchema.pre('update',(next) => {
-    console.log(123)
     this.meta.updateAt = Date.now()
     next()
 })

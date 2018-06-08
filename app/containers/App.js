@@ -10,7 +10,7 @@ export default class App extends React.Component<Props> {
 
   render() {
     return (
-      <main style={{height:'100%'}}>
+      <main style={{height:'100%',overflow:'hidden'}}>
         {this.props.children}
       </main>
     );

@@ -15,7 +15,7 @@ class APIDocumentContainer extends Component{
   state = {
     apisData: null,
     columns:[{
-      title: 'name',
+      title: '名字',
       dataIndex: 'name',
       render: (text,record,index) => {
         return <a href='#' onClick={() => {
@@ -26,10 +26,10 @@ class APIDocumentContainer extends Component{
         }}>{text}</a>
       }
     },{
-      title: 'description',
+      title: '文档描述',
       dataIndex: 'description',
     }, {
-      title: 'Action',
+      title: '操作',
       dataIndex: 'action',
       render: (text,record,index) => {
         const {dispatch} = this.props

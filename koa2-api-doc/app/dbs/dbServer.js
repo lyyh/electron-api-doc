@@ -10,11 +10,4 @@ exports.connect = async (req,res) => {
     await mongoose.connect(dbConfig.serverUrl,err => {
         if(!err)console.log('database connection success!')
     })
-    // console.log(dbConnection)
-    // dbConnection.on('open',callback => {
-    //     console.log('connection success!')
-    // })
-    // dbConnection.on('error',error => {
-    //     console.error(error)
-    // })
 }

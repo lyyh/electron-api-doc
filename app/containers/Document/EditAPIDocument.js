@@ -64,38 +64,48 @@ class EditAPIDocumentContainer extends Component{
 
   }
 
+  // 添加请求栏
   addItems = () => {
     let {formItemKeys,requestFormItemKeys} = this.state
     const {form} = this.props
+    // 保存请求栏数量
     const nextKeys = [...formItemKeys,formItemKeys.length]
     form.setFieldsValue({
       formItemKeys: nextKeys
     })
 
+    // 初始化请求栏
     requestFormItemKeys[nextKeys.length-1]=[0]
+    // 设置请求栏状态
     this.setState({
       formItemKeys: nextKeys,
       requestFormItemKeys:requestFormItemKeys
     })
   }
 
+  // 添加请求参数
   addRequestParams = (e) => {
     const itemKey = e.target.getAttribute('data-itemkey')
     const {form} = this.props
     let {requestFormItemKeys} = this.state
+    // 保存请求参数栏长度
     requestFormItemKeys[itemKey] = [...requestFormItemKeys[itemKey],requestFormItemKeys[itemKey].length]
     form.setFieldsValue({
       requestParamsKeys: requestFormItemKeys
     })
 
+    // 设置请求参数栏状态
     this.setState({
       requestFormItemKeys:requestFormItemKeys
     })
   }
 
+  // 添加响应状态
   addResponseParams = () => {
     const {responseFormItemKeys} = this.state
+    // 保存响应栏长度
     const nextKeys = [...responseFormItemKeys,responseFormItemKeys.length]
+    // 设置响应栏状态
     this.setState({
       responseFormItemKeys:nextKeys
     })

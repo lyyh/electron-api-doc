@@ -92,23 +92,25 @@ exports.findAllUsers = async (ctx,next) => {
   await next()
 }
 
-// find users by condition
+// 根据条件查询用户
 const findSelectUsers = async (ctx,next) => {
   let condition = {}
   let {queryParams,userName} = ctx.query
+  // 转换查询参数
   queryParams = JSON.parse(queryParams)
   for(let key of Object.keys(queryParams)){
     condition[key] = new RegExp(queryParams[key],'i')
   }
+  // 根据条件查询用户数据
   const result = await UserEntity.findUsers(condition)
   if(!result.success)return next
 
+  // 过滤查询结果
   const filterResult = result.data.filter((ele,index)=>{
-    console.log(ele.name == userName)
     if(ele.name == userName)return false
     else return true
   })
-  // return filterResult
+  // 响应数据
   ctx.body = {
     ...SUCCESS_STATUS,
     data: filterResult
@@ -134,10 +136,12 @@ exports.findUsers = async (ctx,next) => {
   await next()
 }
 
-// find user group by key
+// 查询用户组
 exports.getUserGroups = async(ctx,next) => {
   const {key} = ctx.params
+  // 根据用户Key获取用户数据
   const result = await UserEntity.findByKey({key})
+  // 从用户数据中获取userGroups
   const userGroups = result.data.get('userGroups')
   if(result.success){
     ctx.body = {

@@ -54,8 +54,8 @@ class UserGroupContainer extends Component {
       />
     )
     return (
-      <section>
-        <Tabs activeKey={selectedTab} tabBarExtraContent={UserIconHtml} onChange={this.handleChange} type="card">
+      <section className={'usergroup-container'}>
+        <Tabs activeKey={selectedTab} tabBarExtraContent={UserIconHtml} onChange={this.handleChange} type="card" style={{height:"100%"}}>
           <TabPane tab="用户组" key="userGroup">
             <UserGroupEntryContainer
               history={history}

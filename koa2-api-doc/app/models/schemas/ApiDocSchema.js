@@ -50,24 +50,19 @@ module.exports = new Schema({
         },
         params: [{
           key: {
-            type: String,
-            required: true
+            type: String
           },
           name: {
-            type: String,
-            required: true
+            type: String
           },
           isRequire: {
-            type: Boolean,
-            required: true
+            type: Boolean
           },
           fieldType: {
-            type: String,
-            required: true
+            type: String
           },
           description: {
-            type: String,
-            required: true
+            type: String
           }
         }]
       }]

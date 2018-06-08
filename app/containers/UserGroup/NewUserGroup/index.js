@@ -150,9 +150,9 @@ class RegistrationForm extends Component {
           >
             {getFieldDecorator('name', {
               rules: [{
-                message: '请输入用户名称',
+                message: '请输入用户组名称',
               }, {
-                required: true, message: 'Please input your E-mail!',
+                required: true, message: '请输入用户组名称',
               }],
             })(
               <Input />
@@ -166,7 +166,7 @@ class RegistrationForm extends Component {
               rules: [{
                 message: '请输入描述',
               }, {
-                required: true, message: 'Please input your E-mail!',
+                required: true, message: '请输入描述',
               }]
             })(
               <Input />
@@ -186,9 +186,9 @@ class RegistrationForm extends Component {
           <Row>
             <Col offset={4} span={20}>
               <Button type="primary" htmlType="submit" loading={submitLoading}>
-                Click me!
+                确定
               </Button>
-              <Button style={{marginLeft:'10px'}} onClick={onReturn}>返回上一层</Button>
+              <Button style={{marginLeft:'10px'}} onClick={onReturn}>返回登录</Button>
             </Col>
           </Row>
         </Form>

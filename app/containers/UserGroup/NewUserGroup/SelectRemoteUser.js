@@ -22,10 +22,7 @@ class UserSelectContainer extends PureComponent {
   state = {
     value: []
   }
-  // componentWillMount(){
-  //   const {dispatch} = this.props
-  //   dispatch(fetchAllUsers())
-  // }
+  // 请求用户数据
   fetchUser = (value) => {
     const {dispatch,user} = this.props
     const {key,name} = user
@@ -35,37 +32,16 @@ class UserSelectContainer extends PureComponent {
       }),
       userName: user.name
     }
+    // 调用fetchSimilarUsers方法来实现模糊查询
     dispatch(fetchSimilarUsers(params))
-    // console.log('fetching user', value);
-    // this.lastFetchId += 1;
-    // const fetchId = this.lastFetchId;
-    // this.setState({ data: [], fetching: true });
-    // fetch('https://randomuser.me/api/?results=5')
-    //   .then(response => response.json())
-    //   .then((body) => {
-    //     if (fetchId !== this.lastFetchId) { // for fetch callback order
-    //       return;
-    //     }
-    //     const data = body.results.map(user => ({
-    //       text: `${user.name.first} ${user.name.last}`,
-    //       value: user.login.username,
-    //     }));
-    //     this.setState({ data, fetching: false });
-    //   });
-    // if(dbDatas.indexOf(value)>=0)
-    //   this.setState({
-    //     data: [{
-    //       value: value,
-    //       text: value
-    //     }],
-    //     fetching: false
-    // })
   }
+  // 处理change事件
   handleChange = (value) => {
     const {dispatch} = this.props
     this.setState({
       value
     });
+    // 事件完成
     dispatch({
       type: FETCH_USERS_OVER_ACTION,
       state: SUCCESS_STATUS
@@ -79,7 +55,6 @@ class UserSelectContainer extends PureComponent {
       <Select
         mode="multiple"
         labelInValue
-        /*value={value}*/
         placeholder="Select users"
         notFoundContent={fetching ? <Spin size="small" /> : null}
         filterOption={false}
@@ -87,7 +62,10 @@ class UserSelectContainer extends PureComponent {
         onChange={handleSelectChange}
         style={{ width: '100%' }}
       >
-        {data.map(d => <Option key={d.key}>{d.name}</Option>)}
+        <Option key={'123'}>123</Option>
+        <Option key={'321'}>321</Option>
+        <Option key={'liuyanhao'}>liuyanhao</Option>
+        <Option key={'admin'}>admin</Option>
       </Select>
     );
   }

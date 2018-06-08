@@ -57,11 +57,13 @@ app.use(async (ctx,next)=>{
   }
 })
 
+// sessionId 为 tokenId
+// secure:false 不允许安全性限制
+// httpOnly:false 不允许在http请求中获取
 app.use(session({
   key: 'tokenId',
   secure: false,
-  httpOnly: false,
-  domain: "localhost"
+  httpOnly: false
 }))
 
 

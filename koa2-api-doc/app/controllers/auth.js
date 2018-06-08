@@ -17,7 +17,7 @@ exports.signup = async (ctx,next) => {
       ...ERROR_STATUS,
       err: {
         errors: '',
-        message: 'name or account has existed'
+        message: '姓名或者账号存在!'
       }
     }
     return next
@@ -34,10 +34,14 @@ exports.signup = async (ctx,next) => {
 // login user account
 exports.signIn = async (ctx,next) => {
   const {account,password,accessToken} = ctx.request.body
+  // ctx.cookies.set('tokenId','111',{domain:'localhost',httpOnly:false,key:'tokenId',secure:false})
+
   if(account && password) {
     const result = await UserEntity.findByAccount({'auth.account': account})
     if (result.data && result.data.auth && result.data.auth.password == password) {
       ctx.body = result
+      ctx.session.sign = true
+
       return next
     } else {
       ctx.status = 401
@@ -53,6 +57,7 @@ exports.signIn = async (ctx,next) => {
   await next()
 }
 
+// 检查token是否过期
 exports.checkToken = async (ctx,next) => {
   if(!ctx.session.isLogin){
     ctx.body = {

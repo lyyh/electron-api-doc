@@ -60,11 +60,9 @@ class UserGroupEntryContainer extends Component{
     return(
       <section>
         {
-          data.map((item,index)=>{
+           data && data.length>0 && data.map((item,index)=>{
             return (
-              <Card data-key={item.key} key={item.key} onClick={this.handleClick} key={item.key} hoverable className='ant-card-grid' title={item.name} extra={<a href="#">More</a>} style={{ width: 300 }}>
-                <p>{item.description}</p>
-                <p>{item.description}</p>
+              <Card data-key={item.key} key={item.key} onClick={this.handleClick} key={item.key} hoverable className='ant-card-grid' title={item.name} style={{ width: 300,marginLeft:'10px' }}>
                 <p>{item.description}</p>
               </Card>
             )

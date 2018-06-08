@@ -11,7 +11,6 @@ class UserIconMenu extends Component {
   //   message.info(`Click on item ${key}`);
   // }
   render(){
-    // const {uName,uId} = this.props
     return (
       <div>12321</div>
     )

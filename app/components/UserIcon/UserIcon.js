@@ -6,7 +6,7 @@
 import React,{Component} from 'react'
 import { Form, Icon, Input, Button, Checkbox,Select,Tabs,Card,Dropdown,Avatar,Menu } from 'antd';
 import './UserIcon.less';
-const {MenuItem} = Menu.Item
+const MenuItem = Menu.Item
 class UserIconMenu extends Component{
   handleClick = ({key}) => {
     const {history} = this.props
@@ -20,8 +20,6 @@ class UserIconMenu extends Component{
     const {name,key} = this.props.data
     return (
       <Menu onClick={this.handleClick}>
-        <MenuItem key="1">{name}</MenuItem>
-        <MenuItem key="2">{key}</MenuItem>
         <MenuItem key="/login">退出登录</MenuItem>
       </Menu>
     )
@@ -42,9 +40,7 @@ class UserIcon extends Component {
       <section style={style}>
         <Dropdown overlay={menuHtml} placement="bottomRight">
           <div className="ant-dropdown-link avatar-action" href="#">
-            <Avatar style={{ backgroundColor: '#f56a00', verticalAlign: 'middle' }} size="large">
-              {name}
-            </Avatar>
+            <Avatar icon="user" style={{marginRight:"5px"}}/>
             <span>{name}</span>
           </div>
         </Dropdown>

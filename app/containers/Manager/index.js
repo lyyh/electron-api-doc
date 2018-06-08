@@ -108,31 +108,17 @@ class ManagerContainer extends Component{
               <span>成员管理</span>
             </MenuItem>
             <MenuItem key="addApiDoc">
-              <Icon type="new" />
+              <Icon type="file-add" />
               <span>新建API文档</span>
             </MenuItem>
             <MenuItem key="listApiDoc">
-              <Icon type="new" />
+              <Icon type="appstore-o" />
               <span>管理API文档</span>
             </MenuItem>
             <MenuItem key="entryApiDoc">
-              <Icon type="new" />
+              <Icon type="folder" />
               <span>查看API文档</span>
             </MenuItem>
-            <SubMenu key="APIDocuments" title={<span><Icon type="appstore" /><span>API 文档管理</span></span>}>
-              <MenuItem key="react">react</MenuItem>
-              <MenuItem key="vue">vue</MenuItem>
-              <SubMenu key="sub1-2" title="Submenu">
-                <MenuItem key="5">Option 5</MenuItem>
-                <MenuItem key="6">Option 6</MenuItem>
-              </SubMenu>
-            </SubMenu>
-            <SubMenu key="sub2" title={<span><Icon type="setting" /><span>Navigation Four</span></span>}>
-              <MenuItem key="7">Option 7</MenuItem>
-              <MenuItem key="8">Option 8</MenuItem>
-              <MenuItem key="9">Option 9</MenuItem>
-              <MenuItem key="10">Option 10</MenuItem>
-            </SubMenu>
           </Menu>
         </Sider>
         <Layout>
@@ -181,9 +167,6 @@ class ManagerContainer extends Component{
               }
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2016 Created by Ant UED
-          </Footer>
         </Layout>
       </Layout>
     );
